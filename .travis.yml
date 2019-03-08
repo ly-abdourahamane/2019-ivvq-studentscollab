@@ -10,7 +10,6 @@ notifications:
     on_failure: always # default: always
 
 install: mvn dependency:go-offline
-         mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 
 script:
 - mvn clean verify
