@@ -1,0 +1,16 @@
+language: java
+
+jdk: openjdk8
+
+dist: trusty
+
+notifications:
+  email:
+    on_success: never # default: change
+    on_failure: always # default: always
+
+install: mvn dependency:go-offline
+
+script:
+- mvn test
+- mvn clean verify
