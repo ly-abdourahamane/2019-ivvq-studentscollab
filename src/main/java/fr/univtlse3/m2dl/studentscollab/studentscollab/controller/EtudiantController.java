@@ -11,7 +11,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/etudiant")
+@RequestMapping("api/v1/etudiants")
 public class EtudiantController  {
 
     @Autowired
@@ -21,7 +21,7 @@ public class EtudiantController  {
     public Etudiant save(@Valid @RequestBody Etudiant etudiant, HttpServletRequest request) {
         String rootURL = getBaseUrlFromRequest(request);
 
-        String url = rootURL + "/api/v1/etudiants/verification/";
+        String url = rootURL + "/api/v1/etudiant/verification/";
 
         return etudiantService.save(etudiant, url);
     }
@@ -36,17 +36,15 @@ public class EtudiantController  {
         return etudiantService.findAll();
     }
 
-
-    @RequestMapping(value = "", method = RequestMethod.PUT)
-    public Etudiant update(@Valid @RequestBody Etudiant etudiant){
-        return etudiantService.update(etudiant);
-    }
-
     @GetMapping(value = "/verification/{token}")
     public String validerEtudiant(@PathVariable String token){
         return  etudiantService.validateEtudiant(token);
     }
 
+    @GetMapping(value = "/login")
+    public String login(@RequestParam(value = "email") String email, @RequestParam(value = "motDePasse") String motDePasse) {
+        return this.etudiantService.login(email, motDePasse);
+    }
 
     private String getBaseUrlFromRequest(HttpServletRequest request){
         return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();

@@ -1,6 +1,9 @@
 package fr.univtlse3.m2dl.studentscollab.studentscollab.repositories;
 
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -11,27 +14,11 @@ import java.util.List;
 
 @Transactional
 @Repository
-public class EtudiantRepository {
+public interface EtudiantRepository extends PagingAndSortingRepository<Etudiant, Long> {
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    @Query("select e from Etudiant e")
+    public List<Etudiant> findAll();
 
-    public Etudiant save(Etudiant etudiant) {
-        entityManager.persist(etudiant);
-
-        return etudiant;
-    }
-
-    public Etudiant update(Etudiant etudiant) {
-        return entityManager.merge(etudiant);
-    }
-
-    public Etudiant findById(Long id) {
-        return  entityManager.find(Etudiant.class, id);
-    }
-
-    public List<Etudiant> findAll() {
-        TypedQuery<Etudiant> query = entityManager.createQuery("select e from Etudiant e", Etudiant.class);
-        return query.getResultList();
-    }
+    @Query("select e from Etudiant e where e.email = :email and e.motDePasse = :motDePasse")
+    public Etudiant login(@Param("email") String email, @Param("motDePasse") String motDePasse);
 }

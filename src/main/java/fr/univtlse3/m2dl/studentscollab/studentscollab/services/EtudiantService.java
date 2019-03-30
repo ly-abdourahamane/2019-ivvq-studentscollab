@@ -24,7 +24,7 @@ public class EtudiantService {
     private MailService mailService;
 
     public Etudiant findById(Long id) {
-        return etudiantRepository.findById(id);
+        return etudiantRepository.findById(id).get();
     }
 
     public List<Etudiant> findAll() {
@@ -54,8 +54,16 @@ public class EtudiantService {
         return etudiantSaved;
     }
 
-    public Etudiant update(Etudiant etudiant) {
-        return etudiantRepository.update(etudiant);
+    public String login(String email, String motDePasse) {
+        Etudiant etudiant = this.etudiantRepository.login(email, motDePasse);
+
+        String message = "email ou mot de passe invalid";
+
+        if(etudiant != null) {
+            message = etudiant.isEstValide() ? "Vous êtes connecté" : "email ou mot de passe invalide";
+        }
+
+        return message;
     }
 
     private void sendConfirmationEmail(Etudiant etudiant,String url){

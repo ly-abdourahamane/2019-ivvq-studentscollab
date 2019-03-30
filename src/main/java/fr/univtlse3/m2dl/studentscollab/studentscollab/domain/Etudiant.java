@@ -4,10 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -32,9 +29,11 @@ public class Etudiant {
     private String prenom;
 
     @Email
+    @Column(name = "email")
     @NotNull
     private String email;
 
+    @Column(name = "mot_de_passe")
     @NotNull
     private String motDePasse;
 
@@ -49,5 +48,17 @@ public class Etudiant {
 
     public void etudiantValide() {
         estValide = true;
+    }
+
+    @Override
+    public String toString() {
+        return "Etudiant{" +
+                "id=" + id +
+                ", nom='" + nom + '\'' +
+                ", prenom='" + prenom + '\'' +
+                ", email='" + email + '\'' +
+                ", motDePasse='" + motDePasse + '\'' +
+                ", estValide=" + estValide +
+                '}';
     }
 }
