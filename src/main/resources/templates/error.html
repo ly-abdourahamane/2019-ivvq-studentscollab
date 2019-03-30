@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Friends of Mine</title>
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+
+<body>
+
+<div class="row">
+    <h1 class="w3-text-red w3-center" th:text="${error}">Not found</h1>
+
+    <p class="w3-large w3-center" th:text="${message}">
+        This page is not available
+    </p>
+
+    <p class="w3-large w3-center" th:text="${customMessage}">
+        There is a problem
+    </p>
+</div>
+
+</body>
+
+</html>

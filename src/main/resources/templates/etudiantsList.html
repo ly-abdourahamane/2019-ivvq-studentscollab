@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>liste des étudiants</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1>Liste des étudiants</h1>
+<body>
+
+<h2>Liste des étudiants</h2>
+<table class="w3-table-all w3-hoverable">
+    <tr>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Email</th>
+        <th>Inscritpion validée</th>
+    </tr>
+    <tr th:each="etudiant : ${etudiants}">
+        <td th:text="${etudiant.nom}"></td>
+        <td th:text="${etudiant.prenom}"></td>
+        <td th:text="${utilisateur.email}"></td>
+        <td th:text="${etudiant.estValide}"></td>
+    </tr>
+</table>
+
+</body>
+</html>
