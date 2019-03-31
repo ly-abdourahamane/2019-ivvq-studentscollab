@@ -2,28 +2,46 @@ package fr.univtlse3.m2dl.studentscollab.studentscollab.controller;
 
 
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Login;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.services.EtudiantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("api/v1/etudiants")
 public class EtudiantController  {
 
     @Autowired
     private EtudiantService etudiantService;
 
-    @PostMapping(value = "")
-    public Etudiant save(@Valid @RequestBody Etudiant etudiant, HttpServletRequest request) {
+    @GetMapping("/creer-compte")
+    public String creerCompte(Model model) {
+        model.addAttribute("etudiant", new Etudiant());
+
+        return "creer-compte";
+    }
+
+    @PostMapping(value = "/valider")
+    public String save(@ModelAttribute("etudiant") Etudiant etudiant, HttpServletRequest request, Model model) {
+
         String rootURL = getBaseUrlFromRequest(request);
 
-        String url = rootURL + "/api/v1/etudiant/verification/";
+        String url = rootURL + "/api/v1/etudiants/verification/";
 
-        return etudiantService.save(etudiant, url);
+        Etudiant etud = etudiantService.save(etudiant, url);
+
+       if (etud == null) {
+           model.addAttribute("custoMessage", "Enregistremnet impossible");
+           return "error";
+       }
+
+       return "verification-email";
     }
 
     @GetMapping(value = "/{id}")
@@ -32,18 +50,31 @@ public class EtudiantController  {
     }
 
     @GetMapping(value = "")
-    public List<Etudiant> findAll() {
-        return etudiantService.findAll();
+    public String findAll(Model model) {
+
+        model.addAttribute("etudiants", etudiantService.findAll());
+
+        return "etudiants";
     }
 
-    @GetMapping(value = "/verification/{token}")
-    public String validerEtudiant(@PathVariable String token){
-        return  etudiantService.validateEtudiant(token);
+
+    @GetMapping("/connexion")
+    public String connexionForm(Model model) {
+        model.addAttribute("login", new Login());
+
+        return "connexion";
     }
 
     @GetMapping(value = "/login")
-    public String login(@RequestParam(value = "email") String email, @RequestParam(value = "motDePasse") String motDePasse) {
-        return this.etudiantService.login(email, motDePasse);
+    public String login(@ModelAttribute("login") Login login) {
+        return this.etudiantService.login(login.getEmail(), login.getMotDePasse());
+    }
+
+    @GetMapping(value = "/verification/{token}")
+    public String validerEtudiant(@PathVariable String token, Model model){
+        model.addAttribute("login", new Login());
+
+        return etudiantService.validateEtudiant(token);
     }
 
     private String getBaseUrlFromRequest(HttpServletRequest request){

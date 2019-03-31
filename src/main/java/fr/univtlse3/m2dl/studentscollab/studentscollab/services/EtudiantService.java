@@ -35,7 +35,7 @@ public class EtudiantService {
         VerificationToken verificationToken = verificationTokenRepository.findByToken(token);
 
         if(verificationToken == null || verificationToken.getDateExpiration().isBefore(LocalDateTime.now())) {
-            return "Le lien a expiré, veuillez vous réinscrire";
+            return "error";
         }
 
         Etudiant etudiant = verificationToken.getEtudiant();
@@ -44,7 +44,7 @@ public class EtudiantService {
         etudiantRepository.save(etudiant);
         verificationTokenRepository.delete(verificationToken);
 
-        return "Bienvenue sur l'application de collaboration de studentsCollab";
+        return "connexion";
     }
 
     public Etudiant save(Etudiant etudiant, String url) {
@@ -57,13 +57,13 @@ public class EtudiantService {
     public String login(String email, String motDePasse) {
         Etudiant etudiant = this.etudiantRepository.login(email, motDePasse);
 
-        String message = "email ou mot de passe invalid";
+        String template = "connexion";
 
         if(etudiant != null) {
-            message = etudiant.isEstValide() ? "Vous êtes connecté" : "email ou mot de passe invalide";
+            template = etudiant.isEstValide() ? "etudiants" : template;
         }
 
-        return message;
+        return template;
     }
 
     private void sendConfirmationEmail(Etudiant etudiant,String url){
