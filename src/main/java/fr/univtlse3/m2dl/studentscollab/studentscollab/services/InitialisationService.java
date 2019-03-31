@@ -23,6 +23,15 @@ public class InitialisationService {
     private void initEtudiants() {
         abdourahamane = new Etudiant("ly", "abdou", "abdourahamane.ly1@gmail.com","123456");
         etudiantRepository.save(abdourahamane);
+
+        meriem = new Etudiant("ferouj", "meriem", "meriem@gmail.com","123456");
+        etudiantRepository.save(meriem);
+
+        maxime = new Etudiant("rouillon", "maxime", "maxime@gmail.com","123456");
+        etudiantRepository.save(maxime);
+
+        alexia = new Etudiant("fernandes", "alexia", "alexia@gmail.com","123456");
+        etudiantRepository.save(alexia);
     }
 }
 
