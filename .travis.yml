@@ -7,6 +7,14 @@ jdk: openjdk8
 # jdk: oraclejdk8
 # jdk: oraclejdk9
 
+services:
+  - docker
+
+before_install:
+  - docker build -t studentscollab .
+  - docker run -it --rm -p 8080:8080 studentscollab
+  - docker ps-a
+
 install: mvn dependency:go-offline
 # MIEUX QUE
 # install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
