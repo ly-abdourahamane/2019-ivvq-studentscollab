@@ -47,5 +47,7 @@ public class MatiereController {
     }
 
 
-
+    public void setMatiereService(MatiereService matiereService) {
+        this.matiereService = matiereService;
+    }
 }
