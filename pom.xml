@@ -14,10 +14,6 @@
     <name>studentscollab</name>
     <description>Demo project for Spring Boot</description>
 
-    <properties>
-        <java.version>1.8</java.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -42,26 +38,30 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
+
     </dependencies>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <!--suppress UnresolvedMavenProperty -->
+        <skip.surefire.tests>${skipTests}</skip.surefire.tests>
+    </properties>
+
+
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.1</version>
-                <!-- Bugfix - cf. https://stackoverflow.com/a/53128507/9164010 -->
-                <!-- Alternative:
-                     mvn clean test site -Dsurefire.useSystemClassLoader=false -Dfailsafe.useSystemClassLoader=false -->
-                <configuration>
-                    <useSystemClassLoader>false</useSystemClassLoader>
-                </configuration>
-            </plugin>
-
+            <!-- This is needed for the failsafe plugin, cf. https://stackoverflow.com/a/42128153/9164010 -->
+            <!--<plugin>
+              <groupId>org.springframework.boot</groupId>
+              <artifactId>spring-boot-maven-plugin</artifactId>
+              <configuration>
+                <classifier>exec</classifier>
+              </configuration>
+            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
@@ -74,13 +74,78 @@
                         </goals>
                     </execution>
                 </executions>
-                <!-- Same bugfix as above -->
+                <!-- Same bugfix as below -->
                 <configuration>
                     <useSystemClassLoader>false</useSystemClassLoader>
+                    <argLine>${failsafeArgLine}</argLine>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.1</version>
+                <!-- Bugfix - cf. https://stackoverflow.com/a/53128507/9164010 -->
+                <!-- Alternative:
+                     mvn clean test site -Dsurefire.useSystemClassLoader=false -Dfailsafe.useSystemClassLoader=false -->
+                <configuration>
+                    <useSystemClassLoader>false</useSystemClassLoader>
+                    <argLine>${surefireArgLine}</argLine>
+                    <skipTests>${skip.surefire.tests}</skipTests>
+                </configuration>
+            </plugin>
+            <plugin>
+                <!-- Relevant URLs:
+                     * https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin
+                     * https://stackoverflow.com/a/37672302/9164010 -->
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.3</version>
+                <executions>
+                    <execution>
+                        <id>pre-unit-test</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <configuration>
+                            <destFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</destFile>
+                            <propertyName>surefireArgLine</propertyName>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>post-unit-test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <dataFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</dataFile>
+                            <outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>pre-integration-test</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <configuration>
+                            <destFile>${project.build.directory}/coverage-reports/jacoco-it.exec</destFile>
+                            <propertyName>failsafeArgLine</propertyName>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>post-integration-test</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <dataFile>${project.build.directory}/coverage-reports/jacoco-it.exec</dataFile>
+                            <outputDirectory>${project.reporting.outputDirectory}/jacoco-it</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
-
-
 </project>
