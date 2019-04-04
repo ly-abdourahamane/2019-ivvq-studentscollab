@@ -23,7 +23,7 @@ public class NoteCoursTest {
     }
 
     @Test
-    public void testNominal() {
+    public void testConstructeurNominalValidated() {
         // given: une Note de cours nc
         // when: nc est créé
         NoteCours nc = new NoteCours("titre1", "contenu1", 0, 0);
@@ -32,7 +32,7 @@ public class NoteCoursTest {
     }
 
     @Test
-    public void testTitreNull() {
+    public void testConstructeurTitreNullInvalidated() {
         // given: une Note de cours nc avec un titre null
         // when: nc est créé
         NoteCours nc = new NoteCours(null, "contenu2", 0, 0);
@@ -41,7 +41,7 @@ public class NoteCoursTest {
     }
 
     @Test
-    public void testContenuNull() {
+    public void testConstructeurContenuNullInvalidated() {
         // given: une Note de cours nc avec un contenu null
         // when: nc est créé
         NoteCours nc = new NoteCours(null, "contenu3", 0, 0);
@@ -50,7 +50,7 @@ public class NoteCoursTest {
     }
 
     @Test
-    public void testNbLikeNeg() {
+    public void testConstructeurNbLikeNegInvalidated() {
         // given: une Note de cours nc avec un titre null
         // when: nc est créé
         NoteCours nc = new NoteCours("titre4", "contenu4", -1, 0);
@@ -59,7 +59,7 @@ public class NoteCoursTest {
     }
 
     @Test
-    public void testNbDisLikeNeg() {
+    public void testConstructeurNbDisLikeNegInvalidated() {
         // given: une Note de cours nc avec un titre null
         // when: nc est créé
         NoteCours nc = new NoteCours("titre5", "contenu5", 1, -1);

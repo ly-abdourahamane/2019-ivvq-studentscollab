@@ -29,6 +29,21 @@ public class NoteCours {
     public NoteCours() {
     }
 
+    public NoteCours(Long id, @NotNull String titre, @NotNull String contenu) {
+        this.id = id;
+        this.titre = titre;
+        this.contenu = contenu;
+        this.nbLike = 0;
+        this.nbDislike = 0;
+    }
+
+    public NoteCours(@NotNull String titre, @NotNull String contenu) {
+        this.titre = titre;
+        this.contenu = contenu;
+        this.nbLike = 0;
+        this.nbDislike = 0;
+    }
+
     public NoteCours(@NotNull String titre, @NotNull String contenu, @PositiveOrZero int nbLike, @PositiveOrZero int nbDislike/*, Collection<Commentaire> commentaires*/) {
         this.titre = titre;
         this.contenu = contenu;

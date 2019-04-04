@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface NoteCoursDao extends CrudRepository<NoteCours, Long> {
+public interface NoteCoursRepository extends CrudRepository<NoteCours, Long> {
 
 }
