@@ -3,6 +3,7 @@ package fr.univtlse3.m2dl.studentscollab.studentscollab.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -14,6 +15,7 @@ import javax.validation.constraints.Size;
 @Setter
 @NoArgsConstructor
 @Entity
+@ToString
 public class Etudiant {
 
     @Id
@@ -48,17 +50,5 @@ public class Etudiant {
 
     public void etudiantValide() {
         estValide = true;
-    }
-
-    @Override
-    public String toString() {
-        return "Etudiant{" +
-                "id=" + id +
-                ", nom='" + nom + '\'' +
-                ", prenom='" + prenom + '\'' +
-                ", email='" + email + '\'' +
-                ", motDePasse='" + motDePasse + '\'' +
-                ", estValide=" + estValide +
-                '}';
     }
 }

@@ -7,7 +7,7 @@
 
 <body>
 <div class="w3-bar w3-dark-gray">
-    <a href="#" class="w3-bar-item w3-button">Accueil</a>
+    <a href="/api/v1/etudiants/accueil" class="w3-bar-item w3-button">Accueil</a>
     <a href="/api/v1/etudiants" class="w3-bar-item w3-button w3-hide-small">Liste étudiants</a>
     <a href="/api/v1/etudiants/creer-compte" class="w3-bar-item w3-button w3-hide-small">Créer compte</a>
     <a href="/api/v1/etudiants/connexion" class="w3-bar-item w3-button w3-hide-small">Connexion</a>
@@ -19,16 +19,19 @@
         <th>Nom</th>
         <th>Prénom</th>
         <th>Email</th>
+        <th>Mot de passe</th>
         <th>Inscription validée</th>
     </tr>
     <tr th:each="etudiant : ${etudiants}">
         <td th:text="${etudiant.nom}"></td>
         <td th:text="${etudiant.prenom}"></td>
         <td th:text="${etudiant.email}"></td>
+        <td th:text="${etudiant.motDePasse}"></td>
         <td th:text="${etudiant.estValide}"></td>
         <td><form th:method="get" th:action="${ '/etudiants/' + etudiant.id}">
             <button class="w3-button w3-black" type="submit">Consulter</button>
         </form></td>
     </tr>
 </table>
-
+</body>
+</html>

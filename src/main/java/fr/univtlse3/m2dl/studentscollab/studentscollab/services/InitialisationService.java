@@ -22,6 +22,7 @@ public class InitialisationService {
 
     private void initEtudiants() {
         abdourahamane = new Etudiant("ly", "abdou", "abdourahamane.ly1@gmail.com","123456");
+        abdourahamane.setEstValide(true);
         etudiantRepository.save(abdourahamane);
 
         meriem = new Etudiant("ferouj", "meriem", "meriem@gmail.com","123456");
@@ -32,6 +33,10 @@ public class InitialisationService {
 
         alexia = new Etudiant("fernandes", "alexia", "alexia@gmail.com","123456");
         etudiantRepository.save(alexia);
+    }
+
+    public Etudiant getAbdourahamane() {
+        return abdourahamane;
     }
 }
 

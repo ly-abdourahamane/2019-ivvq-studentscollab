@@ -4,21 +4,35 @@ package fr.univtlse3.m2dl.studentscollab.studentscollab.controller;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Login;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.services.EtudiantService;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.util.List;
 
 @Controller
 @RequestMapping("api/v1/etudiants")
+@Getter
+@Setter
 public class EtudiantController  {
 
     @Autowired
     private EtudiantService etudiantService;
+
+    @GetMapping(value = "/test")
+    public List<Etudiant> findAllForTests() {
+
+        return etudiantService.findAll();
+    }
+
+    @GetMapping("accueil")
+    public String accueil() {
+        return "index";
+    }
 
     @GetMapping("/creer-compte")
     public String creerCompte(Model model) {
@@ -53,9 +67,10 @@ public class EtudiantController  {
     public String findAll(Model model) {
 
         model.addAttribute("etudiants", etudiantService.findAll());
-
         return "etudiants";
     }
+
+
 
 
     @GetMapping("/connexion")
@@ -65,9 +80,11 @@ public class EtudiantController  {
         return "connexion";
     }
 
-    @GetMapping(value = "/login")
+    @PostMapping(value = "/login")
     public String login(@ModelAttribute("login") Login login) {
-        return this.etudiantService.login(login.getEmail(), login.getMotDePasse());
+        String page = this.etudiantService.login(login.getEmail(), login.getMotDePasse());
+
+        return "redirect:/api/v1/etudiants/" + page;
     }
 
     @GetMapping(value = "/verification/{token}")

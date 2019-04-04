@@ -4,6 +4,8 @@ import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.VerificationToken;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.repositories.EtudiantRepository;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.repositories.VerificationTokenRepository;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+@Getter
+@Setter
 @Service
 public class EtudiantService {
 
@@ -48,6 +52,7 @@ public class EtudiantService {
     }
 
     public Etudiant save(Etudiant etudiant, String url) {
+
         Etudiant etudiantSaved = etudiantRepository.save(etudiant);
         sendConfirmationEmail(etudiantSaved, url);
 
@@ -60,7 +65,7 @@ public class EtudiantService {
         String template = "connexion";
 
         if(etudiant != null) {
-            template = etudiant.isEstValide() ? "etudiants" : template;
+            template = etudiant.isEstValide() ? "" : template;
         }
 
         return template;
