@@ -8,7 +8,7 @@
 <h1>Note ajoutée</h1>
 <p th:text="'id: ' + ${noteCours.id}" />
 <p th:text="'titre: ' + ${noteCours.titre}" />
-<p th:text="'titre: ' + ${noteCours.contenu}" />
+<p th:text="'contenu: ' + ${noteCours.contenu}" />
 <form action="#" th:action="@{/cours/all}">
     <p><input type="submit" value="Voir tout" /></p>
 </form>
