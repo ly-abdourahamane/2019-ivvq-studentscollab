@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Notes de cours</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1>Toutes les notes</h1>
+<table>
+    <tbody>
+    <tr th:each="noteCours: ${liste}">
+        <p th:text="'id: ' + ${noteCours.id}" />
+        <p th:text="'titre: ' + ${noteCours.titre}" />
+        <p th:text="'contenu: ' + ${noteCours.contenu}" />
+    </tr>
+    </tbody>
+</table>
+<form name="voirtout" action="#" th:action="@{/cours/all}">
+    <p><input type="submit" value="Voir tout" /></p>
+</form>
+<form name="nouveau" action="#" th:action="@{/cours/new}">
+    <p><input type="submit" value="Nouveau" /></p>
+</form>
+</body>
+</html>
