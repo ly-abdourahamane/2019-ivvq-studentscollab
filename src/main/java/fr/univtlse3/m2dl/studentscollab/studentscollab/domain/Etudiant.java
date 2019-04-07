@@ -51,4 +51,30 @@ public class Etudiant {
     public void etudiantValide() {
         estValide = true;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+        
+        Etudiant etudiant = (Etudiant) o;
+        if(nom!=null? !nom.equals(etudiant.nom): etudiant.nom!=null) {
+            return false;
+        }
+
+        if(motDePasse!=null? !motDePasse.equals(etudiant.motDePasse): etudiant.motDePasse!=null) {
+            return false;
+        }
+
+        return prenom!=null? prenom.equals(etudiant.prenom): etudiant.prenom==null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = nom!=null?nom.hashCode():0;
+        result = 31 * result + (motDePasse!=null? motDePasse.hashCode():0);
+        result = 31 * result + (prenom!=null? prenom.hashCode():0);
+
+        return result;
+    }
 }
