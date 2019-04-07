@@ -64,8 +64,8 @@ public class EtudiantService {
 
         String template = "connexion";
 
-        if(etudiant != null) {
-            template = etudiant.isEstValide() ? "" : template;
+        if(etudiant != null && etudiant.isEstValide()) {
+            template = "";
         }
 
         return template;

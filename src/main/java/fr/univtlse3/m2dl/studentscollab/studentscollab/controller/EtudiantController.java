@@ -59,8 +59,16 @@ public class EtudiantController  {
     }
 
     @GetMapping(value = "/{id}")
-    public Etudiant getById(@PathVariable Long id) {
-        return etudiantService.findById(id);
+    public String getById(@PathVariable Long id, Model model) {
+        Etudiant etudiant = etudiantService.findById(id);
+
+        if(etudiant == null) {
+            model.addAttribute("customMessage", "Impossible. Id non valide");
+            return "error";
+        }
+        model.addAttribute("etudiant", etudiant);
+
+        return "profileEtudiant";
     }
 
     @GetMapping(value = "")
@@ -69,9 +77,6 @@ public class EtudiantController  {
         model.addAttribute("etudiants", etudiantService.findAll());
         return "etudiants";
     }
-
-
-
 
     @GetMapping("/connexion")
     public String connexionForm(Model model) {

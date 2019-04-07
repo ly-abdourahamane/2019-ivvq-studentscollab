@@ -4,6 +4,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({EtudiantControllerTests.class})
+@Suite.SuiteClasses({EtudiantControllerTests.class, EtudiantServiceTest.class, EtudiantTest.class, EtudiantControllerIntegrationTest.class})
 public class AllTests {
 }
