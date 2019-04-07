@@ -6,14 +6,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+@ToString
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 public class Login {
 
     private String email;
 
     private String motDePasse;
-
 }

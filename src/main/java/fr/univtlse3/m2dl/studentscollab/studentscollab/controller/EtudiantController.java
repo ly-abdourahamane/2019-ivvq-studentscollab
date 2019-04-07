@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -42,25 +41,14 @@ public class EtudiantController  {
     }
 
     @PostMapping(value = "/valider")
-    public String save(@ModelAttribute("etudiant") Etudiant etudiant, HttpServletRequest request, Model model) {
-
-        String rootURL = getBaseUrlFromRequest(request);
-
-        String url = rootURL + "/api/v1/etudiants/verification/";
-
-        Etudiant etud = etudiantService.save(etudiant, url);
-
-       if (etud == null) {
-           model.addAttribute("custoMessage", "Enregistremnet impossible");
-           return "error";
-       }
-
-       return "verification-email";
+    public String save(@ModelAttribute("etudiant") Etudiant etudiant) {
+      etudiantService.save(etudiant);
+      return "redirect:/api/v1/etudiants/connexion";
     }
 
     @GetMapping(value = "/{id}")
     public String getById(@PathVariable Long id, Model model) {
-        Etudiant etudiant = etudiantService.findById(id);
+        Etudiant etudiant = etudiantService.findById(id).orElse(null);
 
         if(etudiant == null) {
             model.addAttribute("customMessage", "Impossible. Id non valide");
@@ -90,16 +78,5 @@ public class EtudiantController  {
         String page = this.etudiantService.login(login.getEmail(), login.getMotDePasse());
 
         return "redirect:/api/v1/etudiants/" + page;
-    }
-
-    @GetMapping(value = "/verification/{token}")
-    public String validerEtudiant(@PathVariable String token, Model model){
-        model.addAttribute("login", new Login());
-
-        return etudiantService.validateEtudiant(token);
-    }
-
-    private String getBaseUrlFromRequest(HttpServletRequest request){
-        return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
     }
 }

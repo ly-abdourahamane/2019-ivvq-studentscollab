@@ -2,10 +2,16 @@ package fr.univtlse3.m2dl.studentscollab.studentscollab.services;
 
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.repositories.EtudiantRepository;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@Getter
+@Setter
+@NoArgsConstructor
 public class InitialisationService {
 
     @Autowired
@@ -33,10 +39,6 @@ public class InitialisationService {
 
         alexia = new Etudiant("fernandes", "alexia", "alexia@gmail.com","123456");
         etudiantRepository.save(alexia);
-    }
-
-    public Etudiant getAbdourahamane() {
-        return abdourahamane;
     }
 }
 
