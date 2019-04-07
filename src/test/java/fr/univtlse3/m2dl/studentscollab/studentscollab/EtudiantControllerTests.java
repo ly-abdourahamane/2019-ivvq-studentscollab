@@ -27,9 +27,7 @@ public class EtudiantControllerTests {
     @Test
     public void testControllerDelegationToService() {
         //when: on récupère dans le controleur
-
         etudiantController.findAllForTests();
-
         //then: la requête est traitée par le service correspondant
         verify(etudiantService).findAll();
     }

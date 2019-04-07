@@ -1,6 +1,7 @@
 package fr.univtlse3.m2dl.studentscollab.studentscollab;
 
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.services.EtudiantService;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.services.InitialisationService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,14 +40,14 @@ public class EtudiantControllerIntegrationTest {
     private String htmlResult;
 
     @Test
-    public void test() throws Exception {
+    public void testAfficherListeEtudiants() throws Exception {
         Etudiant etudiant = initialisationService.getAbdourahamane();
 
-        //when: un admin émet une requête pour obtenir la liste des utilisateurs
+        //when: un admin émet une requête pour obtenir la liste des étudiants
         mockMvc.perform(get("/api/v1/etudiants"))
                 // then: la réponse a le status 200(OK)
                 .andExpect(status().isOk())
-                // then: la réponse est au format JSON et utf8
+                // then: la réponse est au format HTML et utf8
                 .andExpect(content().contentType(contentType))
                 .andDo(mvcResult -> {
                     htmlResult = mvcResult.getResponse().getContentAsString();
@@ -56,5 +57,48 @@ public class EtudiantControllerIntegrationTest {
         assertThat(htmlResult, containsString(etudiant.getEmail()));
         // then: le résultat obtenu contient le nom d'un étudiant persistée
         assertThat(htmlResult, containsString(etudiant.getNom()));
+    }
+
+
+    @Test
+    public void testAfficherProfileEtudiant() throws Exception {
+        Etudiant etudiant = initialisationService.getAbdourahamane();
+
+        //when: un admin émet une requête pour obtenir un étudiant
+        mockMvc.perform(get("/api/v1/etudiants/1"))
+                // then: la réponse a le status 200(OK)
+                .andExpect(status().isOk())
+                // then: la réponse est au format HTML et utf8
+                .andExpect(content().contentType(contentType))
+                .andDo(mvcResult -> {
+                    htmlResult = mvcResult.getResponse().getContentAsString();
+                });
+
+        // then: le résultat obtenu contient l'email d'un étudiant
+        assertThat(htmlResult, containsString(etudiant.getEmail()));
+        // then: le résultat obtenu contient le nom d'un étudiant persistée
+        assertThat(htmlResult, containsString(etudiant.getNom()));
+    }
+
+    @Test
+    public void testCreationCompteEtudiant() throws Exception {
+        //when: un admin émet une requête pour obtenir un étudiant
+        mockMvc.perform(get("/api/v1/etudiants/creer-compte"))
+                // then: la réponse a le status 200(OK)
+                .andExpect(status().isOk())
+                // then: la réponse est au format HTML et utf8
+                .andExpect(content().contentType(contentType))
+                .andDo(mvcResult -> {
+                    htmlResult = mvcResult.getResponse().getContentAsString();
+                });
+
+        // then: le résultat obtenu contient le label nom de  l'étudiant
+        assertThat(htmlResult, containsString("Nom"));
+        // then: le résultat obtenu contient le label Prénom de  l'étudiant
+        assertThat(htmlResult, containsString("Prénom"));
+        // then: le résultat obtenu contient le label Email de  l'étudiant
+        assertThat(htmlResult, containsString("Email"));
+        // then: le résultat obtenu contient le label Mot de passe de  l'étudiant
+        assertThat(htmlResult, containsString("Mot de passe"));
     }
 }
