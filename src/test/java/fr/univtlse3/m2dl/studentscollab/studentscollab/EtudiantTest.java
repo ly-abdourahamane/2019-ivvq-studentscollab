@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import javax.validation.constraints.AssertTrue;
 
 import static org.junit.Assert.assertFalse;
 
@@ -76,6 +77,26 @@ public class EtudiantTest {
         Etudiant etudiant = new Etudiant("Durand", "john", "durant@gmail.com", null);
         // then: l'étudiant n'est pas validé par le validator
         assertFalse(validator.validate(etudiant).isEmpty());
+    }
+
+    @Test
+    public void testHashCode() {
+        Etudiant etudiant = new Etudiant("do", "john", "jdo@gmail.com", "root");
+        Etudiant etudiant2 = new Etudiant("do", "john", "jdo@gmail.com", "root");
+
+        Assert.assertTrue("Les deux etudiants sont les mêmes", etudiant.hashCode() == etudiant2.hashCode());
+        etudiant.setNom("dupond");
+        Assert.assertFalse("Les deux etudiants sont differents", etudiant.hashCode() == etudiant2.hashCode());
+    }
+
+    @Test
+    public void testEquals() {
+        Etudiant etudiant = new Etudiant("do", "john", "jdo@gmail.com", "root");
+        Etudiant etudiant2 = new Etudiant("do", "john", "jdo@gmail.com", "root");
+
+        Assert.assertTrue("Les deux etudiants sont les mêmes", etudiant.equals(etudiant2));
+        etudiant.setNom("dupond");
+        Assert.assertFalse("Les deux etudiants sont differents", etudiant.equals(etudiant2));
     }
 
 }
