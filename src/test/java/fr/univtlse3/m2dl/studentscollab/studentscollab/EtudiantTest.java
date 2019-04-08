@@ -83,9 +83,18 @@ public class EtudiantTest {
     public void testHashCode() {
         Etudiant etudiant = new Etudiant("do", "john", "jdo@gmail.com", "root");
         Etudiant etudiant2 = new Etudiant("do", "john", "jdo@gmail.com", "root");
-
         Assert.assertTrue("Les deux etudiants sont les mêmes", etudiant.hashCode() == etudiant2.hashCode());
+
         etudiant.setNom("dupond");
+        Assert.assertFalse("Les deux etudiants sont differents", etudiant.hashCode() == etudiant2.hashCode());
+
+        etudiant.setNom(null);
+        Assert.assertFalse("Les deux etudiants sont differents", etudiant.hashCode() == etudiant2.hashCode());
+
+        etudiant.setPrenom(null);
+        Assert.assertFalse("Les deux etudiants sont differents", etudiant.hashCode() == etudiant2.hashCode());
+
+        etudiant.setMotDePasse(null);
         Assert.assertFalse("Les deux etudiants sont differents", etudiant.hashCode() == etudiant2.hashCode());
     }
 
@@ -93,10 +102,27 @@ public class EtudiantTest {
     public void testEquals() {
         Etudiant etudiant = new Etudiant("do", "john", "jdo@gmail.com", "root");
         Etudiant etudiant2 = new Etudiant("do", "john", "jdo@gmail.com", "root");
-
         Assert.assertTrue("Les deux etudiants sont les mêmes", etudiant.equals(etudiant2));
+
         etudiant.setNom("dupond");
         Assert.assertFalse("Les deux etudiants sont differents", etudiant.equals(etudiant2));
+
+        etudiant.setNom(null);
+        Assert.assertFalse("Les deux etudiants sont differents", etudiant.equals(etudiant2));
+
+        etudiant.setPrenom(null);
+        Assert.assertFalse("Les deux etudiants sont differents", etudiant.equals(etudiant2));
+
+        etudiant.setMotDePasse(null);
+        Assert.assertFalse("Les deux etudiants sont differents", etudiant.equals(etudiant2));
+
+        etudiant = null;
+        Assert.assertFalse("Les deux etudiants sont differents", etudiant2.equals(etudiant));
     }
 
+    @Test
+    public void testEtudiantValide() {
+        Etudiant etudiant = new Etudiant("do", "john", "jdo@gmail.com", "root");
+        Assert.assertTrue("L'étudiant à validé son inscription", etudiant.isEstValide() == false);
+    }
 }
