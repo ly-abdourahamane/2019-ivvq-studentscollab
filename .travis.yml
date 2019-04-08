@@ -12,8 +12,6 @@ services:
 
 before_install:
   - docker build -t studentscollab .
-  - docker run -it --rm -p 8080:8080 studentscollab
-  - docker ps-a
 
 install: mvn dependency:go-offline
 # MIEUX QUE
