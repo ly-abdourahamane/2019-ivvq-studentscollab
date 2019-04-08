@@ -76,7 +76,7 @@ public class EtudiantServiceTest {
     public void testLoginEtudiant() {
         //given: un etudiant repository
         //when: la méthode save est invoquée
-        etudiantRepository.save(etudiant);
+        etudiantService.save(etudiant);
         //then: l'utilisateur ne peut pas se connecter tant qu'il n'a pas validé son inscription
         String result = etudiantService.login(etudiant.getEmail(), etudiant.getMotDePasse());
        Assert.assertTrue("L'étudiant s'est connecté"
