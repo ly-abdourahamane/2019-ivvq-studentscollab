@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  base:
+    build: .
+
+  unit_test:
+    command: bash -c "mvn test -B -V && bash codecov.sh -c -F unit"
+    depends_on:
+      - base
+
+  integration_test:
+    command: bash -c "mvn clean verify -Dskip.unit.tests=true -B -V && bash codecov.sh -c -F integration"
+    depends_on:
+      - base
