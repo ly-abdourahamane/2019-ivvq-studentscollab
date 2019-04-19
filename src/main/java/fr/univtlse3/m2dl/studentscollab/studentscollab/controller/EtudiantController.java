@@ -4,8 +4,7 @@ package fr.univtlse3.m2dl.studentscollab.studentscollab.controller;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Login;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.services.EtudiantService;
-import lombok.Getter;
-import lombok.Setter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,12 +14,18 @@ import java.util.List;
 
 @Controller
 @RequestMapping("api/v1/etudiants")
-@Getter
-@Setter
 public class EtudiantController  {
 
     @Autowired
     private EtudiantService etudiantService;
+
+    public EtudiantService getEtudiantService() {
+        return etudiantService;
+    }
+
+    public void setEtudiantService(EtudiantService etudiantService) {
+        this.etudiantService = etudiantService;
+    }
 
     @GetMapping(value = "/test")
     public List<Etudiant> findAllForTests() {

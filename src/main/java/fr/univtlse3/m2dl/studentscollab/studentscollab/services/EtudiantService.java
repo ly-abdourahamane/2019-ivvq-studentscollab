@@ -3,9 +3,6 @@ package fr.univtlse3.m2dl.studentscollab.studentscollab.services;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.repositories.EtudiantRepository;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +10,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Getter
-@Setter
-@NoArgsConstructor
 public class EtudiantService {
 
     @Autowired
@@ -46,5 +40,13 @@ public class EtudiantService {
         Etudiant etudiant = this.etudiantRepository.login(email, motDePasse);
 
        return (etudiant==null ? "connexion": "");
+    }
+
+    public EtudiantRepository getEtudiantRepository() {
+        return etudiantRepository;
+    }
+
+    public void setEtudiantRepository(EtudiantRepository etudiantRepository) {
+        this.etudiantRepository = etudiantRepository;
     }
 }
