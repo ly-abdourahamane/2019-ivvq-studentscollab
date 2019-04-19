@@ -12,6 +12,7 @@
     <artifactId>studentscollab</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>studentscollab</name>
+    <packaging>jar</packaging>
     <description>Demo project for Spring Boot</description>
 
     <dependencies>
@@ -61,13 +62,17 @@
     <build>
         <plugins>
             <!-- This is needed for the failsafe plugin, cf. https://stackoverflow.com/a/42128153/9164010 -->
-            <!--<plugin>
+           <!-- <plugin>
               <groupId>org.springframework.boot</groupId>
               <artifactId>spring-boot-maven-plugin</artifactId>
               <configuration>
                 <classifier>exec</classifier>
               </configuration>
             </plugin>-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
