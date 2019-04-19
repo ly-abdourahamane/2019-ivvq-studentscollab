@@ -1,7 +1,7 @@
 package fr.univtlse3.m2dl.studentscollab.studentscollab;
 
 import fr.univtlse3.m2dl.studentscollab.studentscollab.controller.EtudiantController;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.services.EtudiantService;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.service.EtudiantService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

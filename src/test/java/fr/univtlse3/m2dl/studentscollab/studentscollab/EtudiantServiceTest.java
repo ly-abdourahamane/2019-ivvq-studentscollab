@@ -1,8 +1,8 @@
 package fr.univtlse3.m2dl.studentscollab.studentscollab;
 
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.repositories.EtudiantRepository;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.services.EtudiantService;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.EtudiantRepository;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.service.EtudiantService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
