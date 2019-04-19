@@ -1,8 +1,7 @@
 package fr.univtlse3.m2dl.studentscollab.studentscollab;
 
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.services.EtudiantService;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.services.InitialisationService;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.service.InitialisationService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

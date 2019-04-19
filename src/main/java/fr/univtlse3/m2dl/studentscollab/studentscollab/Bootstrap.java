@@ -1,6 +1,6 @@
 package fr.univtlse3.m2dl.studentscollab.studentscollab;
 
-import fr.univtlse3.m2dl.studentscollab.studentscollab.services.InitialisationService;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.service.InitialisationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

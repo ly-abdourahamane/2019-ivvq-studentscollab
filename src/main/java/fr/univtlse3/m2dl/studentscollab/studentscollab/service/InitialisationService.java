@@ -1,7 +1,7 @@
-package fr.univtlse3.m2dl.studentscollab.studentscollab.services;
+package fr.univtlse3.m2dl.studentscollab.studentscollab.service;
 
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.repositories.EtudiantRepository;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.EtudiantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package fr.univtlse3.m2dl.studentscollab.studentscollab.repositories;
+package fr.univtlse3.m2dl.studentscollab.studentscollab.repository;
 
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
 import org.springframework.data.jpa.repository.Query;

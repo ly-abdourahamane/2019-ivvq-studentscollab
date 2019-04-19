@@ -3,7 +3,7 @@ package fr.univtlse3.m2dl.studentscollab.studentscollab.controller;
 
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Login;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.services.EtudiantService;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.service.EtudiantService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
