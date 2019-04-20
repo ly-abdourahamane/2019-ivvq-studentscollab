@@ -30,7 +30,7 @@
             <button class="w3-button w3-black" type="submit">Consulter</button>
         </form></td>
 
-        <td><form th:method="delete" th:action="${'/api/v1/formations/' + formation.id}">
+        <td><form th:method="delete" th:action="${'/api/v1/formations/delete/' + formation.id}">
             <button class="w3-button w3-black" type="submit">Supprimer</button>
         </form></td>
     </tr>

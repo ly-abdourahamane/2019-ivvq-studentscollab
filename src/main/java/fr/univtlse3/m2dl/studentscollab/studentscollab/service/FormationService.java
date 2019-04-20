@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author abdou on 20/04/19.
@@ -19,7 +20,12 @@ public class FormationService {
     private FormationRepository formationRepository;
 
     public Formation saveFormation(Formation formation) {
-       return this.formationRepository.save(formation);
+
+        if (formation == null) {
+            throw new IllegalArgumentException("argument non valide");
+        }
+
+        return this.formationRepository.save(formation);
     }
 
     public void deleteFormationById(Long id) {
@@ -30,8 +36,8 @@ public class FormationService {
         return this.formationRepository.findAll();
     }
 
-    public Formation findFormationById(Long id) {
-        return formationRepository.findById(id).orElse(null);
+    public Optional<Formation> findFormationById(Long id) {
+        return formationRepository.findById(id);
     }
 
     public FormationRepository getFormationRepository() {
