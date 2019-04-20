@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Students collab</title>
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+
+<body>
+<div class="w3-bar w3-dark-gray">
+    <a href="/api/v1/etudiants/accueil" class="w3-bar-item w3-button">Accueil</a>
+    <a href="/api/v1/etudiants" class="w3-bar-item w3-button w3-hide-small">Liste étudiants</a>
+    <a href="/api/v1/etudiants/creer-compte" class="w3-bar-item w3-button w3-hide-small">Créer compte</a>
+    <a href="/api/v1/etudiants/connexion" class="w3-bar-item w3-button w3-hide-small">Connexion</a>
+
+    <a href="/api/v1/formations" class="w3-bar-item w3-button w3-hide-small">Liste formations</a>
+    <a href="/api/v1/formations/creer" class="w3-bar-item w3-button w3-hide-small">Creer une formation</a>
+</div>
+
+<form class="w3-container w3-display-middle" th:method="post" th:object="${formation}" th:action="${'/api/v1/formations/valider'}">
+    <h2 class="">Créer une formation</h2>
+
+    <p>
+        <label class="">Nom</label>
+        <input class="w3-input w3-border" type="texte" name="nom" th:field="*{nom}"></p>
+    <p>
+
+    <p>
+        <label class="">Niveau</label>
+        <input class="w3-input w3-border" type="texte" name="niveau" th:field="*{niveau}"></p>
+    <p>
+
+    <p>
+        <button class="w3-btn" type="submit">Créer</button>
+    </p>
+</form>
+
+</body>
+</html>
