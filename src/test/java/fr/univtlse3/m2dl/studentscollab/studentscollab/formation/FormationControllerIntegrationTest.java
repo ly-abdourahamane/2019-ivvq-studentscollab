@@ -21,6 +21,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -126,4 +127,16 @@ public class FormationControllerIntegrationTest {
                 .andDo(MockMvcResultHandlers.print());
         Assert.assertEquals(count - 1, formationService.findAllFormation().size());
     }
+
+    @Test
+    public void testRedirectionAprsCreationDeFormation() throws Exception {
+        final long count = formationService.findAllFormation().size();
+        Assert.assertTrue(count > 0);
+
+        mockMvc.perform(post("/api/v1/formations/valider"))
+                .andExpect(status().isFound())
+                .andExpect(redirectedUrl("/api/v1/formations"))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
 }
