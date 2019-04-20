@@ -1,8 +1,10 @@
 package fr.univtlse3.m2dl.studentscollab.studentscollab.service;
 
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Formation;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Matiere;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.EtudiantRepository;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.FormationRepository;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.MatiereRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,9 @@ public class InitialisationService {
     @Autowired
     private MatiereRepository matiereRepository;
 
+    @Autowired
+    FormationRepository formationRepository;
+
     private Matiere matiere1,matiere2,matiere3;
 
     private Etudiant abdourahamane;
@@ -23,11 +28,12 @@ public class InitialisationService {
     private Etudiant maxime;
     private Etudiant alexia;
 
-
+    private Formation dl, bio, ihm, economie;
 
     public  void init() {
         initEtudiants();
         initMatieres();
+        initFormations();
     }
 
     private void initMatieres() {
@@ -52,6 +58,18 @@ public class InitialisationService {
 
         alexia = new Etudiant("fernandes", "alexia", "alexia@gmail.com","123456");
         etudiantRepository.save(alexia);
+    }
+
+    private void initFormations() {
+        dl = new Formation("informatique", "M2DL");
+        bio = new Formation("Biologie", "Licence 2");
+        ihm = new Formation("Informatique", "M1IHM");
+        economie = new Formation("Economie", "Licence3");
+
+        formationRepository.save(dl);
+        formationRepository.save(bio);
+        formationRepository.save(ihm);
+        formationRepository.save(economie);
     }
 
     public EtudiantRepository getEtudiantRepository() {
@@ -92,6 +110,70 @@ public class InitialisationService {
 
     public void setMeriem(Etudiant meriem) {
         this.meriem = meriem;
+    }
+
+    public FormationRepository getFormationRepository() {
+        return formationRepository;
+    }
+
+    public void setFormationRepository(FormationRepository formationRepository) {
+        this.formationRepository = formationRepository;
+    }
+
+    public Matiere getMatiere1() {
+        return matiere1;
+    }
+
+    public void setMatiere1(Matiere matiere1) {
+        this.matiere1 = matiere1;
+    }
+
+    public Matiere getMatiere2() {
+        return matiere2;
+    }
+
+    public void setMatiere2(Matiere matiere2) {
+        this.matiere2 = matiere2;
+    }
+
+    public Matiere getMatiere3() {
+        return matiere3;
+    }
+
+    public void setMatiere3(Matiere matiere3) {
+        this.matiere3 = matiere3;
+    }
+
+    public Formation getDl() {
+        return dl;
+    }
+
+    public void setDl(Formation dl) {
+        this.dl = dl;
+    }
+
+    public Formation getBio() {
+        return bio;
+    }
+
+    public void setBio(Formation bio) {
+        this.bio = bio;
+    }
+
+    public Formation getIhm() {
+        return ihm;
+    }
+
+    public void setIhm(Formation ihm) {
+        this.ihm = ihm;
+    }
+
+    public Formation getEconomie() {
+        return economie;
+    }
+
+    public void setEconomie(Formation economie) {
+        this.economie = economie;
     }
 }
 
