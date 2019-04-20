@@ -1,5 +1,6 @@
 package fr.univtlse3.m2dl.studentscollab.studentscollab;
 
+import fr.univtlse3.m2dl.studentscollab.studentscollab.etudiant.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
