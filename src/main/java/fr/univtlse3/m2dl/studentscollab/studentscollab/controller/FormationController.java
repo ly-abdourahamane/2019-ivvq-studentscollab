@@ -19,14 +19,6 @@ public class FormationController {
     @Autowired
     private FormationService formationService;
 
-    public FormationService getFormationService() {
-        return formationService;
-    }
-
-    public void setFormationService(FormationService formationService) {
-        this.formationService = formationService;
-    }
-
     @GetMapping(value = "creer")
     public  String creerFormation(Model model) {
         model.addAttribute("formation", new Formation());
@@ -58,7 +50,4 @@ public class FormationController {
         model.addAttribute("formations", formationService.findAllFormation());
         return "formations";
     }
-
-
-
 }
