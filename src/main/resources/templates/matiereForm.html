@@ -1,0 +1,13 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Formulaire d'ajout d'une Matiere</title>
+</head>
+<body>
+<h1>Ajout d'une Matiere</h1>
+<form action="#" th:action="@{/matiere}" th:object="${matiereAj}" method="post">
+    <p>Nom: <input type="text" th:field="*{nom}" /></p>
+    <p><input type="submit" value="Enregistrer" /> <input type="reset" value="Effacer" /></p>
+</form>
+</body>
+</html>

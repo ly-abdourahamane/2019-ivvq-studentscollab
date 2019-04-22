@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Notes de cours</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1>Toutes les notes</h1>
+<table>
+    <tbody>
+    <tr th:each="matiere: ${matieres}">
+        <td th:text="${matiere.nom}"></td>
+        <td><a th:href="${ '/matiere/' + matiere.id}">Voir</a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
