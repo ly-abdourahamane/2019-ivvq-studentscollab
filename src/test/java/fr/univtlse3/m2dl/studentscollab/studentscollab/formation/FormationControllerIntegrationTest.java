@@ -117,20 +117,21 @@ public class FormationControllerIntegrationTest {
         // then: une redirection vers la requête GET vers "/api/v1/formations" a lieu
         // then: le nombre de formations en base a diminué de 1
 
-        long count = formationService.findAllFormation().size();
+        long count = formationService.findAllFormations().size();
+        Formation formation = initialisationService.getDl();
 
         Assert.assertTrue(count > 0);
 
-        mockMvc.perform(delete("/api/v1/formations/delete/8"))
+        mockMvc.perform(delete("/api/v1/formations/delete/"+formation.getId()))
                 .andExpect(status().isFound())
                 .andExpect(redirectedUrl("/api/v1/formations"))
                 .andDo(MockMvcResultHandlers.print());
-        Assert.assertEquals(count - 1, formationService.findAllFormation().size());
+        Assert.assertEquals(count - 1, formationService.findAllFormations().size());
     }
 
     @Test
     public void testRedirectionAprsCreationDeFormation() throws Exception {
-        final long count = formationService.findAllFormation().size();
+        final long count = formationService.findAllFormations().size();
         Assert.assertTrue(count > 0);
 
         mockMvc.perform(post("/api/v1/formations/valider"))

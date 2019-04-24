@@ -64,7 +64,7 @@ public class EtudiantControllerIntegrationTest {
         Etudiant etudiant = initialisationService.getAbdourahamane();
 
         //when: un admin émet une requête pour obtenir un étudiant
-        mockMvc.perform(get("/api/v1/etudiants/1"))
+        mockMvc.perform(get("/api/v1/etudiants/"+etudiant.getId()))
                 // then: la réponse a le status 200(OK)
                 .andExpect(status().isOk())
                 // then: la réponse est au format HTML et utf8

@@ -1,6 +1,7 @@
 package fr.univtlse3.m2dl.studentscollab.studentscollab.service;
 
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Formation;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Inscription;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.FormationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,20 +20,28 @@ public class FormationService {
     @Autowired
     private FormationRepository formationRepository;
 
+    @Autowired
+    private InscriptionService inscriptionService;
+
     public Formation saveFormation(Formation formation) {
 
         if (formation == null) {
             throw new IllegalArgumentException("argument non valide");
         }
 
-        return this.formationRepository.save(formation);
+       return this.formationRepository.save(formation);
     }
 
     public void deleteFormationById(Long id) {
+        findIscriptionByFormationId(id).forEach(inscription -> inscriptionService.deleteById(inscription.getId()));
         this.formationRepository.deleteById(id);
     }
 
-    public List<Formation> findAllFormation() {
+    List<Inscription> findIscriptionByFormationId(Long id) {
+        return inscriptionService.findIscriptionByFormationId(id);
+    }
+
+    public List<Formation> findAllFormations() {
         return this.formationRepository.findAll();
     }
 

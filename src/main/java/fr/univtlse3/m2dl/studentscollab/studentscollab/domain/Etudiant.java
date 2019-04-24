@@ -42,10 +42,6 @@ public class Etudiant {
         this.motDePasse = motDePasse;
     }
 
-    public void etudiantValide() {
-        estValide = true;
-    }
-
     @Override
     public boolean equals(Object o) {
         if(this == o) return true;
@@ -70,6 +66,22 @@ public class Etudiant {
         result = 31 * result + (prenom!=null? prenom.hashCode():0);
 
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Etudiant{" +
+                "id=" + id +
+                ", nom='" + nom + '\'' +
+                ", prenom='" + prenom + '\'' +
+                ", email='" + email + '\'' +
+                ", motDePasse='" + motDePasse + '\'' +
+                ", estValide=" + estValide +
+                '}';
+    }
+
+    public void etudiantValide() {
+        estValide = true;
     }
 
     public Long getId() {

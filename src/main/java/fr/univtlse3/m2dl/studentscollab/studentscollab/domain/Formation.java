@@ -56,4 +56,16 @@ public class Formation {
     public void setNiveau(String niveau) {
         this.niveau = niveau;
     }
+
+
+
+
+    @Override
+    public String toString() {
+        return "Formation{" +
+                "id=" + id +
+                ", nom='" + nom + '\'' +
+                ", niveau='" + niveau + '\'' +
+                '}';
+    }
 }

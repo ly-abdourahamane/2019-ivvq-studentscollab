@@ -27,7 +27,7 @@ public class EtudiantController  {
         this.etudiantService = etudiantService;
     }
 
-    @GetMapping(value = "/test")
+    @GetMapping(value = "test")
     public List<Etudiant> findAllForTests() {
 
         return etudiantService.findAll();

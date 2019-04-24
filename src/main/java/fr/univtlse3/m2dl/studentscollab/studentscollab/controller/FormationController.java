@@ -33,6 +33,7 @@ public class FormationController {
 
     @DeleteMapping("delete/{id}")
     public String deleteFormationById(@PathVariable Long id){
+
         formationService.deleteFormationById(id);
         return "redirect:/api/v1/formations";
     }
@@ -41,13 +42,14 @@ public class FormationController {
     public String findById(@PathVariable Long id, Model model){
         Formation formation = formationService.findFormationById(id).orElse(null);
         model.addAttribute("formation", formation);
+
         return "formation";
     }
 
     @GetMapping(value = "")
     public String findAll(Model model) {
 
-        model.addAttribute("formations", formationService.findAllFormation());
+        model.addAttribute("formations", formationService.findAllFormations());
         return "formations";
     }
 }
