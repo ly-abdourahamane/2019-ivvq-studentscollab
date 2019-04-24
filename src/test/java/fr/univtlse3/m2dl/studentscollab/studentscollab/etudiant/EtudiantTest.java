@@ -119,10 +119,4 @@ public class EtudiantTest {
         etudiant = null;
         Assert.assertFalse("Les deux etudiants sont differents", etudiant2.equals(etudiant));
     }
-
-    @Test
-    public void testEtudiantValide() {
-        Etudiant etudiant = new Etudiant("do", "john", "jdo@gmail.com", "root");
-        Assert.assertTrue("L'étudiant à validé son inscription", etudiant.isEstValide() == false);
-    }
 }

@@ -29,8 +29,6 @@ public class Etudiant {
     @NotNull
     private String motDePasse;
 
-    private boolean estValide = false;
-
     public Etudiant(){
 
     }
@@ -76,12 +74,7 @@ public class Etudiant {
                 ", prenom='" + prenom + '\'' +
                 ", email='" + email + '\'' +
                 ", motDePasse='" + motDePasse + '\'' +
-                ", estValide=" + estValide +
                 '}';
-    }
-
-    public void etudiantValide() {
-        estValide = true;
     }
 
     public Long getId() {
@@ -122,13 +115,5 @@ public class Etudiant {
 
     public void setMotDePasse(String motDePasse) {
         this.motDePasse = motDePasse;
-    }
-
-    public boolean isEstValide() {
-        return estValide;
-    }
-
-    public void setEstValide(boolean estValide) {
-        this.estValide = estValide;
     }
 }

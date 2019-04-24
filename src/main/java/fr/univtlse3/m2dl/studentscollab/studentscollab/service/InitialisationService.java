@@ -56,7 +56,6 @@ public class InitialisationService {
 
     private void initEtudiants() {
         abdourahamane = new Etudiant("ly", "abdou", "abdourahamane.ly1@gmail.com", "123456");
-        abdourahamane.setEstValide(true);
         meriem = new Etudiant("ferouj", "meriem", "meriem@gmail.com", "123456");
         maxime = new Etudiant("rouillon", "maxime", "maxime@gmail.com", "123456");
         alexia = new Etudiant("fernandes", "alexia", "alexia@gmail.com", "123456");

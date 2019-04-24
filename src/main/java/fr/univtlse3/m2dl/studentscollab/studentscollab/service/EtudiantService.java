@@ -33,8 +33,6 @@ public class EtudiantService {
             throw new IllegalArgumentException();
         }
 
-        etudiant.setEstValide(true);
-
         Etudiant etudiantResult = etudiantRepository.save(etudiant);
         return etudiantResult;
     }
