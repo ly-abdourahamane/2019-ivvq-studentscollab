@@ -14,6 +14,8 @@
 
     <a href="/api/v1/formations" class="w3-bar-item w3-button w3-hide-small">Liste formations</a>
     <a href="/api/v1/formations/creer" class="w3-bar-item w3-button w3-hide-small">Creer une formation</a>
+
+    <a href="/api/v1/inscriptions/creer" class="w3-bar-item w3-button w3-hide-small">S'inscrire à une formation</a>
 </div>
 
 <form class="w3-container w3-display-middle" th:method="post" th:object="${formation}" th:action="${'/api/v1/formations/valider'}">
