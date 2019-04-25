@@ -2,6 +2,7 @@ package fr.univtlse3.m2dl.studentscollab.studentscollab.controller;
 
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Formation;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Inscription;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.InscriptionForm;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.service.EtudiantService;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.service.FormationService;
@@ -51,9 +52,10 @@ public class InscriptionController {
 
         Etudiant etudiant = etudiantService.findEtudiantByEmail(email);
         Formation formation1 = formationService.findFormationById(formationId).get();
+        Inscription inscription = new Inscription(etudiant, formation1);
 
-        inscriptionService.saveInscription(etudiant, formation1);
+        inscriptionService.saveInscription(inscription);
 
-        return "redirect:/api/v1/etudiants";
+        return "redirect:/api/v1/formations";
     }
 }

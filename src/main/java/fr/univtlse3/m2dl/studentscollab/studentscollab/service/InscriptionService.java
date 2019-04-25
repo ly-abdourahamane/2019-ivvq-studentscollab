@@ -1,7 +1,5 @@
 package fr.univtlse3.m2dl.studentscollab.studentscollab.service;
 
-import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Formation;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Inscription;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.InscriptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,18 +26,16 @@ public class InscriptionService {
         return inscriptionRepository.save(inscription);
     }
 
-    public  Inscription saveInscription(Etudiant etudiant, Formation formation) {
-        if(etudiant == null || formation == null) {
-            throw new IllegalArgumentException("étudiant ou formation invalide");
-        }
-
-        Inscription inscription = new Inscription(etudiant, formation);
-
-        return inscriptionRepository.save(inscription);
-    }
-
     public List<Inscription> findIscriptionByFormationId(Long id) {
         return inscriptionRepository.findInscriptionByFormationId(id);
+    }
+
+    public InscriptionRepository getInscriptionRepository() {
+        return inscriptionRepository;
+    }
+
+    public void setInscriptionRepository(InscriptionRepository inscriptionRepository) {
+        this.inscriptionRepository = inscriptionRepository;
     }
 
     public void deleteById(Long id) {
@@ -52,13 +48,5 @@ public class InscriptionService {
 
     public Optional<Inscription> findById(Long id) {
         return inscriptionRepository.findById(id);
-    }
-
-    public InscriptionRepository getInscriptionRepository() {
-        return inscriptionRepository;
-    }
-
-    public void setInscriptionRepository(InscriptionRepository inscriptionRepository) {
-        this.inscriptionRepository = inscriptionRepository;
     }
 }

@@ -36,7 +36,7 @@ public class Inscription {
     @PrePersist
     public void updateInscriptionDate() {
         if (dateInscription == null)
-            setDateInscription(LocalDateTime.now());
+            dateInscription = LocalDateTime.now();
     }
 
     public Long getId() {
@@ -67,9 +67,6 @@ public class Inscription {
         return dateInscription;
     }
 
-    public void setDateInscription(LocalDateTime dateInscription) {
-        this.dateInscription = dateInscription;
-    }
 
     @Override
     public String toString() {
