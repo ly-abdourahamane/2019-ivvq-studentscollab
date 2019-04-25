@@ -18,29 +18,24 @@
     <a href="/api/v1/inscriptions/creer" class="w3-bar-item w3-button w3-hide-small">S'inscrire à une formation</a>
 </div>
 
-<form class="w3-container w3-display-middle" th:method="post" th:object="${etudiant}" th:action="${'/api/v1/etudiants/valider'}">
-    <h2 class="">Créer un compte</h2>
-
-    <p>
-        <label class="">Nom</label>
-        <input class="w3-input w3-border" type="texte" name="nom" th:field="*{nom}"></p>
-    <p>
-
-    <p>
-        <label class="">Prénom</label>
-        <input class="w3-input w3-border" type="texte" name="prenom" th:field="*{prenom}"></p>
-    <p>
+<form class="w3-container w3-display-middle" th:method="post" th:object="${inscriptionForm}" th:action="${'/api/v1/inscriptions/valider'}">
+    <h2 class="">S'inscrire à une formation</h2>
 
     <p>
         <label class="">Email</label>
-        <input class="w3-input w3-border" type="email" name="email" th:field="*{email}"></p>
-    <p>
+        <input class="w3-input w3-border" type="texte" name="email" th:field="*{email}">
+    </p>
 
     <p>
-        <label class="">Mot de passe</label>
-        <input class="w3-input w3-border" type="password" name="motDePasse" th:field="*{motDePasse}"></p>
-    <p>
+        <label class="">Formation</label>
+        <select class="form-control" id="formation" name="formationId">
+            <option value="0">selectionnez votre formation</option>
+            <option th:each="formation : ${formations}" th:value="${formation.id}"
+                    th:text="${formation.niveau}"></option>
+        </select>
+    </p>
 
+    <p>
         <button class="w3-btn" type="submit">S'inscrire</button>
     </p>
 </form>
