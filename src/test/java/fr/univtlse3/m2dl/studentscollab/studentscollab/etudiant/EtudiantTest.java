@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.validation.Validation;
@@ -118,5 +119,10 @@ public class EtudiantTest {
 
         etudiant = null;
         Assert.assertFalse("Les deux etudiants sont differents", etudiant2.equals(etudiant));
+
+        SecurityProperties.User user = new SecurityProperties.User();
+
+        Assert.assertFalse("On a pas le même type d'objet", etudiant2.equals(user));
+        Assert.assertTrue("Les deux etudiants sont les mêmes", etudiant2.equals(etudiant2));
     }
 }
