@@ -80,6 +80,22 @@ public class EtudiantControllerIntegrationTest {
     }
 
     @Test
+    public void testAfficherProfileEtudiantNonExistant() throws Exception {
+        //when: récuperation d'un étudiant inexistant
+        mockMvc.perform(get("/api/v1/etudiants/654965"))
+                // then: la réponse a le status 200(OK)
+                .andExpect(status().isOk())
+                // then: la réponse est au format HTML et utf8
+                .andExpect(content().contentType(contentType))
+                .andDo(mvcResult -> {
+                    htmlResult = mvcResult.getResponse().getContentAsString();
+                });
+
+        // then: l'utilisateur est redirigé vers la page d'erreur
+        assertThat(htmlResult, containsString("Error"));
+    }
+
+    @Test
     public void testCreationCompteEtudiant() throws Exception {
         //when: un admin émet une requête pour obtenir un étudiant
         mockMvc.perform(get("/api/v1/etudiants/creer-compte"))
@@ -98,6 +114,41 @@ public class EtudiantControllerIntegrationTest {
         // then: le résultat obtenu contient le label Email de  l'étudiant
         assertThat(htmlResult, containsString("Email"));
         // then: le résultat obtenu contient le label Mot de passe de  l'étudiant
+        assertThat(htmlResult, containsString("Mot de passe"));
+    }
+
+    @Test
+    public void testAfficherPageAccueil() throws Exception {
+        Etudiant etudiant = initialisationService.getAbdourahamane();
+
+        //when: je lance l'application
+        mockMvc.perform(get("/api/v1/etudiants/accueil"))
+                // then: la réponse a le status 200(OK)
+                .andExpect(status().isOk())
+                // then: la réponse est au format HTML et utf8
+                .andExpect(content().contentType(contentType))
+                .andDo(mvcResult -> {
+                    htmlResult = mvcResult.getResponse().getContentAsString();
+                });
+
+        //then: la page d'acceuil m'affiche 'Bienvenue sur studensCollab'
+        assertThat(htmlResult, containsString("Bienvenue sur studensCollab"));
+    }
+
+    @Test
+    public void testAfficherPageConnexion() throws Exception {
+        //when: j'affiche la page de connexion
+        mockMvc.perform(get("/api/v1/etudiants/connexion"))
+                // then: la réponse a le status 200(OK)
+                .andExpect(status().isOk())
+                // then: la réponse est au format HTML et utf8
+                .andExpect(content().contentType(contentType))
+                .andDo(mvcResult -> {
+                    htmlResult = mvcResult.getResponse().getContentAsString();
+                });
+
+        //then: la page contient un champ email et un champ mdp
+        assertThat(htmlResult, containsString("Email"));
         assertThat(htmlResult, containsString("Mot de passe"));
     }
 }
