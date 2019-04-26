@@ -2,15 +2,20 @@ package fr.univtlse3.m2dl.studentscollab.studentscollab.controller;
 
 
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Formation;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Login;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.service.EtudiantService;
 
+import fr.univtlse3.m2dl.studentscollab.studentscollab.service.FormationService;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.service.InscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("api/v1/etudiants")
@@ -18,6 +23,12 @@ public class EtudiantController  {
 
     @Autowired
     private EtudiantService etudiantService;
+
+    @Autowired
+    private InscriptionService inscriptionService;
+
+    @Autowired
+    FormationService formationService;
 
     public EtudiantService getEtudiantService() {
         return etudiantService;
@@ -54,12 +65,18 @@ public class EtudiantController  {
     @GetMapping(value = "/{id}")
     public String getById(@PathVariable Long id, Model model) {
         Etudiant etudiant = etudiantService.findById(id).orElse(null);
+        Set<Formation> formations = new HashSet<>();
+        List<Long> formationIds = inscriptionService.findListFormationIdByEtudiantId(id);
+
+        formationIds.forEach(idFormation -> formations.add(formationService.findFormationById(idFormation).orElse(null)));
 
         if(etudiant == null) {
             model.addAttribute("customMessage", "Impossible. Id non valide");
             return "error";
         }
+
         model.addAttribute("etudiant", etudiant);
+        model.addAttribute("formations", formations);
 
         return "profileEtudiant";
     }

@@ -12,9 +12,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 /**
  * @author abdou on 24/04/19.
@@ -82,7 +82,6 @@ public class InscriptionServiceIntegrationTest {
     }
 
     @Test
-    @Transactional
     public void testUpdatedInscription() {
         // given: une inscription persistée
         inscriptionService.saveInscription(inscription);
@@ -97,5 +96,15 @@ public class InscriptionServiceIntegrationTest {
         Inscription fetchedUpdated = inscriptionService.findById(inscription.getId()).get();
         // then: l'inscription a bien été mis à jour
         assertEquals(fetched.getEtudiant(), fetchedUpdated.getEtudiant());
+    }
+
+    @Test
+    public void testFindListFormationIdByEtudiantId() {
+        //given: un étudiant s'inscrit à une formation
+        inscriptionService.saveInscription(inscription);
+
+        List<Long> list = inscriptionService.findListFormationIdByEtudiantId(etudiant.getId());
+        //then: la formation se trouve dans la liste des formations de l'étudiant
+        assertTrue("L'etudiant est inscrit à cette formation", list.contains(formation.getId()));
     }
 }
