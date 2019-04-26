@@ -15,7 +15,7 @@ public class Bootstrap {
     @PostConstruct
     public void init() {
         try {
-            initialisationService.init();
+            initialisationService.run();
         } catch (Exception e) {
             e.printStackTrace();
         }

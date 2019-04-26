@@ -11,6 +11,11 @@
     <a href="/api/v1/etudiants" class="w3-bar-item w3-button w3-hide-small">Liste étudiants</a>
     <a href="/api/v1/etudiants/creer-compte" class="w3-bar-item w3-button w3-hide-small">Créer compte</a>
     <a href="/api/v1/etudiants/connexion" class="w3-bar-item w3-button w3-hide-small">Connexion</a>
+
+    <a href="/api/v1/formations" class="w3-bar-item w3-button w3-hide-small">Liste formations</a>
+    <a href="/api/v1/formations/creer" class="w3-bar-item w3-button w3-hide-small">Creer une formation</a>
+
+    <a href="/api/v1/inscriptions/creer" class="w3-bar-item w3-button w3-hide-small">S'inscrire à une formation</a>
 </div>
 
 <h2>Liste des etudiants</h2>
@@ -20,14 +25,12 @@
         <th>Prénom</th>
         <th>Email</th>
         <th>Mot de passe</th>
-        <th>Inscription validée</th>
     </tr>
     <tr th:each="etudiant : ${etudiants}">
         <td th:text="${etudiant.nom}"></td>
         <td th:text="${etudiant.prenom}"></td>
         <td th:text="${etudiant.email}"></td>
         <td th:text="${etudiant.motDePasse}"></td>
-        <td th:text="${etudiant.estValide}"></td>
         <td><form th:method="get" th:action="${ '/api/v1/etudiants/' + etudiant.id}">
             <button class="w3-button w3-black" type="submit">Consulter</button>
         </form></td>

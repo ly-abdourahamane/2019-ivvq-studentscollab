@@ -29,8 +29,6 @@ public class Etudiant {
     @NotNull
     private String motDePasse;
 
-    private boolean estValide = false;
-
     public Etudiant(){
 
     }
@@ -40,10 +38,6 @@ public class Etudiant {
         this.prenom = prenom;
         this.email = email;
         this.motDePasse = motDePasse;
-    }
-
-    public void etudiantValide() {
-        estValide = true;
     }
 
     @Override
@@ -70,6 +64,17 @@ public class Etudiant {
         result = 31 * result + (prenom!=null? prenom.hashCode():0);
 
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Etudiant{" +
+                "id=" + id +
+                ", nom='" + nom + '\'' +
+                ", prenom='" + prenom + '\'' +
+                ", email='" + email + '\'' +
+                ", motDePasse='" + motDePasse + '\'' +
+                '}';
     }
 
     public Long getId() {
@@ -110,13 +115,5 @@ public class Etudiant {
 
     public void setMotDePasse(String motDePasse) {
         this.motDePasse = motDePasse;
-    }
-
-    public boolean isEstValide() {
-        return estValide;
-    }
-
-    public void setEstValide(boolean estValide) {
-        this.estValide = estValide;
     }
 }

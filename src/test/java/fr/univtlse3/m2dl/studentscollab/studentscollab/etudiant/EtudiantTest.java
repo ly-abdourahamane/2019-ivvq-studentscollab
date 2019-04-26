@@ -1,10 +1,11 @@
-package fr.univtlse3.m2dl.studentscollab.studentscollab;
+package fr.univtlse3.m2dl.studentscollab.studentscollab.etudiant;
 
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.validation.Validation;
@@ -118,11 +119,10 @@ public class EtudiantTest {
 
         etudiant = null;
         Assert.assertFalse("Les deux etudiants sont differents", etudiant2.equals(etudiant));
-    }
 
-    @Test
-    public void testEtudiantValide() {
-        Etudiant etudiant = new Etudiant("do", "john", "jdo@gmail.com", "root");
-        Assert.assertTrue("L'étudiant à validé son inscription", etudiant.isEstValide() == false);
+        SecurityProperties.User user = new SecurityProperties.User();
+
+        Assert.assertFalse("On a pas le même type d'objet", etudiant2.equals(user));
+        Assert.assertTrue("Les deux etudiants sont les mêmes", etudiant2.equals(etudiant2));
     }
 }

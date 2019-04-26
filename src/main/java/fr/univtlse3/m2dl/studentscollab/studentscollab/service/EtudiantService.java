@@ -23,13 +23,15 @@ public class EtudiantService {
         return etudiantRepository.findAll();
     }
 
+    public Etudiant findEtudiantByEmail(String email) {
+        return etudiantRepository.findEtudiantByEmail(email);
+    }
+
     public Etudiant save(Etudiant etudiant) {
 
         if (etudiant == null) {
             throw new IllegalArgumentException();
         }
-
-        etudiant.setEstValide(true);
 
         Etudiant etudiantResult = etudiantRepository.save(etudiant);
         return etudiantResult;
