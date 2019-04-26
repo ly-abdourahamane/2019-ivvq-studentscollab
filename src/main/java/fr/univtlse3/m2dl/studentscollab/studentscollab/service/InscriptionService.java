@@ -38,6 +38,10 @@ public class InscriptionService {
         this.inscriptionRepository = inscriptionRepository;
     }
 
+    public List<Long> findListFormationIdByEtudiantId(Long id) {
+        return inscriptionRepository.findListFormationIdByEtudiantId(id);
+    }
+
     public void deleteById(Long id) {
         inscriptionRepository.deleteById(id);
     }

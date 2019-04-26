@@ -21,4 +21,7 @@ public interface InscriptionRepository extends PagingAndSortingRepository<Inscri
 
     @Query("select i from Inscription i where i.formation.id = :idFormation")
     public List<Inscription> findInscriptionByFormationId(@Param("idFormation") Long idFormation);
+
+    @Query("select i.formation.id from Inscription i where i.etudiant.id = :idEtudiant")
+    public List<Long> findListFormationIdByEtudiantId(@Param("idEtudiant") Long idEtudiant);
 }
