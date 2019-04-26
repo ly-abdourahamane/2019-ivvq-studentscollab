@@ -19,7 +19,7 @@ import javax.validation.ValidatorFactory;
  * @project studentscollab
  */
 @RunWith(SpringRunner.class)
-public class inscriptionTest {
+public class InscriptionTest {
 
     private static Validator validator;
     private Inscription inscription;
