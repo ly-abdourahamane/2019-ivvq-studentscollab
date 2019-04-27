@@ -42,6 +42,10 @@ public class EtudiantService {
        return (etudiant==null ? "connexion": "");
     }
 
+    public void deleteEtudiant(Etudiant etudiant) {
+        etudiantRepository.delete(etudiant);
+    }
+
     public EtudiantRepository getEtudiantRepository() {
         return etudiantRepository;
     }

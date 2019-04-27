@@ -84,4 +84,20 @@ public class EtudiantController  {
 
         return "redirect:/api/v1/etudiants/" + page;
     }
+
+    @PostMapping(value = "/delete")
+    public String deleteEtudiant(@ModelAttribute("etudiant") Etudiant etudiant) {
+        etudiantService.deleteEtudiant(etudiant);
+
+        return "index";
+    }
+
+    @PostMapping(value = "/update")
+    public String updateEtudiant(@ModelAttribute("id") Long id, @ModelAttribute("nom") String nom, @ModelAttribute("prenom") String prenom, @ModelAttribute("email") String email) {
+        Etudiant etudiant = etudiantService.findById(id).get();
+        etudiant.setNom(nom);
+        etudiant.setPrenom(prenom);
+        etudiant.setEmail(email);
+        return "profileEtudiant";
+    }
 }

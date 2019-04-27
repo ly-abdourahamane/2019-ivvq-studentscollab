@@ -1,8 +1,11 @@
 package fr.univtlse3.m2dl.studentscollab.studentscollab;
 
 import fr.univtlse3.m2dl.studentscollab.studentscollab.controller.NoteCoursController;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.NoteCours;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.NoteCoursRepository;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.service.EtudiantService;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.service.EvaluationService;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.service.NoteCoursService;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,6 +26,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -35,6 +39,12 @@ public class NoteCoursControllerTest {
 
     @MockBean
     private NoteCoursService ncService;
+
+    @MockBean
+    private EtudiantService etudiantService;
+
+    @MockBean
+    private EvaluationService evaluationService;
 
     private MockMvc mockMvc;
 
@@ -61,5 +71,14 @@ public class NoteCoursControllerTest {
                 .andExpect(content().string(containsString("contenuNote")));
     }
 
+    @Test
+    public void testPageNoteLike() throws Exception {
+        Etudiant etu = new Etudiant("Truc","Bidule","tb@gmail.com","trucbidule");
+        etudiantService.save(etu);
+        NoteCours nc = new NoteCours("t1", "contenu 1", etu);
+        ncService.saveNoteCours(nc);
+        this.mockMvc.perform(post("/cours/"+nc.getId()+"/like", nc, etu)).andExpect(status().isOk())
+                .andExpect(content().string(containsString("1")));
+    }
 
 }

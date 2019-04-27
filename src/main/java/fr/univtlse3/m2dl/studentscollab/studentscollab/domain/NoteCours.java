@@ -3,6 +3,8 @@ package fr.univtlse3.m2dl.studentscollab.studentscollab.domain;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class NoteCours {
@@ -12,19 +14,22 @@ public class NoteCours {
     private Long id;
 
     @NotNull
+    @ManyToOne
+    private Etudiant redacteur;
+
+    @NotNull
     private String titre;
 
     @NotNull
     private String contenu;
+
+    private boolean hasCurrentUserEvaluated = false;
 
     @PositiveOrZero
     private int nbLike;
 
     @PositiveOrZero
     private int nbDislike;
-
-//    @OneToMany
-//    private Collection<Commentaire> commentaires = new ArrayList<>();
 
     public NoteCours() {
     }
@@ -50,6 +55,22 @@ public class NoteCours {
         this.nbLike = nbLike;
         this.nbDislike = nbDislike;
 //        this.commentaires = commentaires;
+    }
+
+    public NoteCours(@NotNull String titre, @NotNull String contenu, @NotNull Etudiant redacteur) {
+        this.titre = titre;
+        this.contenu = contenu;
+        this.nbLike = 0;
+        this.nbDislike = 0;
+        this.redacteur = redacteur;
+    }
+
+    public NoteCours(@NotNull String titre, @NotNull String contenu, @PositiveOrZero int nbLike, @PositiveOrZero int nbDislike, @NotNull Etudiant redacteur) {
+        this.titre = titre;
+        this.contenu = contenu;
+        this.nbLike = nbLike;
+        this.nbDislike = nbDislike;
+        this.redacteur = redacteur;
     }
 
     public Long getId() {
@@ -91,6 +112,10 @@ public class NoteCours {
     public void setNbDislike(int nbDislike) {
         this.nbDislike = nbDislike;
     }
+
+    public Etudiant getRedacteur() {return redacteur;}
+
+    public void setRedacteur(Etudiant redacteur) {this.redacteur = redacteur;}
 /*
     public Collection<Commentaire> getCommentaires() {
         return commentaires;
