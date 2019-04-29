@@ -45,13 +45,10 @@ public class NoteCoursController {
         return "note";
     }
 
-    @PostMapping("/cours/{id}/like")
-    public String coursEvaluerLike(@PathVariable Long id, @ModelAttribute("etudiant") Etudiant etudiant, Model model) {
-        NoteCours nc = null;
+    @GetMapping("/cours/like")
+    public String coursEvaluerLike(@ModelAttribute("noteCours") NoteCours nc, @ModelAttribute("etudiant") Etudiant etudiant, Model model) {
         try {
-            nc = ncs.findNoteCoursById(id);
-
-            Evaluation savedEval = evaluationService.findEvaluationByEtudiantAndNoteCours(etudiant.getId(), id);
+            Evaluation savedEval = evaluationService.findEvaluationByEtudiantAndNoteCours(etudiant.getId(), nc.getId());
             if (savedEval == null) {
                 // crée le LIKE
                 savedEval = new Evaluation(etudiant, nc, EvalType.LIKE);
@@ -76,19 +73,16 @@ public class NoteCoursController {
                     ncs.saveNoteCours(nc);
                 }
             }
-        } catch (NoteCoursNotFoundException | EvalNotFoundException e) {
+        } catch (EvalNotFoundException e) {
             e.printStackTrace();
         }
         return "note";
     }
 
-    @PostMapping("/cours/{id}/dislike")
-    public String coursEvaluerDislike(@PathVariable Long id, @ModelAttribute("etudiant") Etudiant etudiant, Model model) {
-        NoteCours nc = null;
+    @GetMapping("/cours/dislike")
+    public String coursEvaluerDislike(@ModelAttribute("noteCours") NoteCours nc, @ModelAttribute("etudiant") Etudiant etudiant, Model model) {
         try {
-            nc = ncs.findNoteCoursById(id);
-
-            Evaluation savedEval = evaluationService.findEvaluationByEtudiantAndNoteCours(etudiant.getId(), id);
+            Evaluation savedEval = evaluationService.findEvaluationByEtudiantAndNoteCours(etudiant.getId(), nc.getId());
             if (savedEval == null) {
                 // crée le DISLIKE
                 savedEval = new Evaluation(etudiant, nc, EvalType.DISLIKE);
@@ -113,7 +107,7 @@ public class NoteCoursController {
                     ncs.saveNoteCours(nc);
                 }
             }
-        } catch (NoteCoursNotFoundException | EvalNotFoundException e) {
+        } catch (EvalNotFoundException e) {
             e.printStackTrace();
         }
         return "note";

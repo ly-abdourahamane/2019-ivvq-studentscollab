@@ -7,6 +7,7 @@ import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.NoteCoursRepos
 import fr.univtlse3.m2dl.studentscollab.studentscollab.service.EtudiantService;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.service.EvaluationService;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.service.NoteCoursService;
+import org.aspectj.weaver.ast.Not;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +17,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayDeque;
@@ -31,6 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
+@Transactional
 @SpringBootTest
 public class NoteCoursControllerTest {
 
@@ -42,9 +45,6 @@ public class NoteCoursControllerTest {
 
     @MockBean
     private EtudiantService etudiantService;
-
-    @MockBean
-    private EvaluationService evaluationService;
 
     private MockMvc mockMvc;
 
@@ -74,11 +74,14 @@ public class NoteCoursControllerTest {
     @Test
     public void testPageNoteLike() throws Exception {
         Etudiant etu = new Etudiant("Truc","Bidule","tb@gmail.com","trucbidule");
-        etudiantService.save(etu);
         NoteCours nc = new NoteCours("t1", "contenu 1", etu);
-        ncService.saveNoteCours(nc);
-        this.mockMvc.perform(post("/cours/"+nc.getId()+"/like", nc, etu)).andExpect(status().isOk())
-                .andExpect(content().string(containsString("1")));
+        this.mockMvc.perform(get("/cours/like", nc, etu)).andExpect(status().isOk()).andExpect(content().string(containsString("nbLike: 1")));
     }
 
+    @Test
+    public void testPageNoteDislike() throws Exception {
+        Etudiant etu = new Etudiant("Truc2","Bidule2","tb2@gmail.com","trucbidule2");
+        NoteCours nc = new NoteCours("t2", "contenu 2", etu);
+        this.mockMvc.perform(get("/cours/dislike", nc, etu)).andExpect(status().isOk()).andExpect(content().string(containsString("nbDislike: 1")));
+    }
 }

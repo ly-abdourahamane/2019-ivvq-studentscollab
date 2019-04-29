@@ -7,13 +7,14 @@
     <body>
         <h1>Note ajoutée</h1>
         <p th:text="'id: ' + ${noteCours.id}" />
-        <p th:text="'titre: ' + ${noteCours.titre} +'redacteur: ' + ${noteCours.redacteur.nom} + ' ' + ${noteCours.redacteur.prenom}" />
+        <p th:text="'titre: ' + ${noteCours.titre}" />
         <p th:text="'contenu: ' + ${noteCours.contenu}" />
         <p th:text="'nbLike: ' + ${noteCours.nbLike} + 'nbDislike: ' + ${noteCours.nbDislike}" />
-        <form action="#" th:action="@{/cours/${noteCours.id}/like}" th:object="${etudiant}" method="post">
+        <!--+' redacteur: ' + ${noteCours.redacteur.nom} + ' ' + ${noteCours.redacteur.prenom}"-->
+        <form action="#" th:action="@{/cours/like}" th:with="nc=${noteCours}, etu=${noteCours.redacteur}" method="get"><!--remplacer par l'etudiant connecté-->
             <p><input type="submit" value="Like" /></p>
         </form>
-        <form action="#" th:action="@{/cours/${noteCours.id}/dislike}" th:object="${etudiant}" method="post">
+        <form action="#" th:action="@{/cours/dislike}" th:with="nc=${noteCours}, etu=${noteCours.redacteur}" method="get">
             <p><input type="submit" value="Dislike" /></p>
         </form>
         <form action="#" th:action="@{/cours/all}">

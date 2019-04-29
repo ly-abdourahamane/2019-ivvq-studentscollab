@@ -3,7 +3,9 @@ package fr.univtlse3.m2dl.studentscollab.studentscollab.service;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.EvalType;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Evaluation;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.exception.EvalNotFoundException;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.EtudiantRepository;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.EvaluationRepository;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.NoteCoursRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +17,34 @@ public class EvaluationService {
     @Autowired
     private EvaluationRepository evaluationRepository;
 
+    @Autowired
+    private NoteCoursRepository noteCoursRepository;
+
+    @Autowired
+    private EtudiantRepository etudiantRepository;
+
     public EvaluationRepository getEvaluationRepository() {return evaluationRepository;}
     public void setEvaluationRepository(EvaluationRepository evaluationRepository) {this.evaluationRepository = evaluationRepository;}
 
-    public Evaluation saveEvaluation(Evaluation n) {
-        return this.evaluationRepository.save(n);
+    public NoteCoursRepository getNoteCoursRepository() {
+        return this.noteCoursRepository;
+    }
+    public void setNoteCoursRepository(NoteCoursRepository noteCoursRepository) { this.noteCoursRepository = noteCoursRepository; }
+
+    public EtudiantRepository getEtudiantRepository() {
+        return etudiantRepository;
+    }
+    public void setEtudiantRepository(EtudiantRepository etudiantRepository) { this.etudiantRepository = etudiantRepository; }
+
+    public Evaluation saveEvaluation(Evaluation eval) {
+        if (eval.getEvaluateur().getId() == null) {
+            etudiantRepository.save(eval.getEvaluateur());
+        }
+
+        if (eval.getNoteCours().getId() == null) {
+            noteCoursRepository.save(eval.getNoteCours());
+        }
+        return this.evaluationRepository.save(eval);
     }
 
     public Evaluation findEvaluationById(Long id) throws EvalNotFoundException {

@@ -23,8 +23,6 @@ public class NoteCours {
     @NotNull
     private String contenu;
 
-    private boolean hasCurrentUserEvaluated = false;
-
     @PositiveOrZero
     private int nbLike;
 
