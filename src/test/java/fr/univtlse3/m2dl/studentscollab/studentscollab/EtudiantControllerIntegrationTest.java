@@ -17,6 +17,7 @@ import java.nio.charset.Charset;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -100,4 +101,15 @@ public class EtudiantControllerIntegrationTest {
         // then: le résultat obtenu contient le label Mot de passe de  l'étudiant
         assertThat(htmlResult, containsString("Mot de passe"));
     }
+
+    /*@Test
+    public void testUpdateEtudiant() throws Exception {
+        Etudiant test = initialisationService.getMaxime();
+        Etudiant modified = new Etudiant("pasmax", "pasr", "truc@gmail.com", "123456");
+        mockMvc.perform(get("/api/v1/etudiants/update", test.getId(), modified))
+                .andExpect(status().isFound())
+                .andExpect(content().string(containsString("pasmax")))
+                .andExpect(content().string(containsString("pasr")))
+                .andExpect(content().string(containsString("truc@gmail.com")));
+    }*/
 }

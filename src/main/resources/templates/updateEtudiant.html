@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Students collab</title>
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+
+<body>
+<div class="w3-bar w3-dark-gray">
+    <a href="/api/v1/etudiants/accueil" class="w3-bar-item w3-button">Accueil</a>
+    <a href="/api/v1/etudiants" class="w3-bar-item w3-button w3-hide-small">Liste étudiants</a>
+    <a href="/api/v1/etudiants/creer-compte" class="w3-bar-item w3-button w3-hide-small">Créer compte</a>
+    <a href="/api/v1/etudiants/connexion" class="w3-bar-item w3-button w3-hide-small">Connexion</a>
+</div>
+
+<h2>Détails de l'étudiant</h2>
+
+<form action="#" th:action="@{/api/v1/etudiants/update}" th:with="id=${etudiant.id}, etu=${etudiant}" method="get">
+    <div class="w3-cell-row">
+        <div class="w3-container w3-cell" style="width:20%">
+            <p>Nom :</p>
+        </div>
+        <div class="w3-container w3-cell">
+            <p th:text="${etudiant.nom}"></p>
+            <input class="w3-input w3-border" th:value="${etudiant.nom}" th:field="${etudiant.nom}" type="texte" name="nom"></p>
+        </div>
+    </div>
+
+    <div class="w3-cell-row">
+        <div class="w3-container w3-cell" style="width:20%">
+            <p>Prénom :</p>
+        </div>
+        <div class="w3-container w3-cell">
+            <p th:text="${etudiant.prenom}"></p>
+            <input class="w3-input w3-border" th:value="${etudiant.prenom}" th:field="${etudiant.prenom}" type="texte" name="prenom"></p>
+        </div>
+    </div>
+
+    <div class="w3-cell-row">
+        <div class="w3-container w3-cell" style="width:20%">
+            <p>Email :</p>
+        </div>
+        <div class="w3-container w3-cell">
+            <p th:text="${etudiant.email}"></p>
+            <input class="w3-input w3-border" th:value="${etudiant.email}" th:field="${etudiant.email}" type="texte" name="email"></p>
+        </div>
+    </div>
+    <p><input type="submit" value="Update profile" /></p>
+</form>
+</body>
+</html>

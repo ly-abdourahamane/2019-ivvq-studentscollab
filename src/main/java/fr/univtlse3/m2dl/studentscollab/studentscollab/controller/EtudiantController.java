@@ -92,12 +92,28 @@ public class EtudiantController  {
         return "index";
     }
 
-    @PostMapping(value = "/update")
-    public String updateEtudiant(@ModelAttribute("id") Long id, @ModelAttribute("nom") String nom, @ModelAttribute("prenom") String prenom, @ModelAttribute("email") String email) {
+    @GetMapping(value = "/update/{id}")
+    public String updatePage(@PathVariable Long id, Model model) {
+        Etudiant etudiant = etudiantService.findById(id).orElse(null);
+
+        if(etudiant == null) {
+            model.addAttribute("customMessage", "Impossible. Id non valide");
+            return "error";
+        }
+        model.addAttribute("etudiant", etudiant);
+
+        return "updateEtudiant";
+    }
+
+    @GetMapping(value = "/update")
+    public String updateEtudiant(@ModelAttribute("id") Long id, @ModelAttribute("etu") Etudiant etu, Model model) {
         Etudiant etudiant = etudiantService.findById(id).get();
-        etudiant.setNom(nom);
-        etudiant.setPrenom(prenom);
-        etudiant.setEmail(email);
-        return "profileEtudiant";
+
+        etudiant.setNom(etu.getNom());
+        etudiant.setPrenom(etu.getPrenom());
+        etudiant.setEmail(etu.getEmail());
+
+        etudiantService.save(etudiant);
+        return "redirect:/api/v1/etudiants/" + etudiant.getId();
     }
 }
