@@ -85,8 +85,9 @@ public class EtudiantController  {
         return "redirect:/api/v1/etudiants/" + page;
     }
 
-    @PostMapping(value = "/delete")
-    public String deleteEtudiant(@ModelAttribute("etudiant") Etudiant etudiant) {
+    @GetMapping(value = "/delete/{id}")
+    public String deleteEtudiant(@PathVariable("id") Long id) {
+        Etudiant etudiant = etudiantService.findById(id).get();
         etudiantService.deleteEtudiant(etudiant);
 
         return "index";

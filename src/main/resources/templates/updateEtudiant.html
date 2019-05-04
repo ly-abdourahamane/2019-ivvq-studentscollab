@@ -47,5 +47,8 @@
     </div>
     <p><input type="submit" value="Update profile" /></p>
 </form>
+<form th:method="get" th:action="${ '/api/v1/etudiants/delete/' + etudiant.id}">
+    <button class="w3-button w3-black" type="submit">Supprimer compte</button>
+</form>
 </body>
 </html>

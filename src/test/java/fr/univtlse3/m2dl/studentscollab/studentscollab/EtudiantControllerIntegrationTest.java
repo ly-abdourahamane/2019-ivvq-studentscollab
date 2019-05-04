@@ -112,4 +112,12 @@ public class EtudiantControllerIntegrationTest {
                 .andExpect(content().string(containsString("pasr")))
                 .andExpect(content().string(containsString("truc@gmail.com")));
     }*/
+
+    @Test
+    public void testDeleteEtudiant() throws Exception {
+        Etudiant test = initialisationService.getMaxime();
+        mockMvc.perform(get("/api/v1/etudiants/delete/" + test.getId(), test.getId()))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("Bienvenue")));
+    }
 }
