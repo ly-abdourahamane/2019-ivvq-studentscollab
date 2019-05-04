@@ -40,6 +40,15 @@ public class NoteCours {
         this.nbDislike = 0;
     }
 
+    public NoteCours(Long id, @NotNull String titre, @NotNull String contenu, Etudiant redacteur) {
+        this.id = id;
+        this.titre = titre;
+        this.contenu = contenu;
+        this.nbLike = 0;
+        this.nbDislike = 0;
+        this.redacteur = redacteur;
+    }
+
     public NoteCours(@NotNull String titre, @NotNull String contenu) {
         this.titre = titre;
         this.contenu = contenu;
