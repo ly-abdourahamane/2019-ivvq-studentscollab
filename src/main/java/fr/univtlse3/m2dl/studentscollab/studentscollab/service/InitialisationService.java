@@ -1,18 +1,16 @@
 package fr.univtlse3.m2dl.studentscollab.studentscollab.service;
 
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.*;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.EtudiantRepository;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.EvaluationRepository;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.MatiereRepository;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.NoteCoursRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
-@Service
+@Component
+@Transactional
 public class InitialisationService {
-
-    @Autowired
-    private EtudiantRepository etudiantRepository;
 
     @Autowired
     private MatiereRepository matiereRepository;
@@ -28,9 +26,27 @@ public class InitialisationService {
     private NoteCours noteMeriem, noteMaxime;
     private Evaluation evalMaxime;
 
-    public  void init() {
+    private FormationService formationService;
+    private InscriptionService inscriptionService;
+    private EtudiantService etudiantService;
+
+    private Formation dl, bio, ihm, economie;
+    private Inscription abdouEnDL, meriemEnDL, maximeEnDL, alexiaEnDL;
+
+    @Autowired
+    public InitialisationService(InscriptionService inscriptionService, FormationService formationService, EtudiantService etudiantService) {
+        this.inscriptionService = inscriptionService;
+        this.formationService = formationService;
+        this.etudiantService = etudiantService;
+    }
+
+    public void run() {
+
         initEtudiants();
         initMatieres();
+
+        initFormations();
+        initInscriptions();
     }
 
     private void initEvals() {
@@ -57,70 +73,55 @@ public class InitialisationService {
         noteCoursRepository.save(noteMaxime);
     }
 
+
     private void initEtudiants() {
-        abdourahamane = new Etudiant("ly", "abdou", "abdourahamane.ly1@gmail.com","123456");
-        abdourahamane.setEstValide(true);
-        etudiantRepository.save(abdourahamane);
+        abdourahamane = new Etudiant("ly", "abdou", "abdourahamane.ly1@gmail.com", "123456");
+        meriem = new Etudiant("ferouj", "meriem", "meriem@gmail.com", "123456");
+        maxime = new Etudiant("rouillon", "maxime", "maxime@gmail.com", "123456");
+        alexia = new Etudiant("fernandes", "alexia", "alexia@gmail.com", "123456");
 
-        meriem = new Etudiant("ferouj", "meriem", "meriem@gmail.com","123456");
-        etudiantRepository.save(meriem);
-
-        maxime = new Etudiant("rouillon", "maxime", "maxime@gmail.com","123456");
-        etudiantRepository.save(maxime);
-
-        alexia = new Etudiant("fernandes", "alexia", "alexia@gmail.com","123456");
-        etudiantRepository.save(alexia);
+        etudiantService.save(abdourahamane);
+        etudiantService.save(meriem);
+        etudiantService.save(maxime);
+        etudiantService.save(alexia);
 
         initNotesCours();
     }
 
-    // repositories
-    public EtudiantRepository getEtudiantRepository() {
-        return etudiantRepository;
-    }
-    public void setEtudiantRepository(EtudiantRepository etudiantRepository) { this.etudiantRepository = etudiantRepository; }
-
-    public EvaluationRepository getEvaluationRepository() { return evaluationRepository; }
-    public void setEvaluationRepository(EvaluationRepository evaluationRepository) { this.evaluationRepository = evaluationRepository;}
-
-    public NoteCoursRepository getNoteCoursRepository() {
-        return noteCoursRepository;
-    }
-    public void setNoteCoursRepository(NoteCoursRepository noteCoursRepository) { this.noteCoursRepository = noteCoursRepository; }
-
-    public MatiereRepository getMatiereRepository() {return matiereRepository;}
-    public void setMatiereRepository(MatiereRepository matiereRepository) {this.matiereRepository = matiereRepository;}
-
-    // etudiants
-    public Etudiant getAbdourahamane() { return abdourahamane; }
-    public void setAbdourahamane(Etudiant abdourahamane) {
-        this.abdourahamane = abdourahamane;
+    private void initFormations() {
+        dl = formationService.saveFormation(new Formation("informatique", "M2DL"));
+        bio = formationService.saveFormation(new Formation("Biologie", "Licence 2"));
+        ihm = formationService.saveFormation(new Formation("Informatique", "M1IHM"));
+        economie = formationService.saveFormation(new Formation("Economie", "Licence3"));
     }
 
-    public Etudiant getMaxime() { return maxime; }
-    public void setMaxime(Etudiant maxime) {
-        this.maxime = maxime;
+    private void initInscriptions() {
+        abdouEnDL = inscriptionService.saveInscription(new Inscription(abdourahamane, dl));
+        abdouEnDL = inscriptionService.saveInscription(new Inscription(maxime, dl));
+        abdouEnDL = inscriptionService.saveInscription(new Inscription(meriem, dl));
+        abdouEnDL = inscriptionService.saveInscription(new Inscription(alexia, dl));
+
+        abdouEnDL = inscriptionService.saveInscription(new Inscription(alexia, ihm));
+
+        abdouEnDL = inscriptionService.saveInscription(new Inscription(abdourahamane, dl));
+        abdouEnDL = inscriptionService.saveInscription(new Inscription(maxime, economie));
+        abdouEnDL = inscriptionService.saveInscription(new Inscription(meriem, dl));
+        abdouEnDL = inscriptionService.saveInscription(new Inscription(alexia, bio));
+
+        abdouEnDL = inscriptionService.saveInscription(new Inscription(alexia, ihm));
     }
 
-    public Etudiant getAlexia() {
-        return alexia;
-    }
-    public void setAlexia(Etudiant alexia) {
-        this.alexia = alexia;
+    public Etudiant getAbdourahamane() {
+        return abdourahamane;
     }
 
-    public Etudiant getMeriem() {
-        return meriem;
-    }
-    public void setMeriem(Etudiant meriem) {
-        this.meriem = meriem;
+    public Etudiant getMaxime() {
+        return maxime;
     }
 
-    // notes cours
-    public NoteCours getNoteMeriem() {return noteMeriem;}
-    public void setNoteMeriem(NoteCours noteMeriem) {this.noteMeriem = noteMeriem;}
+    public Formation getDl() {
+        return dl;
+    }
 
-    public NoteCours getNoteMaxime() {return noteMaxime;}
-    public void setNoteMaxime(NoteCours noteMaxime) {this.noteMaxime = noteMaxime;}
 }
 

@@ -17,7 +17,24 @@
 
     <a href="/api/v1/inscriptions/creer" class="w3-bar-item w3-button w3-hide-small">S'inscrire à une formation</a>
 </div>
-</body>
 
-<h1>Bienvenue sur studensCollab</h1>
+<form class="w3-container w3-display-middle" th:method="post" th:object="${formation}" th:action="${'/api/v1/formations/valider'}">
+    <h2 class="">Créer une formation</h2>
+
+    <p>
+        <label class="">Nom</label>
+        <input class="w3-input w3-border" type="texte" name="nom" th:field="*{nom}"></p>
+    <p>
+
+    <p>
+        <label class="">Niveau</label>
+        <input class="w3-input w3-border" type="texte" name="niveau" th:field="*{niveau}"></p>
+    <p>
+
+    <p>
+        <button class="w3-btn" type="submit">Créer</button>
+    </p>
+</form>
+
+</body>
 </html>

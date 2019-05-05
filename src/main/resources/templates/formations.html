@@ -17,7 +17,25 @@
 
     <a href="/api/v1/inscriptions/creer" class="w3-bar-item w3-button w3-hide-small">S'inscrire à une formation</a>
 </div>
-</body>
 
-<h1>Bienvenue sur studensCollab</h1>
+<h2>Liste des formations</h2>
+<table class="w3-table-all w3-hoverable">
+    <tr>
+        <th>Nom</th>
+        <th>Niveau</th>
+    </tr>
+    <tr th:each="formation : ${formations}">
+        <td th:text="${formation.nom}"></td>
+        <td th:text="${formation.niveau}"></td>
+
+        <td><form th:method="get" th:action="${'/api/v1/formations/' + formation.id}">
+            <button class="w3-button w3-black" type="submit">Consulter</button>
+        </form></td>
+
+        <td><form th:method="delete" th:action="${'/api/v1/formations/delete/' + formation.id}">
+            <button class="w3-button w3-black" type="submit">Supprimer</button>
+        </form></td>
+    </tr>
+</table>
+</body>
 </html>

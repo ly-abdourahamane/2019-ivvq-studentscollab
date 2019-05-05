@@ -1,4 +1,4 @@
-package fr.univtlse3.m2dl.studentscollab.studentscollab;
+package fr.univtlse3.m2dl.studentscollab.studentscollab.etudiant;
 
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.EtudiantRepository;
