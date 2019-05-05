@@ -75,7 +75,7 @@ public class FormationControllerIntegrationTest {
         Formation formation = initialisationService.getDl();
 
         //when: un admin émet une requête pour obtenir un étudiant
-        mockMvc.perform(get("/api/v1/formations/8"))
+        mockMvc.perform(get("/api/v1/formations/"+formation.getId()))
                 // then: la réponse a le status 200(OK)
                 .andExpect(status().isOk())
                 // then: la réponse est au format HTML et utf8

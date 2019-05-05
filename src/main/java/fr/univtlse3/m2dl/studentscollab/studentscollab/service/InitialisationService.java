@@ -42,11 +42,16 @@ public class InitialisationService {
 
     public void run() {
 
+
         initEtudiants();
+
         initMatieres();
 
         initFormations();
         initInscriptions();
+
+        initNotesCours();
+        initEvals();
     }
 
     private void initEvals() {
@@ -61,8 +66,6 @@ public class InitialisationService {
         matiereRepository.save(matiere1);
         matiereRepository.save(matiere2);
         matiereRepository.save(matiere3);
-
-        initEvals();
     }
 
     private void initNotesCours() {
@@ -84,8 +87,6 @@ public class InitialisationService {
         etudiantService.save(meriem);
         etudiantService.save(maxime);
         etudiantService.save(alexia);
-
-        initNotesCours();
     }
 
     private void initFormations() {
