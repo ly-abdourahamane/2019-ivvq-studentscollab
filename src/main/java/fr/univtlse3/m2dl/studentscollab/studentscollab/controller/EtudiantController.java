@@ -123,15 +123,15 @@ public class EtudiantController  {
         return "updateEtudiant";
     }
 
-    @GetMapping(value = "/update")
-    public String updateEtudiant(@ModelAttribute("id") Long id, @ModelAttribute("etu") Etudiant etu, Model model) {
-        Etudiant etudiant = etudiantService.findById(id).get();
+    @GetMapping(value = "/update-etu/{id}")
+    public String updateEtudiant(@PathVariable Long id, @ModelAttribute("etudiant") Etudiant etudiant, Model model) {
+        Etudiant etudiantUpdated = etudiantService.findById(id).get();
 
-        etudiant.setNom(etu.getNom());
-        etudiant.setPrenom(etu.getPrenom());
-        etudiant.setEmail(etu.getEmail());
+        etudiantUpdated.setNom(etudiant.getNom());
+        etudiantUpdated.setPrenom(etudiant.getPrenom());
+        etudiantUpdated.setEmail(etudiant.getEmail());
 
-        etudiantService.save(etudiant);
-        return "redirect:/api/v1/etudiants/" + etudiant.getId();
+        etudiantService.save(etudiantUpdated);
+        return getById(id, model);
     }
 }

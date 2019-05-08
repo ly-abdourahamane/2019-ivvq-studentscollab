@@ -118,16 +118,16 @@ public class EtudiantControllerIntegrationTest {
         assertThat(htmlResult, containsString("Mot de passe"));
     }
 
-    /*@Test
+    @Test
     public void testUpdateEtudiant() throws Exception {
         Etudiant test = initialisationService.getMaxime();
         Etudiant modified = new Etudiant("pasmax", "pasr", "truc@gmail.com", "123456");
-        mockMvc.perform(get("/api/v1/etudiants/update", test.getId(), modified))
-                .andExpect(status().isFound())
+        mockMvc.perform(get("/api/v1/etudiants/update-etu/" + test.getId()).flashAttr("etudiant", modified))
+                .andExpect(status().isOk())
                 .andExpect(content().string(containsString("pasmax")))
                 .andExpect(content().string(containsString("pasr")))
                 .andExpect(content().string(containsString("truc@gmail.com")));
-    }*/
+    }
 
     @Test
     public void testDeleteEtudiant() throws Exception {

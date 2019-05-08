@@ -15,14 +15,14 @@
 
 <h2>Détails de l'étudiant</h2>
 
-<form action="#" th:action="@{/api/v1/etudiants/update}" th:with="id=${etudiant.id}, etu=${etudiant}" method="get">
+<form action="#" th:action="@{'/api/v1/etudiants/update-etu/' + etudiant.id}" th:object="${etudiant}" method="get">
     <div class="w3-cell-row">
         <div class="w3-container w3-cell" style="width:20%">
             <p>Nom :</p>
         </div>
         <div class="w3-container w3-cell">
             <p th:text="${etudiant.nom}"></p>
-            <input class="w3-input w3-border" th:value="${etudiant.nom}" th:field="${etudiant.nom}" type="texte" name="nom"></p>
+            <input class="w3-input w3-border" th:value="${etudiant.nom}" th:field="*{nom}" type="text"></p>
         </div>
     </div>
 
@@ -32,7 +32,7 @@
         </div>
         <div class="w3-container w3-cell">
             <p th:text="${etudiant.prenom}"></p>
-            <input class="w3-input w3-border" th:value="${etudiant.prenom}" th:field="${etudiant.prenom}" type="texte" name="prenom"></p>
+            <input class="w3-input w3-border" th:value="${etudiant.prenom}" th:field="*{prenom}" type="text"></p>
         </div>
     </div>
 
@@ -42,7 +42,7 @@
         </div>
         <div class="w3-container w3-cell">
             <p th:text="${etudiant.email}"></p>
-            <input class="w3-input w3-border" th:value="${etudiant.email}" th:field="${etudiant.email}" type="texte" name="email"></p>
+            <input class="w3-input w3-border" th:value="${etudiant.email}" th:field="*{email}" type="text"></p>
         </div>
     </div>
     <p><input type="submit" value="Update profile" /></p>
