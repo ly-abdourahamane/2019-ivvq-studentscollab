@@ -56,7 +56,9 @@ public class InitialisationService {
 
     private void initEvals() {
         evalMaxime = new Evaluation(maxime, noteMeriem, EvalType.LIKE);
+        noteMeriem.setNbLike(noteMeriem.getNbLike()+1);
         evaluationRepository.save(evalMaxime);
+        noteCoursRepository.save(noteMeriem);
     }
 
     private void initMatieres() {
