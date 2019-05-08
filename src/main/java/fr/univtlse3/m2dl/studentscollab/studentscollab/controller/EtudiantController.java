@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -62,6 +63,7 @@ public class EtudiantController  {
       return "redirect:/api/v1/etudiants/connexion";
     }
 
+
     @GetMapping(value = "/{id}")
     public String getById(@PathVariable Long id, Model model) {
         Etudiant etudiant = etudiantService.findById(id).orElse(null);
@@ -100,5 +102,34 @@ public class EtudiantController  {
         String page = this.etudiantService.login(login.getEmail(), login.getMotDePasse());
 
         return "redirect:/api/v1/etudiants/" + page;
+    }
+
+    @GetMapping(value = "/delete/{id}")
+    public String deleteEtudiant(@PathVariable("id") Long id) {
+        Etudiant etudiant = etudiantService.findById(id).get();
+        etudiantService.deleteEtudiant(etudiant);
+
+        return "index";
+    }
+
+    @GetMapping(value = "/edit/{id}")
+    public String editEtudiant(@PathVariable("id") Long id, Model model) {
+        Etudiant etudiant = etudiantService.findById(id).orElse(null);
+
+        if(etudiant == null) {
+            model.addAttribute("customMessage", "Impossible. Id non valide");
+            return "error";
+        }
+
+        model.addAttribute("etudiant", etudiant);
+
+        return "updateEtudiant";
+    }
+
+    @PostMapping(value = "/update/{id}")
+    public String update(@Valid Etudiant etudiant) {
+        etudiantService.save(etudiant);
+
+        return "redirect:/api/v1/etudiants/connexion";
     }
 }
