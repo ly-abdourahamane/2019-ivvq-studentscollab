@@ -1,13 +1,8 @@
 package fr.univtlse3.m2dl.studentscollab.studentscollab.service;
 
-import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.EvalType;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Evaluation;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.NoteCours;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.EtudiantRepository;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.*;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.*;
 
-import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.EvaluationRepository;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.NoteCoursRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +21,9 @@ public class EtudiantService {
     @Autowired
     private NoteCoursRepository noteCoursRepository;
 
+    @Autowired
+    private InscriptionRepository inscriptionRepository;
+
     public EvaluationRepository getEvaluationRepository() {return evaluationRepository;}
     public void setEvaluationRepository(EvaluationRepository evaluationRepository) {this.evaluationRepository = evaluationRepository;}
 
@@ -33,6 +31,9 @@ public class EtudiantService {
         return this.noteCoursRepository;
     }
     public void setNoteCoursRepository(NoteCoursRepository noteCoursRepository) { this.noteCoursRepository = noteCoursRepository; }
+
+    public InscriptionRepository getInscriptionRepository() {return inscriptionRepository;}
+    public void setInscriptionRepository( InscriptionRepository inscriptionRepository) {this.inscriptionRepository = inscriptionRepository;}
 
     public Optional<Etudiant> findById(Long id) {
         return etudiantRepository.findById(id);
@@ -85,6 +86,11 @@ public class EtudiantService {
             evaluation.getNoteCours().setNbDislike(evaluation.getType() == EvalType.DISLIKE ? nbDislike - 1 : nbDislike);
 
             evaluationRepository.delete(evaluation);
+        }
+
+        List<Inscription> inscriptions = inscriptionRepository.findByEtudiantId(etudiant.getId());
+        for (Inscription inscription: inscriptions) {
+            inscriptionRepository.delete(inscription);
         }
 
         // suppression de l'étudiant
