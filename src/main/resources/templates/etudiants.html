@@ -30,12 +30,12 @@
         <td th:text="${etudiant.nom}"></td>
         <td th:text="${etudiant.prenom}"></td>
         <td th:text="${etudiant.email}"></td>
-        <td th:text="${etudiant.motDePasse}"></td>
+        <td>**********</td>
         <td><form th:method="get" th:action="${ '/api/v1/etudiants/' + etudiant.id}">
             <button class="w3-button w3-black" type="submit">Consulter</button>
         </form></td>
 
-        <td><form th:method="get" th:action="${ '/api/v1/etudiants/update/' + etudiant.id}">
+        <td><form th:method="get" th:action="${ '/api/v1/etudiants/edit/' + etudiant.id}">
             <button class="w3-button w3-black" type="submit">Modifier</button>
         </form></td>
     </tr>
