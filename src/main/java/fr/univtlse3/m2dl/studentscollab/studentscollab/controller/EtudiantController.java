@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -62,6 +63,7 @@ public class EtudiantController  {
       return "redirect:/api/v1/etudiants/connexion";
     }
 
+
     @GetMapping(value = "/{id}")
     public String getById(@PathVariable Long id, Model model) {
         Etudiant etudiant = etudiantService.findById(id).orElse(null);
@@ -78,7 +80,7 @@ public class EtudiantController  {
         model.addAttribute("etudiant", etudiant);
         model.addAttribute("formations", formations);
 
-        return (etudiant != null) ? "profileEtudiant" : "error";
+        return "profileEtudiant";
     }
 
     @GetMapping(value = "")
@@ -110,28 +112,24 @@ public class EtudiantController  {
         return "index";
     }
 
-    @GetMapping(value = "/update/{id}")
-    public String updatePage(@PathVariable Long id, Model model) {
+    @GetMapping(value = "/edit/{id}")
+    public String editEtudiant(@PathVariable("id") Long id, Model model) {
         Etudiant etudiant = etudiantService.findById(id).orElse(null);
 
         if(etudiant == null) {
             model.addAttribute("customMessage", "Impossible. Id non valide");
             return "error";
         }
+
         model.addAttribute("etudiant", etudiant);
 
         return "updateEtudiant";
     }
 
-    @GetMapping(value = "/update-etu/{id}")
-    public String updateEtudiant(@PathVariable Long id, @ModelAttribute("etudiant") Etudiant etudiant, Model model) {
-        Etudiant etudiantUpdated = etudiantService.findById(id).get();
+    @PostMapping(value = "/update/{id}")
+    public String update(@Valid Etudiant etudiant) {
+        etudiantService.save(etudiant);
 
-        etudiantUpdated.setNom(etudiant.getNom());
-        etudiantUpdated.setPrenom(etudiant.getPrenom());
-        etudiantUpdated.setEmail(etudiant.getEmail());
-
-        etudiantService.save(etudiantUpdated);
-        return getById(id, model);
+        return "redirect:/api/v1/etudiants/connexion";
     }
 }

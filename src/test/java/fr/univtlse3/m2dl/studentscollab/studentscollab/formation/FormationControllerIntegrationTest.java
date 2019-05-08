@@ -127,6 +127,7 @@ public class FormationControllerIntegrationTest {
                 .andExpect(redirectedUrl("/api/v1/formations"))
                 .andDo(MockMvcResultHandlers.print());
         Assert.assertEquals(count - 1, formationService.findAllFormations().size());
+
     }
 
     @Test

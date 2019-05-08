@@ -41,6 +41,12 @@ public class FormationController {
     @GetMapping("{id}")
     public String findById(@PathVariable Long id, Model model){
         Formation formation = formationService.findFormationById(id).orElse(null);
+
+        if(formation == null) {
+            model.addAttribute("customMessage", "Impossible. Id non valide");
+            return "error";
+        }
+
         model.addAttribute("formation", formation);
 
         return "formation";
