@@ -78,7 +78,7 @@ public class EtudiantController  {
         model.addAttribute("etudiant", etudiant);
         model.addAttribute("formations", formations);
 
-        return (etudiant != null) ? "profileEtudiant" : "error";
+        return "profileEtudiant";
     }
 
     @GetMapping(value = "")
