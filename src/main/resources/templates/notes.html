@@ -9,15 +9,14 @@
 <table>
     <tbody>
     <tr th:each="noteCours: ${liste}">
-        <p th:text="'id: ' + ${noteCours.id}" />
-        <p th:text="'titre: ' + ${noteCours.titre}" />
+        <a th:href="@{'/cours/'+ ${noteCours.id}}" th:text="${noteCours.titre}" />
         <p th:text="'contenu: ' + ${noteCours.contenu}" />
+        <ul th:each="commentaire: ${noteCours.commentaires}">
+            <li th:text="${commentaire.contenu}"></li>
+        </ul>
     </tr>
     </tbody>
 </table>
-<form name="voirtout" action="#" th:action="@{/cours/all}">
-    <p><input type="submit" value="Voir tout" /></p>
-</form>
 <form name="nouveau" action="#" th:action="@{/cours/new}">
     <p><input type="submit" value="Nouveau" /></p>
 </form>

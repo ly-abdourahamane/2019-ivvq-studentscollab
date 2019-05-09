@@ -8,7 +8,7 @@
 </head>
 <body>
 <h1>Ajout d'une note de cours</h1>
-<form action="#" th:action="@{/cours}" th:object="${noteCours}" method="post">
+<form action="#" th:action="@{/cours/new}" th:object="${noteCours}" method="post">
     <p>Titre: <input type="text" th:field="*{titre}" /></p>
     <p>Contenu: <input type="text" th:field="*{contenu}" /></p>
     <p><input type="submit" value="Enregistrer" /> <input type="reset" value="Effacer" /></p>
