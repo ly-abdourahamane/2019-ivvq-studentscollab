@@ -1,9 +1,7 @@
 package fr.univtlse3.m2dl.studentscollab.studentscollab.service;
 
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Inscription;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Login;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Matiere;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.InscriptionToMatiere;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.EtudiantRepository;
 
 import lombok.Getter;
@@ -54,8 +52,8 @@ public class EtudiantService {
     public boolean estInscrit(Long idMatiere, Long idEtudiant){
         Boolean inscrit = false;
         Etudiant etudiant = etudiantRepository.findById(idEtudiant).orElse(null);
-        for (Inscription inscription: etudiant.getInscriptions()) {
-            if(inscription.getMatiere().getId() == idMatiere)
+        for (InscriptionToMatiere inscriptionToMatiere : etudiant.getInscriptionToMatieres()) {
+            if(inscriptionToMatiere.getMatiere().getId() == idMatiere)
                 inscrit = true;
         }
         return inscrit;

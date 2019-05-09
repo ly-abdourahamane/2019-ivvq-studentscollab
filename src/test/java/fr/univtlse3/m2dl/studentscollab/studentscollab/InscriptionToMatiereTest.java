@@ -1,7 +1,7 @@
 package fr.univtlse3.m2dl.studentscollab.studentscollab;
 
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Inscription;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.InscriptionToMatiere;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Matiere;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -12,7 +12,7 @@ import javax.validation.ValidatorFactory;
 
 import static org.junit.Assert.assertTrue;
 
-public class InscriptionTest {
+public class InscriptionToMatiereTest {
 
     private static Validator validator;
     private static Matiere matiere;
@@ -28,19 +28,19 @@ public class InscriptionTest {
 
     @Test
     public void testEtudiantNull() {
-        Inscription inscription = new Inscription(null,matiere);
-        assertTrue(validator.validate(inscription).size() != 0);
+        InscriptionToMatiere inscriptionToMatiere = new InscriptionToMatiere(null,matiere);
+        assertTrue(validator.validate(inscriptionToMatiere).size() != 0);
     }
 
     @Test
     public void testMatiereNull() {
-        Inscription inscription = new Inscription(etudiant,null);
-        assertTrue(validator.validate(inscription).size() != 0);
+        InscriptionToMatiere inscriptionToMatiere = new InscriptionToMatiere(etudiant,null);
+        assertTrue(validator.validate(inscriptionToMatiere).size() != 0);
     }
 
     @Test
     public void testEtudiantEtMatiereNotNull() {
-        Inscription inscription = new Inscription(etudiant,matiere);
-        assertTrue(validator.validate(inscription).size() == 0);
+        InscriptionToMatiere inscriptionToMatiere = new InscriptionToMatiere(etudiant,matiere);
+        assertTrue(validator.validate(inscriptionToMatiere).size() == 0);
     }
 }

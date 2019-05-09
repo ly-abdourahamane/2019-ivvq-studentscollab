@@ -2,7 +2,6 @@ package fr.univtlse3.m2dl.studentscollab.studentscollab.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -43,7 +42,7 @@ public class Etudiant {
 
     @OneToMany(mappedBy = "etudiant")
     @JsonIgnore
-    private Set<Inscription> inscriptions = new HashSet<>();
+    private Set<InscriptionToMatiere> inscriptionToMatieres = new HashSet<>();
 
     private boolean estValide = false;
 
@@ -79,8 +78,8 @@ public class Etudiant {
         return prenom!=null? prenom.equals(etudiant.prenom): etudiant.prenom==null;
     }
 
-    public Set<Inscription> getInscriptions() {
-        return inscriptions;
+    public Set<InscriptionToMatiere> getInscriptionToMatieres() {
+        return inscriptionToMatieres;
     }
 
     @Override

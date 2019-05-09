@@ -2,7 +2,6 @@ package fr.univtlse3.m2dl.studentscollab.studentscollab.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,7 +18,7 @@ public class Matiere {
 
     @OneToMany(mappedBy = "matiere")
     @JsonIgnore
-    private Set<Inscription> inscriptions = new HashSet<>();
+    private Set<InscriptionToMatiere> inscriptionToMatieres = new HashSet<>();
 
     @OneToMany(mappedBy = "matiere")
     @JsonIgnore
@@ -52,12 +51,12 @@ public class Matiere {
         return noteCours;
     }
 
-    public Set<Inscription> getInscriptions() {
-        return inscriptions;
+    public Set<InscriptionToMatiere> getInscriptionToMatieres() {
+        return inscriptionToMatieres;
     }
 
-    public void setInscriptions(Set<Inscription> inscriptions) {
-        this.inscriptions = inscriptions;
+    public void setInscriptionToMatieres(Set<InscriptionToMatiere> inscriptionToMatieres) {
+        this.inscriptionToMatieres = inscriptionToMatieres;
     }
 
     public void setNoteCours(Set<NoteCours> noteCours) {

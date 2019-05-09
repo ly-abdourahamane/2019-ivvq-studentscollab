@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 
 
 @Entity
-public class Inscription {
+public class InscriptionToMatiere {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
@@ -19,10 +19,10 @@ public class Inscription {
     @ManyToOne
     private Matiere matiere;
 
-    public Inscription() {
+    public InscriptionToMatiere() {
     }
 
-    public Inscription(Etudiant etudiant, Matiere matiere) {
+    public InscriptionToMatiere(Etudiant etudiant, Matiere matiere) {
         this.etudiant = etudiant;
         this.matiere = matiere;
     }
