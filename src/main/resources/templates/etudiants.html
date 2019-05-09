@@ -1,9 +1,7 @@
 <!DOCTYPE html>
-
 <html>
-
 <head>
-    <title>Friends of Mine</title>
+    <title>Students collab</title>
     <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
 </head>
 
@@ -20,8 +18,27 @@
     <a href="/api/v1/inscriptions/creer" class="w3-bar-item w3-button w3-hide-small">S'inscrire à une formation</a>
 </div>
 
-<h3>Error</h3>
+<h2>Liste des etudiants</h2>
+<table class="w3-table-all w3-hoverable">
+    <tr>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Email</th>
+        <th>Mot de passe</th>
+    </tr>
+    <tr th:each="etudiant : ${etudiants}">
+        <td th:text="${etudiant.nom}"></td>
+        <td th:text="${etudiant.prenom}"></td>
+        <td th:text="${etudiant.email}"></td>
+        <td>**********</td>
+        <td><form th:method="get" th:action="${ '/api/v1/etudiants/' + etudiant.id}">
+            <button class="w3-button w3-black" type="submit">Consulter</button>
+        </form></td>
 
+        <td><form th:method="get" th:action="${ '/api/v1/etudiants/edit/' + etudiant.id}">
+            <button class="w3-button w3-black" type="submit">Modifier</button>
+        </form></td>
+    </tr>
+</table>
 </body>
-
 </html>
