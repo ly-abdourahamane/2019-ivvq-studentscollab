@@ -5,7 +5,6 @@ import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.MatiereReposit
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
 public class InitialisationService {
 
     @Autowired

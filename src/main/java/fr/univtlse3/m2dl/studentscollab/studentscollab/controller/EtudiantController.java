@@ -3,7 +3,7 @@ package fr.univtlse3.m2dl.studentscollab.studentscollab.controller;
 
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Login;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.services.EtudiantService;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.service.EtudiantService;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -74,9 +75,11 @@ public class EtudiantController  {
     }
 
     @PostMapping(value = "/login")
-    public String login(@ModelAttribute("login") Login login) {
+    public String login(@ModelAttribute("login") Login login, HttpSession session) {
         String page = this.etudiantService.login(login.getEmail(), login.getMotDePasse());
-
+        String mail = login.getEmail();
+        Etudiant etudiant = etudiantService.findEtudiantByEmail(mail);
+        session.setAttribute("etudiant", etudiant);
         return "redirect:/api/v1/etudiants/" + page;
     }
 }

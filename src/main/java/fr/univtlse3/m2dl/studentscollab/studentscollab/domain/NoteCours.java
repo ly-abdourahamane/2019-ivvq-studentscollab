@@ -1,5 +1,7 @@
 package fr.univtlse3.m2dl.studentscollab.studentscollab.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
@@ -22,6 +24,10 @@ public class NoteCours {
 
     @PositiveOrZero
     private int nbDislike;
+
+    @ManyToOne
+    @NotNull
+    private Matiere matiere;
 
 //    @OneToMany
 //    private Collection<Commentaire> commentaires = new ArrayList<>();
@@ -99,4 +105,8 @@ public class NoteCours {
     public void setCommentaires(Collection<Commentaire> commentaires) {
         this.commentaires = commentaires;
     }*/
+
+    public Matiere getMatiere() {
+        return matiere;
+    }
 }

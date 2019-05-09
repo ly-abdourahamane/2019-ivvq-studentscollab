@@ -1,4 +1,4 @@
-package fr.univtlse3.m2dl.studentscollab.studentscollab.repositories;
+package fr.univtlse3.m2dl.studentscollab.studentscollab.repository;
 
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
 import org.springframework.data.jpa.repository.Query;
@@ -21,4 +21,8 @@ public interface EtudiantRepository extends PagingAndSortingRepository<Etudiant,
 
     @Query("select e from Etudiant e where e.email = :email and e.motDePasse = :motDePasse")
     public Etudiant login(@Param("email") String email, @Param("motDePasse") String motDePasse);
+
+    @Query("select e from Etudiant e where e.email = :email")
+    public Etudiant findEtudiantByEmail(@Param("email") String email);
+
 }

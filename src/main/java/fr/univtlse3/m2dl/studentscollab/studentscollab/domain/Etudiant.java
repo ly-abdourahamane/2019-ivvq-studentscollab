@@ -1,5 +1,6 @@
 package fr.univtlse3.m2dl.studentscollab.studentscollab.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,12 +10,14 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @ToString
 @Getter
 @Setter
-@NoArgsConstructor
+//@NoArgsConstructor
 public class Etudiant {
 
     @Id
@@ -38,6 +41,10 @@ public class Etudiant {
     @NotNull
     private String motDePasse;
 
+    @OneToMany(mappedBy = "etudiant")
+    @JsonIgnore
+    private Set<Inscription> inscriptions = new HashSet<>();
+
     private boolean estValide = false;
 
     public Etudiant(String nom, String prenom, String email, String motDePasse) {
@@ -45,6 +52,10 @@ public class Etudiant {
         this.prenom = prenom;
         this.email = email;
         this.motDePasse = motDePasse;
+    }
+
+    public Etudiant() {
+
     }
 
     public void etudiantValide() {
@@ -68,6 +79,10 @@ public class Etudiant {
         return prenom!=null? prenom.equals(etudiant.prenom): etudiant.prenom==null;
     }
 
+    public Set<Inscription> getInscriptions() {
+        return inscriptions;
+    }
+
     @Override
     public int hashCode() {
         int result = nom!=null?nom.hashCode():0;
@@ -75,5 +90,13 @@ public class Etudiant {
         result = 31 * result + (prenom!=null? prenom.hashCode():0);
 
         return result;
+    }
+
+    public void setEstValide(boolean estValide) {
+        this.estValide = estValide;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

@@ -1,5 +1,7 @@
 package fr.univtlse3.m2dl.studentscollab.studentscollab.service;
 
+import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Matiere;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.NoteCours;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.exception.NoteCoursNotFoundException;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.NoteCoursRepository;
@@ -15,7 +17,13 @@ public class NoteCoursService {
     private NoteCoursRepository noteCoursRepository;
 
     public NoteCours saveNoteCours(NoteCours n) {
-        return this.noteCoursRepository.save(n);
+
+        if(n == null)
+            throw new IllegalArgumentException();
+        Matiere matiere = n.getMatiere();
+        n = noteCoursRepository.save(n);
+        matiere.getNoteCours().add(n);
+        return n;
     }
 
     public Iterable<NoteCours> findAll(){
@@ -37,4 +45,7 @@ public class NoteCoursService {
     public void setNoteCoursRepository(NoteCoursRepository noteCoursRepository) {
         this.noteCoursRepository = noteCoursRepository;
     }
+
+
+
 }

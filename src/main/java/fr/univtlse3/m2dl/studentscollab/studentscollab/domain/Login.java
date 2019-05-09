@@ -15,4 +15,12 @@ public class Login {
     private String email;
 
     private String motDePasse;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getMotDePasse() {
+        return motDePasse;
+    }
 }

@@ -1,16 +1,22 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Notes de cours</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Matieres</title>
 </head>
 <body>
-<h1>Toutes les notes</h1>
+<div class="w3-bar w3-dark-gray">
+    <a href="/api/v1/etudiants/accueil" class="w3-bar-item w3-button">Accueil</a>
+    <a href="/api/v1/etudiants" class="w3-bar-item w3-button w3-hide-small">Liste étudiants</a>
+    <a href="/api/v1/etudiants/creer-compte" class="w3-bar-item w3-button w3-hide-small">Créer compte</a>
+    <a href="/api/v1/etudiants/connexion" class="w3-bar-item w3-button w3-hide-small">Connexion</a>
+    <a href="/matieres" class="w3-bar-item w3-button w3-hide-small">Matières</a>
+</div>
+<h1>Matières</h1>
 <table>
     <tbody>
-    <tr th:each="matiere: ${matieres}">
+    <tr  th:with="etudiant=${session.etudiant}" th:each="matiere: ${matieres}">
         <td th:text="${matiere.nom}"></td>
-        <td><a th:href="${ '/matiere/' + matiere.id}">Voir</a></td>
+        <td><a th:href="${ '/matiere?id_etudiant='+ etudiant.id +'&id_matiere='+ matiere.id}">Voir</a></td>
     </tr>
     </tbody>
 </table>

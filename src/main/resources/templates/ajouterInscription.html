@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Matiere</title>
+    <title>Formulaire d'inscription</title>
 </head>
 <body>
 <div class="w3-bar w3-dark-gray">
@@ -11,7 +11,10 @@
     <a href="/api/v1/etudiants/connexion" class="w3-bar-item w3-button w3-hide-small">Connexion</a>
     <a href="/matieres" class="w3-bar-item w3-button w3-hide-small">Matières</a>
 </div>
-<h1>Matiere</h1>
-<p th:text="'titre: ' + ${matiere.nom}">
+<h1>Inscription</h1>
+<form action="#" th:action="@{/inscrire(idMatiere=${matiere})}"  method="post">
+    <p>Matière: matière</p>
+    <p><input type="submit" value="S'inscrire" /></p>
+</form>
 </body>
 </html>

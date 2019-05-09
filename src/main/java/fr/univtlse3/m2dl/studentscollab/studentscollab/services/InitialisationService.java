@@ -1,7 +1,7 @@
 package fr.univtlse3.m2dl.studentscollab.studentscollab.services;
 
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.repositories.EtudiantRepository;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.EtudiantRepository;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
