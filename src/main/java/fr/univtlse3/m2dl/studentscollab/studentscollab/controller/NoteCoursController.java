@@ -103,7 +103,7 @@ public class NoteCoursController {
         } catch (EvalNotFoundException e) {
             e.printStackTrace();
         }
-        return "note";
+        return "note_ajoutee";
     }
 
     @GetMapping("/cours/dislike")
@@ -137,6 +137,6 @@ public class NoteCoursController {
         } catch (EvalNotFoundException e) {
             e.printStackTrace();
         }
-        return "note";
+        return "note_ajoutee";
     }
 }
