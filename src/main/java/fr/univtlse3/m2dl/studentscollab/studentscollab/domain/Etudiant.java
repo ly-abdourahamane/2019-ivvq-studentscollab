@@ -1,9 +1,9 @@
 package fr.univtlse3.m2dl.studentscollab.studentscollab.domain;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import jdk.nashorn.internal.objects.annotations.Getter;
+import jdk.nashorn.internal.objects.annotations.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -13,10 +13,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@ToString
-@Getter
-@Setter
-//@NoArgsConstructor
 public class Etudiant {
 
     @Id
@@ -40,6 +36,9 @@ public class Etudiant {
     @NotNull
     private String motDePasse;
 
+    public Etudiant(){
+
+    }
     @OneToMany(mappedBy = "etudiant")
     @JsonIgnore
     private Set<InscriptionToMatiere> inscriptionToMatieres = new HashSet<>();
@@ -51,14 +50,6 @@ public class Etudiant {
         this.prenom = prenom;
         this.email = email;
         this.motDePasse = motDePasse;
-    }
-
-    public Etudiant() {
-
-    }
-
-    public void etudiantValide() {
-        estValide = true;
     }
 
     @Override
@@ -91,11 +82,54 @@ public class Etudiant {
         return result;
     }
 
-    public void setEstValide(boolean estValide) {
-        this.estValide = estValide;
+    @Override
+    public String toString() {
+        return "Etudiant{" +
+                "id=" + id +
+                ", nom='" + nom + '\'' +
+                ", prenom='" + prenom + '\'' +
+                ", email='" + email + '\'' +
+                ", motDePasse='" + motDePasse + '\'' +
+                '}';
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getMotDePasse() {
+        return motDePasse;
+    }
+
+    public void setMotDePasse(String motDePasse) {
+        this.motDePasse = motDePasse;
     }
 }

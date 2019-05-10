@@ -4,6 +4,7 @@ import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Matiere;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.NoteCours;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.exception.NoteCoursNotFoundException;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.EtudiantRepository;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.NoteCoursRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,14 +17,27 @@ public class NoteCoursService {
     @Autowired
     private NoteCoursRepository noteCoursRepository;
 
-    public NoteCours saveNoteCours(NoteCours n) {
+    @Autowired
+    private EtudiantRepository etudiantRepository;
 
+    public EtudiantRepository getEtudiantRepository() {
+        return etudiantRepository;
+    }
+    public void setEtudiantRepository(EtudiantRepository etudiantRepository) { this.etudiantRepository = etudiantRepository; }
+
+
+    public NoteCours saveNoteCours(NoteCours n) {
         if(n == null)
             throw new IllegalArgumentException();
         Matiere matiere = n.getMatiere();
         n = noteCoursRepository.save(n);
         matiere.getNoteCours().add(n);
-        return n;
+
+        if (n.getRedacteur().getId() == null) {
+            etudiantRepository.save(n.getRedacteur());
+        }
+
+        return this.noteCoursRepository.save(n);
     }
 
     public Iterable<NoteCours> findAll(){

@@ -1,15 +1,5 @@
 package fr.univtlse3.m2dl.studentscollab.studentscollab.domain;
 
-
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
-@ToString
-@Getter
-@Setter
-@NoArgsConstructor
 public class Login {
 
     private String email;
@@ -20,7 +10,15 @@ public class Login {
         return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getMotDePasse() {
         return motDePasse;
+    }
+
+    public void setMotDePasse(String motDePasse) {
+        this.motDePasse = motDePasse;
     }
 }

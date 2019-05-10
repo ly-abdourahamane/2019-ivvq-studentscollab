@@ -1,4 +1,4 @@
-package fr.univtlse3.m2dl.studentscollab.studentscollab;
+package fr.univtlse3.m2dl.studentscollab.studentscollab.etudiant;
 
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.EtudiantRepository;
@@ -64,7 +64,7 @@ public class EtudiantServiceTest {
 
     @Test
     public void testFindAllFromCrudRepositoryIsInvokedWhenFindAllActivite() {
-        // given: un EtudiantService
+        // given: un EtudiantServiceisLike ? EvalType.LIKE : EvalType.DISLIKE
         // when: la méthode findAll est invoquée
         etudiantService.findAll();
         // then: la méthode findAll du Repository associé est invoquée
