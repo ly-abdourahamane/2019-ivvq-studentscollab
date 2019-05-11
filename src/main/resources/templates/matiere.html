@@ -20,6 +20,14 @@
 <h2>Matiere</h2>
 <p th:text="'Matière: ' + ${matiere.nom}">
 </p>
-
+<table>
+    <tbody>
+    <tr th:each="noteCours: ${matiere.noteCours}">
+        <p th:text="'id: ' + ${noteCours.id}" />
+        <p th:text="'titre: ' + ${noteCours.titre}" />
+        <p th:text="'contenu: ' + ${noteCours.contenu}" />
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>
