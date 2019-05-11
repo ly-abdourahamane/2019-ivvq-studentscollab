@@ -126,5 +126,8 @@ public class InitialisationService {
         return dl;
     }
 
+    public Matiere getMatiere1() {
+        return matiere1;
+    }
 }
 

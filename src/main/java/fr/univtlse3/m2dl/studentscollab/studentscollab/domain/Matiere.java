@@ -31,6 +31,17 @@ public class Matiere {
         this.nom = nom;
     }
 
+    public Matiere(@NotNull String nom, Set<InscriptionToMatiere> inscriptionToMatieres) {
+        this.nom = nom;
+        this.inscriptionToMatieres = inscriptionToMatieres;
+    }
+
+    public Matiere(@NotNull String nom, Set<InscriptionToMatiere> inscriptionToMatieres, Set<NoteCours> noteCours) {
+        this.nom = nom;
+        this.inscriptionToMatieres = inscriptionToMatieres;
+        this.noteCours = noteCours;
+    }
+
     public String getNom() {
         return nom;
     }

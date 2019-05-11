@@ -10,6 +10,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class InscriptionToMatiereTest {
@@ -28,19 +29,28 @@ public class InscriptionToMatiereTest {
 
     @Test
     public void testEtudiantNull() {
-        InscriptionToMatiere inscriptionToMatiere = new InscriptionToMatiere(null,matiere);
-        assertTrue(validator.validate(inscriptionToMatiere).size() != 0);
+        // given: une inscription avec un étudiant null
+        // when: inscription est créée
+        InscriptionToMatiere inscriptionToMatiere = new InscriptionToMatiere();
+        // then: inscription n'est pas validé par le validator
+        assertFalse(validator.validate(inscriptionToMatiere).isEmpty());
     }
 
     @Test
     public void testMatiereNull() {
-        InscriptionToMatiere inscriptionToMatiere = new InscriptionToMatiere(etudiant,null);
-        assertTrue(validator.validate(inscriptionToMatiere).size() != 0);
+        // given: une inscription avec une matiere null
+        // when: inscription est créée
+        InscriptionToMatiere inscriptionToMatiere = new InscriptionToMatiere();
+        // then: inscription n'est pas validé par le validator
+        assertFalse(validator.validate(inscriptionToMatiere).isEmpty());
     }
 
     @Test
     public void testEtudiantEtMatiereNotNull() {
-        InscriptionToMatiere inscriptionToMatiere = new InscriptionToMatiere(etudiant,matiere);
-        assertTrue(validator.validate(inscriptionToMatiere).size() == 0);
+        // given: une inscription avec une matiere et un étudiant non null
+        // when: inscription est créée
+        InscriptionToMatiere inscriptionToMatiere = new InscriptionToMatiere(etudiant, matiere);
+        // then: inscription est validée par le validator
+        assertTrue(validator.validate(inscriptionToMatiere).isEmpty());
     }
 }

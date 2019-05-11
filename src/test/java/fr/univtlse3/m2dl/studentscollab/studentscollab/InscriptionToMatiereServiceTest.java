@@ -35,23 +35,38 @@ public class InscriptionToMatiereServiceTest {
 
     @Test
     public void testSave() {
+        // given: une inscriptionToMatiere
         InscriptionToMatiere insc = new InscriptionToMatiere();
+        // when: la méthode saveInscription est invoquée
         inscriptionToMatiereService.saveInscription(insc);
+        // then: la méthode save du InscriptionToMatiereRepository  est invoquée
         verify(inscriptionToMatiereService.getInscriptionToMatiereRepository()).save(insc);
     }
 
     @Test
     public void testfindByIdRepositoryInvoked() throws InscriptionToMatiereNotFoundException {
+        // given: une inscriptionToMatiere
         when(inscriptionToMatiereRepository.findById(eq(inscriptionToMatiere.getId()))).thenReturn(Optional.ofNullable(inscriptionToMatiere));
+        // when: la méthode findById est invoquée
         inscriptionToMatiereService.findById(inscriptionToMatiere.getId());
+        // then: la méthode findById du InscriptionToMatiereRepository  est invoquée
         verify(inscriptionToMatiereService.getInscriptionToMatiereRepository()).findById(inscriptionToMatiere.getId());
     }
 
     @Test
-    public void testfindId() throws InscriptionToMatiereNotFoundException {
+    public void testfindByIdFound() throws InscriptionToMatiereNotFoundException {
+        // given: un service inscriptionToMatiere
         when(inscriptionToMatiereRepository.findById(eq(inscriptionToMatiere.getId()))).thenReturn(Optional.ofNullable(inscriptionToMatiere));
-        InscriptionToMatiere insc  = inscriptionToMatiereService.findById(inscriptionToMatiere.getId());
-        assertEquals(inscriptionToMatiere, insc);
+        // when: la méthode findById est invoquée
+        InscriptionToMatiere inscriptionToMatiereAct  = inscriptionToMatiereService.findById(inscriptionToMatiere.getId());
+        // then: le id de inscriptionToMatiereAct est retourné
+        assertEquals(inscriptionToMatiere, inscriptionToMatiereAct);
 
+    }
+
+    @Test(expected = InscriptionToMatiereNotFoundException.class)
+    public void testfindByIdNotFound() throws InscriptionToMatiereNotFoundException {
+        inscriptionToMatiereService.findById(0L);
+        verify(inscriptionToMatiereService.getInscriptionToMatiereRepository()).findById(0L);
     }
 }

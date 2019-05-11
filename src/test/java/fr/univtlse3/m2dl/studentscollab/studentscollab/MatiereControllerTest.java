@@ -1,6 +1,7 @@
 package fr.univtlse3.m2dl.studentscollab.studentscollab;
 
 
+import fr.univtlse3.m2dl.studentscollab.studentscollab.controller.MatiereController;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Matiere;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.service.MatiereService;
 import org.junit.Before;
@@ -13,14 +14,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import java.util.ArrayList;
-import java.util.List;
-import static org.mockito.Mockito.when;
+
 
 
 @RunWith(SpringRunner.class)
@@ -32,6 +31,7 @@ public class MatiereControllerTest {
 
     @MockBean
     private MatiereService matiereService;
+    private MatiereController matiereController;
 
     private MockMvc mockMvc;
 
@@ -53,9 +53,7 @@ public class MatiereControllerTest {
 
     @Test
     public void testMatieres() throws Exception {
-        /*when(matiereService.findAllMatieres()).thenReturn((List<Matiere>) matieresExpected);
-        this.mockMvc.perform(get("/matieres")).andExpect(status().isOk());*/
-
+        this.mockMvc.perform(get("/matieres")).andExpect(status().isOk())
+                .andExpect(content().string(containsString("Matières")));
     }
-
-    }
+}
