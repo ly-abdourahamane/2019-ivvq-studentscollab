@@ -29,7 +29,9 @@ public class InscriptionToMatiereController {
     @GetMapping("/inscription")
     public String addInscriptionForm(@RequestParam(value = "id_matiere") Long m,
                                      Model model) throws MatiereNotFoundException {
+        String nomMetiere = matiereService.findById(m).getNom();
         model.addAttribute("matiere",m);
+        model.addAttribute("nomMetiere",nomMetiere);
         return "ajouterInscription";
     }
 

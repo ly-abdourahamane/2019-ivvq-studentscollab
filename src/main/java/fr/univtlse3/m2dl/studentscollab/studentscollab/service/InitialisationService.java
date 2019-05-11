@@ -71,8 +71,8 @@ public class InitialisationService {
     }
 
     private void initNotesCours() {
-        noteMeriem = new NoteCours("note meriem", "contenu note meriem", meriem);
-        noteMaxime = new NoteCours("note maxime", "contenu note maxime", maxime);
+        noteMeriem = new NoteCours("note meriem", "contenu note meriem", meriem,matiere1);
+        noteMaxime = new NoteCours("note maxime", "contenu note maxime", maxime,matiere2);
 
         noteCoursRepository.save(noteMeriem);
         noteCoursRepository.save(noteMaxime);

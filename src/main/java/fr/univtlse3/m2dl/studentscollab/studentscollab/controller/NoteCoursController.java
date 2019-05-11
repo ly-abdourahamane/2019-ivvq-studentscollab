@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class NoteCoursController {
 
@@ -28,8 +30,10 @@ public class NoteCoursController {
     private EvaluationService evaluationService;
 
     @GetMapping("/cours/new")
-    public String addCours(Model model) {
-        model.addAttribute("noteCours", new NoteCours());
+    public String addCours(Model model, HttpSession httpSession) {
+        NoteCours noteCours = new NoteCours();
+        noteCours.setRedacteur((Etudiant) httpSession.getAttribute("etudiant"));
+        model.addAttribute("noteCours", noteCours);
         return "noteform";
     }
 

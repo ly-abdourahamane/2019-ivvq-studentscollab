@@ -31,9 +31,16 @@ public class MatiereController {
     }
 
     @GetMapping("/matiere")
-    public String matiere(@RequestParam(value = "id_etudiant")Long id_etudiant,
+    public String matiere(HttpSession httpSession,
                           @RequestParam(value = "id_matiere")Long id_matiere, Model model) {
         Matiere matiere = null;
+        Long id_etudiant = null;
+        try {
+            Etudiant etudiant = (Etudiant) httpSession.getAttribute("etudiant");
+            id_etudiant = etudiant.getId();
+        } catch(Exception etudiantException){
+            return "redirect:/api/v1/etudiants/connexion";
+        }
         try {
             matiere = matiereService.findById(id_matiere);
         } catch (MatiereNotFoundException e) {

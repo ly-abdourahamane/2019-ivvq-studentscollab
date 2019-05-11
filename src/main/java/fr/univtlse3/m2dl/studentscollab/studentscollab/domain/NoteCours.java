@@ -58,6 +58,16 @@ public class NoteCours {
         this.redacteur = redacteur;
     }
 
+    public NoteCours(@NotNull String titre, @NotNull String contenu, @NotNull Etudiant redacteur,@NotNull Matiere matiere) {
+        this.id = id;
+        this.titre = titre;
+        this.contenu = contenu;
+        this.nbLike = 0;
+        this.nbDislike = 0;
+        this.redacteur = redacteur;
+        this.matiere = matiere;
+    }
+
     public NoteCours(@NotNull String titre, @NotNull String contenu) {
         this.titre = titre;
         this.contenu = contenu;

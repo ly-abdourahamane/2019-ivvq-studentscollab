@@ -1,6 +1,5 @@
 package fr.univtlse3.m2dl.studentscollab.studentscollab.service;
 
-import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Matiere;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.NoteCours;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.exception.NoteCoursNotFoundException;
@@ -23,6 +22,7 @@ public class NoteCoursService {
     public EtudiantRepository getEtudiantRepository() {
         return etudiantRepository;
     }
+
     public void setEtudiantRepository(EtudiantRepository etudiantRepository) { this.etudiantRepository = etudiantRepository; }
 
 
@@ -32,7 +32,6 @@ public class NoteCoursService {
         Matiere matiere = n.getMatiere();
         n = noteCoursRepository.save(n);
         matiere.getNoteCours().add(n);
-
         if (n.getRedacteur().getId() == null) {
             etudiantRepository.save(n.getRedacteur());
         }
