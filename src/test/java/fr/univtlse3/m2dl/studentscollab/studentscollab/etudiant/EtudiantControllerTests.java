@@ -21,7 +21,7 @@ public class EtudiantControllerTests {
     @Before
     public void setUp() throws Exception {
         etudiantController = new EtudiantController();
-       // etudiantController.setEtudiantService(etudiantService);
+        etudiantController.setEtudiantService(etudiantService);
     }
 
     @Test

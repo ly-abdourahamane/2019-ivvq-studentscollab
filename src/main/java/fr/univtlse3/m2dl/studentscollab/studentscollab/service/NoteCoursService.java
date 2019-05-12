@@ -30,7 +30,6 @@ public class NoteCoursService {
         if(n == null)
             throw new IllegalArgumentException();
         Matiere matiere = n.getMatiere();
-        n = noteCoursRepository.save(n);
         matiere.getNoteCours().add(n);
         if (n.getRedacteur().getId() == null) {
             etudiantRepository.save(n.getRedacteur());

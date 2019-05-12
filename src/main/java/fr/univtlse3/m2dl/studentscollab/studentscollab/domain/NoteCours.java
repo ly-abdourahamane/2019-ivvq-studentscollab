@@ -59,7 +59,6 @@ public class NoteCours {
     }
 
     public NoteCours(@NotNull String titre, @NotNull String contenu, @NotNull Etudiant redacteur,@NotNull Matiere matiere) {
-        this.id = id;
         this.titre = titre;
         this.contenu = contenu;
         this.nbLike = 0;
@@ -91,12 +90,13 @@ public class NoteCours {
         this.redacteur = redacteur;
     }
 
-    public NoteCours(@NotNull String titre, @NotNull String contenu, @PositiveOrZero int nbLike, @PositiveOrZero int nbDislike, @NotNull Etudiant redacteur) {
+    public NoteCours(@NotNull String titre, @NotNull String contenu, @PositiveOrZero int nbLike, @PositiveOrZero int nbDislike, @NotNull Etudiant redacteur,@NotNull Matiere matiere) {
         this.titre = titre;
         this.contenu = contenu;
         this.nbLike = nbLike;
         this.nbDislike = nbDislike;
         this.redacteur = redacteur;
+        this.matiere = matiere;
     }
 
     public Long getId() {
