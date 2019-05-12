@@ -1,5 +1,7 @@
 package fr.univtlse3.m2dl.studentscollab.studentscollab.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
@@ -32,6 +34,13 @@ public class NoteCours {
     @OneToMany(mappedBy = "noteCours", cascade = CascadeType.PERSIST)
     private Collection<Commentaire> commentaires = new ArrayList<>();
 
+    @ManyToOne
+    @NotNull
+    private Matiere matiere;
+
+//    @OneToMany
+//    private Collection<Commentaire> commentaires = new ArrayList<>();
+
     public NoteCours() {
     }
 
@@ -50,6 +59,15 @@ public class NoteCours {
         this.nbLike = 0;
         this.nbDislike = 0;
         this.redacteur = redacteur;
+    }
+
+    public NoteCours(@NotNull String titre, @NotNull String contenu, @NotNull Etudiant redacteur,@NotNull Matiere matiere) {
+        this.titre = titre;
+        this.contenu = contenu;
+        this.nbLike = 0;
+        this.nbDislike = 0;
+        this.redacteur = redacteur;
+        this.matiere = matiere;
     }
 
     public NoteCours(@NotNull String titre, @NotNull String contenu) {
@@ -82,12 +100,13 @@ public class NoteCours {
         this.redacteur = redacteur;
     }
 
-    public NoteCours(@NotNull String titre, @NotNull String contenu, @PositiveOrZero int nbLike, @PositiveOrZero int nbDislike, @NotNull Etudiant redacteur) {
+    public NoteCours(@NotNull String titre, @NotNull String contenu, @PositiveOrZero int nbLike, @PositiveOrZero int nbDislike, @NotNull Etudiant redacteur,@NotNull Matiere matiere) {
         this.titre = titre;
         this.contenu = contenu;
         this.nbLike = nbLike;
         this.nbDislike = nbDislike;
         this.redacteur = redacteur;
+        this.matiere = matiere;
     }
 
     public Long getId() {
@@ -140,5 +159,9 @@ public class NoteCours {
 
     public void setCommentaires(Collection<Commentaire> commentaires) {
         this.commentaires = commentaires;
+    }
+
+    public Matiere getMatiere() {
+        return matiere;
     }
 }

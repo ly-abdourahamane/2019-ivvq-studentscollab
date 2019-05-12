@@ -1,24 +1,34 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>Note de cours</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    </head>
-    <body>
-        <h1>Note ajoutée</h1>
-        <p th:text="'id: ' + ${noteCours.id}" />
-        <p th:text="'titre: ' + ${noteCours.titre}" />
-        <p th:text="'contenu: ' + ${noteCours.contenu}" />
-        <p th:text="'nbLike: ' + ${noteCours.nbLike} + 'nbDislike: ' + ${noteCours.nbDislike}" />
-        <!--+' redacteur: ' + ${noteCours.redacteur.nom} + ' ' + ${noteCours.redacteur.prenom}"-->
-        <form action="#" th:action="@{/cours/like}" th:with="nc=${noteCours}, etu=${noteCours.redacteur}" method="get"><!--remplacer par l'etudiant connecté-->
-            <p><input type="submit" value="Like" /></p>
-        </form>
-        <form action="#" th:action="@{/cours/dislike}" th:with="nc=${noteCours}, etu=${noteCours.redacteur}" method="get">
-            <p><input type="submit" value="Dislike" /></p>
-        </form>
-        <form action="#" th:action="@{/cours/all}">
-            <p><input type="submit" value="Voir tout" /></p>
-        </form>
-    </body>
+<head>
+    <title>Note de cours</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div class="w3-bar w3-dark-gray">
+    <a href="/api/v1/etudiants/accueil" class="w3-bar-item w3-button">Accueil</a>
+    <a href="/api/v1/etudiants" class="w3-bar-item w3-button w3-hide-small">Liste étudiants</a>
+    <a href="/api/v1/etudiants/creer-compte" class="w3-bar-item w3-button w3-hide-small">Créer compte</a>
+    <a href="/api/v1/etudiants/connexion" class="w3-bar-item w3-button w3-hide-small">Connexion</a>
+    <a href="/matieres" class="w3-bar-item w3-button w3-hide-small">Matières</a>
+    <a href="/api/v1/formations" class="w3-bar-item w3-button w3-hide-small">Liste formations</a>
+    <a href="/api/v1/formations/creer" class="w3-bar-item w3-button w3-hide-small">Creer une formation</a>
+    <a href="/api/v1/inscriptions/creer" class="w3-bar-item w3-button w3-hide-small">S'inscrire à une formation</a>
+</div>
+<h1>Note ajoutée</h1>
+<p th:text="'id: ' + ${noteCours.id}" />
+<p th:text="'titre: ' + ${noteCours.titre}" />
+<p th:text="'contenu: ' + ${noteCours.contenu}" />
+<p th:text="'nbLike: ' + ${noteCours.nbLike} + 'nbDislike: ' + ${noteCours.nbDislike}" />
+<!--+' redacteur: ' + ${noteCours.redacteur.nom} + ' ' + ${noteCours.redacteur.prenom}"-->
+<form action="#" th:action="${'/cours/like/' + noteCours.id}" th:object="${noteCours.redacteur.id}" method="get"><!--remplacer par l'etudiant connecté-->
+    <p><input type="submit" value="Like" /></p>
+</form>
+<form action="#" th:action="${'/cours/dislike/' + noteCours.id}" th:object="${noteCours.redacteur.id}" method="get">
+    <p><input type="submit" value="Dislike" /></p>
+</form>
+<form action="#" th:action="@{/cours/all}">
+    <p><input type="submit" value="Voir tout" /></p>
+</form>
+</body>
 </html>

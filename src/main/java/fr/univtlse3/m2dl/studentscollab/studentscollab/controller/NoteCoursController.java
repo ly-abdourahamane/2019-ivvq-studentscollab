@@ -7,9 +7,11 @@ import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.EvalType;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Evaluation;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.NoteCours;
 
+import fr.univtlse3.m2dl.studentscollab.studentscollab.exception.EvalNotFoundException;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.exception.NoteCoursNotFoundException;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.exception.EvalNotFoundException;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.service.CommentaireService;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.service.EtudiantService;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.service.EvaluationService;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.service.NoteCoursService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class NoteCoursController {
@@ -33,9 +38,14 @@ public class NoteCoursController {
     @Autowired
     private CommentaireService commentaireService;
 
+    @Autowired
+    private EtudiantService etudiantService;
+
     @GetMapping("/cours/new")
-    public String addCours(Model model) {
-        model.addAttribute("noteCours", new NoteCours());
+    public String addCours(Model model, HttpSession httpSession) {
+        NoteCours noteCours = new NoteCours();
+        noteCours.setRedacteur((Etudiant) httpSession.getAttribute("etudiant"));
+        model.addAttribute("noteCours", noteCours);
         return "noteform";
     }
 
@@ -53,6 +63,11 @@ public class NoteCoursController {
         } catch (NoteCoursNotFoundException e) {
             return "error";
         }
+        Etudiant etudiantSession = (Etudiant) httpSession.getAttribute("etudiant");
+        if (etudiantSession == null || etudiantSession.getId() == null) {
+            return "redirect:/api/v1/etudiants/connexion";
+        }
+
         model.addAttribute("noteCours", noteCours);
         Commentaire c=new Commentaire();
         noteCours.getCommentaires().add(c);
@@ -72,9 +87,11 @@ public class NoteCoursController {
         return "redirect:/cours/all";
     }
 
-    @GetMapping("/cours/like")
-    public String coursEvaluerLike(@ModelAttribute("noteCours") NoteCours nc, @ModelAttribute("etudiant") Etudiant etudiant, Model model) {
+    @GetMapping("/cours/like/{id}")
+    public String coursEvaluerLike(@PathVariable("id") Long id, @RequestAttribute("etudiantId") Long etudiantId, Model model) {
         try {
+            NoteCours nc = ncs.findNoteCoursById(id);
+            Etudiant etudiant = etudiantService.findById(etudiantId).get();
             Evaluation savedEval = evaluationService.findEvaluationByEtudiantAndNoteCours(etudiant.getId(), nc.getId());
             if (savedEval == null) {
                 // crée le LIKE
@@ -100,15 +117,19 @@ public class NoteCoursController {
                     noteCoursService.saveNoteCours(nc);
                 }
             }
-        } catch (EvalNotFoundException e) {
+            model.addAttribute(nc);
+            model.addAttribute(etudiant);
+        } catch (EvalNotFoundException | NoteCoursNotFoundException e) {
             e.printStackTrace();
         }
         return "note_ajoutee";
     }
 
-    @GetMapping("/cours/dislike")
-    public String coursEvaluerDislike(@ModelAttribute("noteCours") NoteCours nc, @ModelAttribute("etudiant") Etudiant etudiant, Model model) {
+    @GetMapping("/cours/dislike/{id}")
+    public String coursEvaluerDislike(@PathVariable("id") Long id, @RequestAttribute("etudiantId") Long etudiantId, Model model) {
         try {
+            NoteCours nc = ncs.findNoteCoursById(id);
+            Etudiant etudiant = etudiantService.findById(etudiantId).get();
             Evaluation savedEval = evaluationService.findEvaluationByEtudiantAndNoteCours(etudiant.getId(), nc.getId());
             if (savedEval == null) {
                 // crée le DISLIKE
@@ -134,7 +155,9 @@ public class NoteCoursController {
                     noteCoursService.saveNoteCours(nc);
                 }
             }
-        } catch (EvalNotFoundException e) {
+            model.addAttribute(nc);
+            model.addAttribute(etudiant);
+        } catch (EvalNotFoundException | NoteCoursNotFoundException e) {
             e.printStackTrace();
         }
         return "note_ajoutee";

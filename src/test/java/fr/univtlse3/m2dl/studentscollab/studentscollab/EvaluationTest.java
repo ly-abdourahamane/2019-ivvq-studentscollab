@@ -1,9 +1,6 @@
 package fr.univtlse3.m2dl.studentscollab.studentscollab;
 
-import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.EvalType;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Evaluation;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.NoteCours;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +17,8 @@ public class EvaluationTest {
 
     private static Validator validator;
     private Etudiant redacteur = new Etudiant("A", "A", "aa@gmail.com", "aaa");
-    private NoteCours nct = new NoteCours("nouvelleNote", "contenu", 0, 0, redacteur);
+    private Matiere matiere = new Matiere("matiere");
+    private NoteCours nct = new NoteCours("nouvelleNote", "contenu", 0, 0, redacteur,matiere);
 
     @BeforeClass
     public static void setup() {

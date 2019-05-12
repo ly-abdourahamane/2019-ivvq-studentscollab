@@ -22,13 +22,24 @@ public class MatiereTest {
 
     @Test
     public void testNomNull() {
+        // given: matiere une matière avec un nom null
+        // when: matiere est créée
         Matiere matiere = new Matiere(null);
-        assertTrue(validator.validate(matiere).size() != 0);
+        // then: matiere n'est pas validé par le validator
+        assertFalse(validator.validate(matiere).isEmpty());
     }
 
     @Test
     public void testNomNotNull() {
+        // given: matiere une matière avec un nom non null
+        // when: matiere est créée
         Matiere matiere = new Matiere("matiere1");
-        assertTrue(validator.validate(matiere).size() == 0);
+        // then: matiere est validé par le validator
+        assertTrue(validator.validate(matiere).isEmpty());
     }
+
+
+
+
+
 }

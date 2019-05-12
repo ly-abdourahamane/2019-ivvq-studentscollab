@@ -61,7 +61,7 @@ public class EtudiantService {
 
         Etudiant etudiant = this.etudiantRepository.login(email, motDePasse);
 
-       return (etudiant==null ? "connexion": "");
+        return (etudiant==null ? "connexion": "");
     }
 
     public void deleteEtudiant(Etudiant etudiant) {
@@ -95,6 +95,16 @@ public class EtudiantService {
 
         // suppression de l'étudiant
         etudiantRepository.delete(etudiant);
+    }
+
+    public boolean estInscrit(Long idMatiere, Long idEtudiant){
+        Boolean inscrit = false;
+        Etudiant etudiant = etudiantRepository.findById(idEtudiant).orElse(null);
+        for (InscriptionToMatiere inscriptionToMatiere : etudiant.getInscriptionToMatieres()) {
+            if(inscriptionToMatiere.getMatiere().getId() == idMatiere)
+                inscrit = true;
+        }
+        return inscrit;
     }
 
     public EtudiantRepository getEtudiantRepository() {

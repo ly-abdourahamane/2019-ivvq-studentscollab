@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -36,40 +37,32 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @Transactional
 @SpringBootTest
-public class NoteCoursControllerTest {
+@AutoConfigureMockMvc
+public class NoteCoursControllerIntegrationTest {
 
     @Autowired
-    private WebApplicationContext wac;
+    private InitialisationService initialisationService;
 
-    @MockBean
-    private NoteCoursService ncService;
-
-    @MockBean
-    private EtudiantService etudiantService;
-
+    @Autowired
     private MockMvc mockMvc;
 
-    private Iterable<NoteCours> listeNcExpected = new ArrayList<NoteCours>(){{
-        add(new NoteCours(1L, "nouvelleNote", "contenuNote"));
-    }};
-
-    @Before
-    public void setup(){
-        mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+    @Test
+    public void testPageNoteLike() throws Exception {
+        Etudiant etu = initialisationService.getMaxime();
+        NoteCours nc = initialisationService.getNoteMaxime();
+        this.mockMvc.perform(get("/cours/like/" + nc.getId())
+                .requestAttr("etudiantId", etu.getId()))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("nbLike: 1")));
     }
 
     @Test
-    public void testPageNouvelleNote() throws Exception {
-        this.mockMvc.perform(get("/cours/new")).andExpect(status().isOk())
-                .andExpect(content().string(containsString("Ajout d'une note de cours")));
+    public void testPageNoteDislike() throws Exception {
+        Etudiant etu = initialisationService.getMaxime();
+        NoteCours nc = initialisationService.getNoteMaxime();
+        this.mockMvc.perform(get("/cours/dislike/" + nc.getId())
+                .requestAttr("etudiantId", etu.getId()))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("nbDislike: 1")));
     }
-
-    @Test
-    public void testPageCoursAll() throws Exception {
-        when(ncService.findAll()).thenReturn(listeNcExpected);
-        this.mockMvc.perform(get("/cours/all")).andExpect(status().isOk())
-                .andExpect(content().string(containsString("nouvelleNote")))
-                .andExpect(content().string(containsString("contenuNote")));
-    }
-
 }
