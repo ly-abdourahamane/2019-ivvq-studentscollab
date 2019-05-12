@@ -28,8 +28,13 @@ public class InscriptionToMatiereController {
 
     @GetMapping("/inscription")
     public String addInscriptionForm(@RequestParam(value = "id_matiere") Long m,
-                                     Model model) throws MatiereNotFoundException {
-        String nomMetiere = matiereService.findById(m).getNom();
+                                     Model model){
+        String nomMetiere = null;
+        try {
+            nomMetiere = matiereService.findById(m).getNom();
+        } catch (MatiereNotFoundException e) {
+            return "error";
+        }
         model.addAttribute("matiere",m);
         model.addAttribute("nomMetiere",nomMetiere);
         return "ajouterInscription";
@@ -37,8 +42,13 @@ public class InscriptionToMatiereController {
 
 
     @PostMapping("/inscrire")
-    public String inscrire(@RequestParam("idMatiere")Long  idMatiere,HttpSession session,Model model) throws MatiereNotFoundException {
-        Matiere matiere = matiereService.findById(idMatiere);
+    public String inscrire(@RequestParam("idMatiere")Long  idMatiere,HttpSession session,Model model){
+        Matiere matiere = null;
+        try {
+            matiere = matiereService.findById(idMatiere);
+        } catch (MatiereNotFoundException e) {
+            return "error";
+        }
         Etudiant etudiant = (Etudiant) session.getAttribute("etudiant");
         InscriptionToMatiere inscriptionToMatiere = new InscriptionToMatiere(etudiant,matiere);
         inscriptionToMatiereService.saveInscription(inscriptionToMatiere);
