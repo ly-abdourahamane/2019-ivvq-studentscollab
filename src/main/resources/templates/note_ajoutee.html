@@ -21,10 +21,10 @@
 <p th:text="'contenu: ' + ${noteCours.contenu}" />
 <p th:text="'nbLike: ' + ${noteCours.nbLike} + 'nbDislike: ' + ${noteCours.nbDislike}" />
 <!--+' redacteur: ' + ${noteCours.redacteur.nom} + ' ' + ${noteCours.redacteur.prenom}"-->
-<form action="#" th:action="${'/cours/like/' + noteCours.id}" th:object="${noteCours.redacteur.id}" method="get"><!--remplacer par l'etudiant connecté-->
+<form action="#" th:action="${'/cours/like/' + noteCours.id}" th:object="${etudiant.id}" method="get">
     <p><input type="submit" value="Like" /></p>
 </form>
-<form action="#" th:action="${'/cours/dislike/' + noteCours.id}" th:object="${noteCours.redacteur.id}" method="get">
+<form action="#" th:action="${'/cours/dislike/' + noteCours.id}" th:object="${etudiant.id}" method="get">
     <p><input type="submit" value="Dislike" /></p>
 </form>
 <form action="#" th:action="@{/cours/all}">

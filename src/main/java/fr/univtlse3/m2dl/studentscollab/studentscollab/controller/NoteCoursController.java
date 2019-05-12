@@ -1,19 +1,13 @@
 package fr.univtlse3.m2dl.studentscollab.studentscollab.controller;
 
 
-import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Commentaire;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.EvalType;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Evaluation;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.NoteCours;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.*;
 
 import fr.univtlse3.m2dl.studentscollab.studentscollab.exception.EvalNotFoundException;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.exception.MatiereNotFoundException;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.exception.NoteCoursNotFoundException;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.exception.EvalNotFoundException;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.service.CommentaireService;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.service.EtudiantService;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.service.EvaluationService;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.service.NoteCoursService;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.Collection;
 
 @Controller
 public class NoteCoursController {
@@ -41,11 +36,19 @@ public class NoteCoursController {
     @Autowired
     private EtudiantService etudiantService;
 
+    @Autowired
+    private MatiereService matiereService;
+
     @GetMapping("/cours/new")
     public String addCours(Model model, HttpSession httpSession) {
         NoteCours noteCours = new NoteCours();
-        noteCours.setRedacteur((Etudiant) httpSession.getAttribute("etudiant"));
+        Etudiant etudiant = (Etudiant) httpSession.getAttribute("etudiant");
+        if (etudiant == null || etudiant.getId() == null) {
+            return "redirect:/api/v1/etudiants/connexion";
+        }
         model.addAttribute("noteCours", noteCours);
+        Collection<Matiere> matieres = matiereService.findAllMatieres();
+        model.addAttribute("matieres", matieres);
         return "noteform";
     }
 
@@ -56,7 +59,7 @@ public class NoteCoursController {
     }
 
     @GetMapping("/cours/{id}")
-    public String cours(Model model, @PathVariable("id") Long id) {
+    public String cours(Model model, @PathVariable("id") Long id, HttpSession httpSession) {
         NoteCours noteCours = null;
         try {
             noteCours = noteCoursService.findNoteCoursById(id);
@@ -69,6 +72,7 @@ public class NoteCoursController {
         }
 
         model.addAttribute("noteCours", noteCours);
+        model.addAttribute("etudiant", etudiantSession);
         Commentaire c=new Commentaire();
         noteCours.getCommentaires().add(c);
         model.addAttribute("nouveauCommentaire", c);
@@ -76,9 +80,19 @@ public class NoteCoursController {
     }
 
     @PostMapping("/cours/new")
-    public String savecours(@ModelAttribute("noteCours") NoteCours nc, Long id, Model model) {
-        NoteCours noteCours = noteCoursService.saveNoteCours(nc);
-        return "note_ajoutee";
+    public String savecours(@ModelAttribute("noteCours") NoteCours nc, Model model, HttpSession httpSession) {
+        try {
+            Etudiant etudiantSession = (Etudiant) httpSession.getAttribute("etudiant");
+            if (etudiantSession == null || etudiantSession.getId() == null) {
+                return "redirect:/api/v1/etudiants/connexion";
+            }
+            model.addAttribute("etudiant", etudiantSession);
+            nc.setRedacteur(etudiantSession);
+            noteCoursService.saveNoteCours(nc);
+            return "note_ajoutee";
+        } catch (Exception e) {
+            return "error";
+        }
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/addcommentaire")
@@ -90,7 +104,7 @@ public class NoteCoursController {
     @GetMapping("/cours/like/{id}")
     public String coursEvaluerLike(@PathVariable("id") Long id, @RequestAttribute("etudiantId") Long etudiantId, Model model) {
         try {
-            NoteCours nc = ncs.findNoteCoursById(id);
+            NoteCours nc = noteCoursService.findNoteCoursById(id);
             Etudiant etudiant = etudiantService.findById(etudiantId).get();
             Evaluation savedEval = evaluationService.findEvaluationByEtudiantAndNoteCours(etudiant.getId(), nc.getId());
             if (savedEval == null) {
@@ -128,7 +142,7 @@ public class NoteCoursController {
     @GetMapping("/cours/dislike/{id}")
     public String coursEvaluerDislike(@PathVariable("id") Long id, @RequestAttribute("etudiantId") Long etudiantId, Model model) {
         try {
-            NoteCours nc = ncs.findNoteCoursById(id);
+            NoteCours nc = noteCoursService.findNoteCoursById(id);
             Etudiant etudiant = etudiantService.findById(etudiantId).get();
             Evaluation savedEval = evaluationService.findEvaluationByEtudiantAndNoteCours(etudiant.getId(), nc.getId());
             if (savedEval == null) {

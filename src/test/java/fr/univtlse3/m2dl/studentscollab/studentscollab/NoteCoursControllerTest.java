@@ -60,8 +60,7 @@ public class NoteCoursControllerTest {
 
     @Test
     public void testPageNouvelleNote() throws Exception {
-        this.mockMvc.perform(get("/cours/new")).andExpect(status().isOk())
-                .andExpect(content().string(containsString("Ajout d'une note de cours")));
+        this.mockMvc.perform(get("/cours/new")).andExpect(status().isFound());
     }
 
     @Test

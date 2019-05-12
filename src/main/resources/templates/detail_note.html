@@ -14,6 +14,12 @@
     <input type="hidden" th:field="${noteCours.id}">
     <input type="hidden" th:field="${noteCours.titre}">
     <input type="hidden" th:field="${noteCours.contenu}">
+    <form action="#" th:action="${'/cours/like/' + noteCours.id}" th:object="${etudiant.id}" method="get">
+        <p><input type="submit" value="Like" /></p>
+    </form>
+    <form action="#" th:action="${'/cours/dislike/' + noteCours.id}" th:object="${etudiant.id}" method="get">
+        <p><input type="submit" value="Dislike" /></p>
+    </form>
     <th:block th:each="commentaire,i : ${noteCours.commentaires}">
         <input type="hidden" th:field="*{commentaires[__${i.index}__].id}">
         <p>Commentaire:<input type="text" th:field="*{commentaires[__${i.index}__].contenu}" /></p><br />

@@ -38,9 +38,6 @@ public class NoteCours {
     @NotNull
     private Matiere matiere;
 
-//    @OneToMany
-//    private Collection<Commentaire> commentaires = new ArrayList<>();
-
     public NoteCours() {
     }
 
@@ -163,5 +160,9 @@ public class NoteCours {
 
     public Matiere getMatiere() {
         return matiere;
+    }
+
+    public void setMatiere(Matiere matiere) {
+        this.matiere = matiere;
     }
 }
