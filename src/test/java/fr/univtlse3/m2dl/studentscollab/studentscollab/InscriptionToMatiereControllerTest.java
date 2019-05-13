@@ -1,10 +1,8 @@
 package fr.univtlse3.m2dl.studentscollab.studentscollab;
 
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.InscriptionToMatiere;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Matiere;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.service.InitialisationService;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.service.NoteCoursService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,11 +13,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
-
-import javax.persistence.ManyToOne;
 import javax.servlet.http.HttpSession;
 
 import java.nio.charset.Charset;
@@ -27,6 +24,7 @@ import java.nio.charset.Charset;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -46,6 +44,8 @@ public class InscriptionToMatiereControllerTest {
 
     @Autowired
     private HttpSession session;
+
+    private Matiere matiere = new Matiere("matiere");
 
     private String ResultatTemplate;
 
@@ -72,14 +72,39 @@ public class InscriptionToMatiereControllerTest {
 
     }
 
+
     @Test
-    public void testInscrire() throws Exception {
+    public void testAddInscriptionMatiereNotFound() throws Exception {
+        Matiere matiere = initialisationService.getMatiere1();
+        mockMvc.perform(get("/inscription?id_matiere="
+                + 10))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(contentType))
+                .andDo(mvcResult -> {
+                    ResultatTemplate = mvcResult.getResponse().getContentAsString();
+                });;
+
+    }
+
+    @Test
+    public void testInscrireMatiereFound() throws Exception {
         Matiere matiere = initialisationService.getMatiere1();
         Etudiant etudiant = initialisationService.getAbdourahamane();
         session.setAttribute("etudiant",etudiant);
         mockMvc.perform(post("/inscrire?idMatiere="
                 + matiere.getId()))
-                .andExpect(status().isFound())
+                .andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    public void testInscrireMatiereNotFound() throws Exception {
+        Matiere matiere = initialisationService.getMatiere1();
+        Etudiant etudiant = initialisationService.getAbdourahamane();
+        session.setAttribute("etudiant",etudiant);
+        mockMvc.perform(post("/inscrire?idMatiere="
+                + 10))
+                .andExpect(status().isOk())
                 .andDo(mvcResult -> {
                     ResultatTemplate = mvcResult.getResponse().getContentAsString();
                 });;
