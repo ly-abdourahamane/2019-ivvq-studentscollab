@@ -53,7 +53,7 @@ public class NoteCoursController {
     }
 
     @GetMapping("/cours/all")
-    public String coursAll(Model model) {
+    public String coursAll(Model model, HttpSession httpSession) {
         model.addAttribute("liste", noteCoursService.findAll());
         return "notes";
     }
@@ -96,16 +96,30 @@ public class NoteCoursController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/addcommentaire")
-    public String saveCommentaire(@ModelAttribute("noteCours") NoteCours noteCours) {
+    public String saveCommentaire(@ModelAttribute("noteCours") NoteCours noteCours, Model model, HttpSession httpSession) {
         this.commentaireService.addCommentaires(noteCours);
+        Etudiant etudiantSession = (Etudiant) httpSession.getAttribute("etudiant");
+        if (etudiantSession == null || etudiantSession.getId() == null) {
+            return "redirect:/api/v1/etudiants/connexion";
+        }
+        model.addAttribute("etudiant", etudiantSession);
         return "redirect:/cours/all";
     }
 
     @GetMapping("/cours/like/{id}")
-    public String coursEvaluerLike(@PathVariable("id") Long id, @RequestAttribute("etudiantId") Long etudiantId, Model model) {
+    public String coursEvaluerLike(@PathVariable("id") Long id, @RequestParam(value = "etudiantId", required = false) Long etudiantId, Model model, HttpSession httpSession) {
         try {
             NoteCours nc = noteCoursService.findNoteCoursById(id);
-            Etudiant etudiant = etudiantService.findById(etudiantId).get();
+            Etudiant etudiant = null;
+            if (etudiantId != null) {
+                etudiant = etudiantService.findById(etudiantId).get();
+            } else {
+                Etudiant etudiantSession = (Etudiant) httpSession.getAttribute("etudiant");
+                if (etudiantSession == null || etudiantSession.getId() == null) {
+                    return "redirect:/api/v1/etudiants/connexion";
+                }
+                etudiant = etudiantSession;
+            }
             Evaluation savedEval = evaluationService.findEvaluationByEtudiantAndNoteCours(etudiant.getId(), nc.getId());
             if (savedEval == null) {
                 // crée le LIKE
@@ -140,10 +154,19 @@ public class NoteCoursController {
     }
 
     @GetMapping("/cours/dislike/{id}")
-    public String coursEvaluerDislike(@PathVariable("id") Long id, @RequestAttribute("etudiantId") Long etudiantId, Model model) {
+    public String coursEvaluerDislike(@PathVariable("id") Long id, @RequestParam(value = "etudiantId", required = false) Long etudiantId, Model model, HttpSession httpSession) {
         try {
             NoteCours nc = noteCoursService.findNoteCoursById(id);
-            Etudiant etudiant = etudiantService.findById(etudiantId).get();
+            Etudiant etudiant = null;
+            if (etudiantId != null) {
+                etudiant = etudiantService.findById(etudiantId).get();
+            } else {
+                Etudiant etudiantSession = (Etudiant) httpSession.getAttribute("etudiant");
+                if (etudiantSession == null || etudiantSession.getId() == null) {
+                    return "redirect:/api/v1/etudiants/connexion";
+                }
+                etudiant = etudiantSession;
+            }
             Evaluation savedEval = evaluationService.findEvaluationByEtudiantAndNoteCours(etudiant.getId(), nc.getId());
             if (savedEval == null) {
                 // crée le DISLIKE

@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Note de cours</title>
@@ -9,17 +9,21 @@
 <p th:text="'id: ' + *{noteCours.id}" />
 <p th:text="'titre: ' + *{noteCours.titre}" />
 <p th:text="'contenu: ' + *{noteCours.contenu}" />
+<p th:text="'nbLike: ' + ${noteCours.nbLike} + ', nbDislike: ' + ${noteCours.nbDislike}" />
+<p th:text=" 'redacteur: ' + ${noteCours.redacteur.nom} + ' ' + ${noteCours.redacteur.prenom}" />
 
 <form name="nouveau" action="#"  th:action="@{/addcommentaire}" th:object="${noteCours}"  method="post">
     <input type="hidden" th:field="${noteCours.id}">
     <input type="hidden" th:field="${noteCours.titre}">
     <input type="hidden" th:field="${noteCours.contenu}">
-    <form action="#" th:action="${'/cours/like/' + noteCours.id}" th:object="${etudiant.id}" method="get">
-        <p><input type="submit" value="Like" /></p>
-    </form>
-    <form action="#" th:action="${'/cours/dislike/' + noteCours.id}" th:object="${etudiant.id}" method="get">
-        <p><input type="submit" value="Dislike" /></p>
-    </form>
+    <p>
+        <form action="#" th:action="${'/cours/like/' + noteCours.id}" th:with="etudiantId=${etudiant.id}" method="get">
+            <input type="submit" value="Like" />
+        </form>
+        <form action="#" th:action="${'/cours/dislike/' + noteCours.id}" th:with="etudiantId=${etudiant.id}" method="get">
+            <input type="submit" value="Dislike" />
+        </form>
+    </p>
     <th:block th:each="commentaire,i : ${noteCours.commentaires}">
         <input type="hidden" th:field="*{commentaires[__${i.index}__].id}">
         <p>Commentaire:<input type="text" th:field="*{commentaires[__${i.index}__].contenu}" /></p><br />

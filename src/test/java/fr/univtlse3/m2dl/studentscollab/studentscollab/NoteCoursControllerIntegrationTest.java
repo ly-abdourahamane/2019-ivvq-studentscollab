@@ -51,7 +51,7 @@ public class NoteCoursControllerIntegrationTest {
         Etudiant etu = initialisationService.getMaxime();
         NoteCours nc = initialisationService.getNoteMaxime();
         this.mockMvc.perform(get("/cours/like/" + nc.getId())
-                .requestAttr("etudiantId", etu.getId()))
+                .param("etudiantId", etu.getId().toString()))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("nbLike: 1")));
     }
@@ -61,7 +61,7 @@ public class NoteCoursControllerIntegrationTest {
         Etudiant etu = initialisationService.getMaxime();
         NoteCours nc = initialisationService.getNoteMaxime();
         this.mockMvc.perform(get("/cours/dislike/" + nc.getId())
-                .requestAttr("etudiantId", etu.getId()))
+                .param("etudiantId", etu.getId().toString()))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("nbDislike: 1")));
     }
