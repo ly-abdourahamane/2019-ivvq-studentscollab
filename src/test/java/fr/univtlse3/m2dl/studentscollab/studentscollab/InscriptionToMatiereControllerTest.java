@@ -86,18 +86,6 @@ public class InscriptionToMatiereControllerTest {
 
     }
 
-    @Test
-    public void testInscrireMatiereFound() throws Exception {
-        Matiere matiere = initialisationService.getMatiere1();
-        Etudiant etudiant = initialisationService.getAbdourahamane();
-        session.setAttribute("etudiant",etudiant);
-        mockMvc.perform(post("/inscrire?idMatiere="
-                + matiere.getId()))
-                .andExpect(status().isFound());
-        mockMvc.perform(get("/matieres"))
-                .andExpect(content().string(containsString("Matières")));
-
-    }
 
     @Test
     public void testInscrireMatiereNotFound() throws Exception {
