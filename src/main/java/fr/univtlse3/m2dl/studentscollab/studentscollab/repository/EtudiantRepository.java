@@ -23,5 +23,6 @@ public interface EtudiantRepository extends PagingAndSortingRepository<Etudiant,
     public Etudiant login(@Param("email") String email, @Param("motDePasse") String motDePasse);
 
     @Query("select e from Etudiant e where e.email = :email")
-    public Etudiant findEtudiantByEmail(String email);
+    public Etudiant findEtudiantByEmail(@Param("email") String email);
+
 }

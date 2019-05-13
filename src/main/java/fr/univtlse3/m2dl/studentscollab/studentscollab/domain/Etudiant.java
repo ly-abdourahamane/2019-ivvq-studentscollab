@@ -1,9 +1,16 @@
 package fr.univtlse3.m2dl.studentscollab.studentscollab.domain;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jdk.nashorn.internal.objects.annotations.Getter;
+import jdk.nashorn.internal.objects.annotations.Setter;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Etudiant {
@@ -32,6 +39,11 @@ public class Etudiant {
     public Etudiant(){
 
     }
+    @OneToMany(mappedBy = "etudiant")
+    @JsonIgnore
+    private Set<InscriptionToMatiere> inscriptionToMatieres = new HashSet<>();
+
+    private boolean estValide = false;
 
     public Etudiant(String nom, String prenom, String email, String motDePasse) {
         this.nom = nom;
@@ -55,6 +67,10 @@ public class Etudiant {
         }
 
         return prenom!=null? prenom.equals(etudiant.prenom): etudiant.prenom==null;
+    }
+
+    public Set<InscriptionToMatiere> getInscriptionToMatieres() {
+        return inscriptionToMatieres;
     }
 
     @Override

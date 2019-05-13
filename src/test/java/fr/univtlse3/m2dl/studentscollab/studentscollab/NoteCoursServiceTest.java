@@ -1,6 +1,7 @@
 package fr.univtlse3.m2dl.studentscollab.studentscollab;
 
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Matiere;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.NoteCours;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.exception.NoteCoursNotFoundException;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.EtudiantRepository;
@@ -31,6 +32,7 @@ public class NoteCoursServiceTest {
     private EtudiantRepository etudiantRepository;
 
     private Etudiant etu = new Etudiant("nom", "pre", "eeeee@gmail.com", "54654");
+    private Matiere matiere = new Matiere("matiere1");
     private NoteCours ncExpected = new NoteCours(1L, "nouvelleNote", "contenuNote", etu);
 
     @Before
@@ -43,7 +45,7 @@ public class NoteCoursServiceTest {
     @Test
     public void testSave() {
         // given: une note de cours
-        NoteCours nc = new NoteCours("titre","description", etu);
+        NoteCours nc = new NoteCours("titre","description", etu,matiere);
         // when: la méthode saveNote est invoquée
         ncService.saveNoteCours(nc);
         // then: la méthode save du NoteCoursRepository associé est invoquée

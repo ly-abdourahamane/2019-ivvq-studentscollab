@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <title>Students collab</title>
     <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
@@ -16,28 +16,11 @@
     <a href="/api/v1/formations/creer" class="w3-bar-item w3-button w3-hide-small">Creer une formation</a>
     <a href="/api/v1/inscriptions/creer" class="w3-bar-item w3-button w3-hide-small">S'inscrire à une formation</a>
 </div>
-
-<form class="w3-container w3-display-middle" th:method="post" th:object="${inscriptionForm}" th:action="${'/api/v1/inscriptions/valider'}">
-    <h2 class="">S'inscrire à une formation</h2>
-
-    <p>
-        <label class="">Email</label>
-        <input class="w3-input w3-border" type="texte" name="email" th:field="*{email}">
-    </p>
-
-    <p>
-        <label class="">Formation</label>
-        <select class="form-control" id="formation" name="formationId">
-            <option value="0">selectionnez votre formation</option>
-            <option th:each="formation : ${formations}" th:value="${formation.id}"
-                    th:text="${formation.niveau}"></option>
-        </select>
-    </p>
-
-    <p>
-        <button class="w3-btn" type="submit">S'inscrire</button>
-    </p>
+<form action="#" th:action="@{/inscrire(idMatiere=${matiere})}"  method="post">
+    <p th:text= " 'Veuillez vous inscrire pour consulter les notes de la matière :'+${nomMetiere}"></p>
+    <button class="w3-button w3-black" type="submit" value="S'inscrire">S'inscrire</button>
 </form>
-
 </body>
 </html>
+
+
