@@ -6,7 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 @Entity
 public class NoteCours {
@@ -35,8 +35,9 @@ public class NoteCours {
     @NotNull
     private Matiere matiere;
 
-//    @OneToMany
-//    private Collection<Commentaire> commentaires = new ArrayList<>();
+
+    @OneToMany(mappedBy = "noteCours", cascade = CascadeType.PERSIST)
+    private Collection<Commentaire> commentaires = new ArrayList<>();
 
     public NoteCours() {
     }
@@ -74,12 +75,19 @@ public class NoteCours {
         this.nbDislike = 0;
     }
 
-    public NoteCours(@NotNull String titre, @NotNull String contenu, @PositiveOrZero int nbLike, @PositiveOrZero int nbDislike/*, Collection<Commentaire> commentaires*/) {
+    public NoteCours(@NotNull String titre, @NotNull String contenu, @PositiveOrZero int nbLike, @PositiveOrZero int nbDislike) {
         this.titre = titre;
         this.contenu = contenu;
         this.nbLike = nbLike;
         this.nbDislike = nbDislike;
-//        this.commentaires = commentaires;
+    }
+
+    public NoteCours(@NotNull String titre, @NotNull String contenu, @PositiveOrZero int nbLike, @PositiveOrZero int nbDislike, Collection<Commentaire> commentaires) {
+        this.titre = titre;
+        this.contenu = contenu;
+        this.nbLike = nbLike;
+        this.nbDislike = nbDislike;
+        this.commentaires = commentaires;
     }
 
     public NoteCours(@NotNull String titre, @NotNull String contenu, @NotNull Etudiant redacteur) {
@@ -142,14 +150,14 @@ public class NoteCours {
     public Etudiant getRedacteur() {return redacteur;}
 
     public void setRedacteur(Etudiant redacteur) {this.redacteur = redacteur;}
-/*
+
     public Collection<Commentaire> getCommentaires() {
         return commentaires;
     }
 
     public void setCommentaires(Collection<Commentaire> commentaires) {
         this.commentaires = commentaires;
-    }*/
+    }
 
     public Matiere getMatiere() {
         return matiere;

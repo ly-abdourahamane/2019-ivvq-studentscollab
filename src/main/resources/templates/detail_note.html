@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Note de cours</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1>Note ajoutée</h1>
+<p th:text="'id: ' + *{noteCours.id}" />
+<p th:text="'titre: ' + *{noteCours.titre}" />
+<p th:text="'contenu: ' + *{noteCours.contenu}" />
+
+<form name="nouveau" action="#"  th:action="@{/addcommentaire}" th:object="${noteCours}"  method="post">
+    <input type="hidden" th:field="${noteCours.id}">
+    <input type="hidden" th:field="${noteCours.titre}">
+    <input type="hidden" th:field="${noteCours.contenu}">
+    <th:block th:each="commentaire,i : ${noteCours.commentaires}">
+        <input type="hidden" th:field="*{commentaires[__${i.index}__].id}">
+        <p>Commentaire:<input type="text" th:field="*{commentaires[__${i.index}__].contenu}" /></p><br />
+    </th:block>
+    <p><input type="submit" value="Commenter" /></p>
+</form>
+
+<form action="#" th:action="@{/cours/all}">
+    <p><input type="submit" value="Voir tout" /></p>
+</form>
+</body>
+</html>

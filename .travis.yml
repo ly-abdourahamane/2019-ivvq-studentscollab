@@ -12,6 +12,11 @@ env:
   global:
     secure: Qcx7u+iFPDRGoZd7AEHMG0H0oweq+Nqy1NpZzj2dzQBUAslSBWPHzslZyz6WBdcGPN7jfmm2YI2NyNbn3eMVA25CEmj2v7me7dpCtCVP07wqc4/AQFzu61Csgbfw7fX2OOAG242YbegIK4ZRaqpj/tNmLLRi8QJFPRbip0Iels1UdfGxffm/d+iD/SvcI9rWCnZvQewixhu5Ywhr/9lmb/5fmk+DNVnPm5gBxyp39xi0/FWy7sL8l75+NwRCggfn5qHf9HbzHCuFbtEKj4CnQ9kUgqwTgJgSiFgIvI8EC4x7uaKWVJRz1o8q0H1psbvxYE5863FOgI1ehnBWdTiTzEyg9/D5l8IVThxJEj1zquFYcekHdbQq2KjR07KpV6S453b51hRj4YC+G3QaPB6iHSgVZ5ipAdGIvV1FRzPZqDHdSjnST0rL7RKHy1Nna218AcRV5NVYVuI+HAxrb4+s+73grFW8EFJ64O3zjivkCU6/QP4UM+4ZZSPY+zpR89J2RNkfQPh8D/BO/pMeAfolVZADqpQ3sVyhJ2ArWNx9sVZBYcqXH/yESO02iOjMF9cqtEr8SssLkZuXZqfBEPt/DyrwjaP10wGKgaIdgOakWEKLsIQ3VYO9k0MkynFykqnQ6uuSZMj8S96O83cfaJScAKMKAeQMHjbW6+qSVy/IXPI=
 
+cache:
+  directories:
+  - $HOME/.m2
+  - $HOME/.sonar
+
 services:
   - docker
 
