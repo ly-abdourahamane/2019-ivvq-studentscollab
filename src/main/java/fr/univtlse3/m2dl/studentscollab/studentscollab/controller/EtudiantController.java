@@ -108,8 +108,13 @@ public class EtudiantController  {
         return "redirect:/api/v1/etudiants/" + page;
     }
 
-    @GetMapping(value = "/delete/{id}")
-    public String deleteEtudiant(@PathVariable("id") Long id) {
+    @PostMapping(value = "/delete/{id}")
+    public String deleteEtudiant(@PathVariable("id") Long id, HttpSession httpSession) {
+        Etudiant etudiantSession = (Etudiant) httpSession.getAttribute("etudiant");
+        if (etudiantSession == null || etudiantSession.getId() == null || !etudiantSession.getId().equals(id)) {
+            return "redirect:/api/v1/etudiants/connexion";
+        }
+
         Etudiant etudiant = etudiantService.findById(id).get();
         etudiantService.deleteEtudiant(etudiant);
 
@@ -117,7 +122,14 @@ public class EtudiantController  {
     }
 
     @GetMapping(value = "/edit/{id}")
-    public String editEtudiant(@PathVariable("id") Long id, Model model) {
+    public String editEtudiant(@PathVariable("id") Long id, Model model, HttpSession httpSession) {
+        Etudiant etudiantSession = (Etudiant) httpSession.getAttribute("etudiant");
+        if (etudiantSession == null || etudiantSession.getId() == null || id == null) {
+            return "redirect:/api/v1/etudiants/connexion";
+        } else if (!etudiantSession.getId().equals(id)) {
+            return "redirect:/api/v1/etudiants/";
+        }
+
         Etudiant etudiant = etudiantService.findById(id).orElse(null);
 
         if(etudiant == null) {

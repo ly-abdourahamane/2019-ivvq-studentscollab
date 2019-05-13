@@ -28,7 +28,12 @@ public class InscriptionToMatiereController {
 
     @GetMapping("/inscription")
     public String addInscriptionForm(@RequestParam(value = "id_matiere") Long m,
-                                     Model model) throws MatiereNotFoundException {
+                                     Model model, HttpSession httpSession) throws MatiereNotFoundException {
+        Etudiant etudiantSession = (Etudiant) httpSession.getAttribute("etudiant");
+        if (etudiantSession == null || etudiantSession.getId() == null) {
+            return "redirect:/api/v1/etudiants/connexion";
+        }
+
         String nomMetiere = matiereService.findById(m).getNom();
         model.addAttribute("matiere",m);
         model.addAttribute("nomMetiere",nomMetiere);

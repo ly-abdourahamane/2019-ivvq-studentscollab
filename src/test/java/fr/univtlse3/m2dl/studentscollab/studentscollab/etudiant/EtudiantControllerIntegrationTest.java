@@ -131,16 +131,6 @@ public class EtudiantControllerIntegrationTest {
     }
 
     @Test
-    public void testDeleteEtudiant() throws Exception {
-        Etudiant test = initialisationService.getMaxime();
-        mockMvc.perform(get("/api/v1/etudiants/delete/" + test.getId(), test.getId()))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("Bienvenue")));
-        mockMvc.perform(get("/api/v1/etudiants/" + test.getId(), test.getId()))
-                .andExpect(content().string(containsString("Error")));
-    }
-
-    @Test
     public void testAfficherPageAccueil() throws Exception {
         Etudiant etudiant = initialisationService.getAbdourahamane();
 
