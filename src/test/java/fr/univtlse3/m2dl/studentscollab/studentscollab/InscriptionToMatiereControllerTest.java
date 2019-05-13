@@ -21,10 +21,10 @@ import javax.servlet.http.HttpSession;
 
 import java.nio.charset.Charset;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -93,8 +93,10 @@ public class InscriptionToMatiereControllerTest {
         session.setAttribute("etudiant",etudiant);
         mockMvc.perform(post("/inscrire?idMatiere="
                 + matiere.getId()))
-                .andExpect(status().isOk())
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(status().isFound());
+        mockMvc.perform(get("/matieres"))
+                .andExpect(content().string(containsString("Matières")));
+
     }
 
     @Test
