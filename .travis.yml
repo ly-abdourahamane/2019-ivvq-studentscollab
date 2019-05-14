@@ -36,4 +36,3 @@ script:
 - docker tag studentscollab registry.heroku.com/studentscollab/web
 - docker push registry.heroku.com/studentscollab/web
 - heroku container:release web -a studentscollab
-- sonar-scanner
