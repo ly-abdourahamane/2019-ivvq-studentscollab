@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Note de cours</title>
@@ -14,22 +14,29 @@
     <a href="/api/v1/formations" class="w3-bar-item w3-button w3-hide-small">Liste formations</a>
     <a href="/api/v1/formations/creer" class="w3-bar-item w3-button w3-hide-small">Creer une formation</a>
     <a href="/api/v1/inscriptions/creer" class="w3-bar-item w3-button w3-hide-small">S'inscrire à une formation</a>
-    <a href="/api/v1/inscriptions/creer" class="w3-bar-item w3-button w3-hide-small">Nouvelle note de cours</a>
-    <a href="/api/v1/inscriptions/creer" class="w3-bar-item w3-button w3-hide-small">Notes de cours</a>
+    <a href="/api/v1/cours/new" class="w3-bar-item w3-button w3-hide-small">Créer une note de cours</a>
+    <a href="/api/v1/cours/all" class="w3-bar-item w3-button w3-hide-small">Voir les notes de cours</a>
 </div>
-<h2>Détail note</h2>
-<div class="w3-cell-row">
-    <div class="w3-container w3-cell">
-        <p th:text="'id: ' + *{noteCours.id}" />
-        <p th:text="'titre: ' + *{noteCours.titre}" />
-        <p th:text="'contenu: ' + *{noteCours.contenu}" />
-    </div>
-</div>
+
+<h1>Note ajoutée</h1>
+<p th:text="'id: ' + *{noteCours.id}" />
+<p th:text="'titre: ' + *{noteCours.titre}" />
+<p th:text="'contenu: ' + *{noteCours.contenu}" />
+<p th:text="'nbLike: ' + ${noteCours.nbLike} + ', nbDislike: ' + ${noteCours.nbDislike}" />
+<p th:text=" 'redacteur: ' + ${noteCours.redacteur.nom} + ' ' + ${noteCours.redacteur.prenom}" />
 
 <form class="w3-col m4 w3-container" name="nouveau" action="#"  th:action="@{/addcommentaire}" th:object="${noteCours}"  method="post">
     <input type="hidden" th:field="${noteCours.id}">
     <input type="hidden" th:field="${noteCours.titre}">
     <input type="hidden" th:field="${noteCours.contenu}">
+    <p>
+        <form action="#" th:action="${'/api/v1/cours/like/' + noteCours.id}" th:with="etudiantId=${etudiant.id}" method="get">
+            <input type="submit" value="Like" />
+        </form>
+        <form action="#" th:action="${'/api/v1/cours/dislike/' + noteCours.id}" th:with="etudiantId=${etudiant.id}" method="get">
+            <input type="submit" value="Dislike" />
+        </form>
+    </p>
     <th:block th:each="commentaire,i : ${noteCours.commentaires}">
         <input type="hidden" th:field="*{commentaires[__${i.index}__].id}">
         <p>Commentaire:<input class="w3-input w3-border" type="text" th:field="*{commentaires[__${i.index}__].contenu}" /></p><br />

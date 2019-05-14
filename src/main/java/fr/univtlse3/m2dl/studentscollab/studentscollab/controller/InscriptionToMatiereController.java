@@ -50,6 +50,9 @@ public class InscriptionToMatiereController {
             return "error";
         }
         Etudiant etudiant = (Etudiant) session.getAttribute("etudiant");
+        if (etudiant == null || etudiant.getId() == null) {
+            return "redirect:/api/v1/etudiants/connexion";
+        }
         InscriptionToMatiere inscriptionToMatiere = new InscriptionToMatiere(etudiant,matiere);
         inscriptionToMatiereService.saveInscription(inscriptionToMatiere);
         model.addAttribute("matiere",matiere);

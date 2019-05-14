@@ -122,6 +122,8 @@ public class InitialisationService {
         return maxime;
     }
 
+    public NoteCours getNoteMaxime() {return noteMaxime;}
+
     public Formation getDl() {
         return dl;
     }
