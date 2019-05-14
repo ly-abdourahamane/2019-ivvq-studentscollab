@@ -122,12 +122,37 @@ public class EtudiantControllerIntegrationTest {
     public void testUpdateEtudiant() throws Exception {
         Etudiant test = initialisationService.getMaxime();
         Etudiant modified = new Etudiant("pasmax", "pasr", "truc@gmail.com", "123456");
-        mockMvc.perform(post("/api/v1/etudiants/update/" + test.getId()).flashAttr("etudiant", modified))
+        mockMvc.perform(post("/api/v1/etudiants/update/" + test.getId())
+                .flashAttr("etudiant", modified)
+                .param("etudiantSessionId", test.getId().toString()))
                 .andExpect(status().isFound());
         mockMvc.perform(get("/api/v1/etudiants"))
                 .andExpect(content().string(containsString("pasmax")))
                 .andExpect(content().string(containsString("pasr")))
                 .andExpect(content().string(containsString("truc@gmail.com")));
+    }
+
+    @Test
+    public void testUpdateEtudiantNoSession() throws Exception {
+        Etudiant test = initialisationService.getMaxime();
+        Etudiant modified = new Etudiant("pasmax", "pasr", "truc@gmail.com", "123456");
+        mockMvc.perform(post("/api/v1/etudiants/update/" + test.getId())
+                .flashAttr("etudiant", modified))
+                .andExpect(status().isFound());
+    }
+
+    @Test
+    public void testDeleteEtudiantRightSession() throws Exception {
+        Etudiant test = initialisationService.getMaxime();
+        mockMvc.perform(post("/api/v1/etudiants/delete/" + test.getId()).param("etudiantId", test.getId().toString()))
+                .andExpect(status().isFound());
+    }
+
+    @Test
+    public void testDeleteEtudiantWithSessionNull() throws Exception {
+        Etudiant test = initialisationService.getMaxime();
+        mockMvc.perform(post("/api/v1/etudiants/delete/" + test.getId()))
+                .andExpect(status().isFound());
     }
 
     @Test
