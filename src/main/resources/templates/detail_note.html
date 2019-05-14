@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Note de cours</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
 </head>
 <body>
 <div class="w3-bar w3-dark-gray">
@@ -25,7 +25,7 @@
 <p th:text="'nbLike: ' + ${noteCours.nbLike} + ', nbDislike: ' + ${noteCours.nbDislike}" />
 <p th:text=" 'redacteur: ' + ${noteCours.redacteur.nom} + ' ' + ${noteCours.redacteur.prenom}" />
 
-<form name="nouveau" action="#"  th:action="@{/addcommentaire}" th:object="${noteCours}"  method="post">
+<form class="w3-col m4 w3-container" name="nouveau" action="#"  th:action="@{/addcommentaire}" th:object="${noteCours}"  method="post">
     <input type="hidden" th:field="${noteCours.id}">
     <input type="hidden" th:field="${noteCours.titre}">
     <input type="hidden" th:field="${noteCours.contenu}">
@@ -39,13 +39,13 @@
     </p>
     <th:block th:each="commentaire,i : ${noteCours.commentaires}">
         <input type="hidden" th:field="*{commentaires[__${i.index}__].id}">
-        <p>Commentaire:<input type="text" th:field="*{commentaires[__${i.index}__].contenu}" /></p><br />
+        <p>Commentaire:<input class="w3-input w3-border" type="text" th:field="*{commentaires[__${i.index}__].contenu}" /></p><br />
     </th:block>
-    <p><input type="submit" value="Commenter" /></p>
+    <p><input class="w3-btn" type="submit" value="Commenter" /></p>
 </form>
 
-<form action="#" th:action="@{/cours/all}">
-    <p><input type="submit" value="Voir tout" /></p>
+<form class="w3-container w3-display-middle" action="#" th:action="@{/api/v1/cours/all}">
+    <p><input class="w3-btn" type="submit" value="Voir tout" /></p>
 </form>
 </body>
 </html>

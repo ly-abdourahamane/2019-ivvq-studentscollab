@@ -3,7 +3,6 @@ package fr.univtlse3.m2dl.studentscollab.studentscollab.controller;
 
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.*;
 
-import fr.univtlse3.m2dl.studentscollab.studentscollab.exception.EvalNotFoundException;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.exception.MatiereNotFoundException;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.exception.NoteCoursNotFoundException;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.exception.EvalNotFoundException;
@@ -16,12 +15,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.Collection;
 
 @Controller
+@RequestMapping("api/v1")
 public class NoteCoursController {
 
     @Autowired
@@ -80,19 +79,22 @@ public class NoteCoursController {
     }
 
     @PostMapping("/cours/new")
-    public String savecours(@ModelAttribute("noteCours") NoteCours nc, Model model, HttpSession httpSession) {
+    public String savecours(@ModelAttribute("noteCours") NoteCours nc, @RequestParam("matiere") Long m, HttpSession session, Model model) {
+        Etudiant etudiant = (Etudiant) session.getAttribute("etudiant");
+        nc.setRedacteur(etudiant);
         try {
-            Etudiant etudiantSession = (Etudiant) httpSession.getAttribute("etudiant");
+            Etudiant etudiantSession = (Etudiant) session.getAttribute("etudiant");
             if (etudiantSession == null || etudiantSession.getId() == null) {
                 return "redirect:/api/v1/etudiants/connexion";
             }
             model.addAttribute("etudiant", etudiantSession);
             nc.setRedacteur(etudiantSession);
-            noteCoursService.saveNoteCours(nc);
-            return "note_ajoutee";
-        } catch (Exception e) {
+            nc.setMatiere(matiereService.findById(m));
+        } catch (MatiereNotFoundException e) {
             return "error";
         }
+        NoteCours noteCours = noteCoursService.saveNoteCours(nc);
+        return "note_ajoutee";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/addcommentaire")

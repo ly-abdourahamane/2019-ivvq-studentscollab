@@ -35,7 +35,6 @@ public class NoteCours {
     @NotNull
     private Matiere matiere;
 
-
     @OneToMany(mappedBy = "noteCours", cascade = CascadeType.PERSIST)
     private Collection<Commentaire> commentaires = new ArrayList<>();
 
@@ -75,13 +74,6 @@ public class NoteCours {
         this.nbDislike = 0;
     }
 
-    public NoteCours(@NotNull String titre, @NotNull String contenu, @PositiveOrZero int nbLike, @PositiveOrZero int nbDislike) {
-        this.titre = titre;
-        this.contenu = contenu;
-        this.nbLike = nbLike;
-        this.nbDislike = nbDislike;
-    }
-
     public NoteCours(@NotNull String titre, @NotNull String contenu, @PositiveOrZero int nbLike, @PositiveOrZero int nbDislike, Collection<Commentaire> commentaires) {
         this.titre = titre;
         this.contenu = contenu;
@@ -98,7 +90,14 @@ public class NoteCours {
         this.redacteur = redacteur;
     }
 
-    public NoteCours(@NotNull String titre, @NotNull String contenu, @PositiveOrZero int nbLike, @PositiveOrZero int nbDislike, @NotNull Etudiant redacteur,@NotNull Matiere matiere) {
+    public NoteCours(@NotNull String titre, @NotNull String contenu, @PositiveOrZero int nbLike, @PositiveOrZero int nbDislike, @NotNull Etudiant redacteur) {
+        this.titre = titre;
+        this.contenu = contenu;
+        this.nbLike = nbLike;
+        this.nbDislike = nbDislike;
+        this.redacteur = redacteur;
+    }
+    public NoteCours(@NotNull String titre, @NotNull String contenu, @PositiveOrZero int nbLike, @PositiveOrZero int nbDislike, @NotNull Etudiant redacteur, @NotNull Matiere matiere) {
         this.titre = titre;
         this.contenu = contenu;
         this.nbLike = nbLike;

@@ -19,17 +19,19 @@
     <a href="/cours/new" class="w3-bar-item w3-button w3-hide-small">Créer une note de cours</a>
     <a href="/cours/all" class="w3-bar-item w3-button w3-hide-small">Voir les notes de cours</a>
 </div>
-<h1>Ajout d'une note de cours</h1>
-<form action="#" th:action="@{/cours/new}" th:object="${noteCours}" method="post">
-    <p>Titre: <input type="text" th:field="*{titre}" /></p>
-    <p>Contenu: <input type="text" th:field="*{contenu}" /></p>
-    <label class="">Formation</label>
-    <select type="hidden" class="form-control" id="matiere" name="matiere">
-        <option value="0">selectionnez la matière</option>
-        <option th:each="matiere : ${matieres}" th:value="${matiere.id}"
-                th:text="${matiere.nom}"></option>
+
+<form class="w3-container w3-display-middle" action="#" th:action="@{/api/v1/cours/new}" th:object="${noteCours}" th:method="post">
+    <h2>Ajout d'une note de cours</h2>
+    <p>Matière :</p>
+    <select class="form-control" name="matiere" th:field="${noteCours.matiere}">
+        <option th:each="m : ${matieres}"
+                th:value="${m.id}"
+                th:text="${m.nom}">
+        </option>
     </select>
-    <p><input type="submit" value="Enregistrer" /> <input type="reset" value="Effacer" /></p>
+    <p>Titre: <input class="w3-input w3-border" type="text" th:field="*{titre}" /></p>
+    <p>Contenu: <textarea class="w3-input w3-border" rows="10" th:field="*{contenu}" /></p>
+    <p><input class="w3-btn" type="submit" value="Enregistrer" /> <input class="w3-btn" type="reset" value="Effacer" /></p>
 </form>
 </body>
 </html>
