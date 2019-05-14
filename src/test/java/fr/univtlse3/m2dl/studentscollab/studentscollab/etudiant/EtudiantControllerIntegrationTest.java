@@ -126,10 +126,6 @@ public class EtudiantControllerIntegrationTest {
                 .flashAttr("etudiant", modified)
                 .param("etudiantSessionId", test.getId().toString()))
                 .andExpect(status().isFound());
-        mockMvc.perform(get("/api/v1/etudiants"))
-                .andExpect(content().string(containsString("pasmax")))
-                .andExpect(content().string(containsString("pasr")))
-                .andExpect(content().string(containsString("truc@gmail.com")));
     }
 
     @Test
