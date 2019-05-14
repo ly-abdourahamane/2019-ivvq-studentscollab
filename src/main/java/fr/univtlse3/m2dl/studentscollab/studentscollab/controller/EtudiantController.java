@@ -138,14 +138,26 @@ public class EtudiantController  {
         }
 
         model.addAttribute("etudiant", etudiant);
+        model.addAttribute("etudiantSession", etudiantSession);
 
         return "updateEtudiant";
     }
 
     @PostMapping(value = "/update/{id}")
-    public String update(@Valid Etudiant etudiant) {
-        etudiantService.save(etudiant);
+    public String update(@Valid Etudiant etudiant, @RequestParam(value = "etudiantSessionId", required = false) Long etudiantSessionId, HttpSession httpSession) {
+        Etudiant etudiantSession = (Etudiant) httpSession.getAttribute("etudiant");
+        Long sessionId = etudiantSessionId;
+        if (sessionId == null) {
+            sessionId = (etudiantSession != null) ? etudiantSession.getId() : null;
+        }
 
-        return "redirect:/api/v1/etudiants/connexion";
+        if (sessionId == null) {
+            return "redirect:/api/v1/etudiants/connexion";
+        } else if (etudiant.getId() == null || !sessionId.equals(etudiant.getId())) {
+            return "redirect:/api/v1/etudiants/";
+        }
+
+        etudiantService.save(etudiant);
+        return "redirect:/api/v1/etudiants/";
     }
 }
