@@ -31,12 +31,13 @@ public class NoteCours {
     @PositiveOrZero
     private int nbDislike;
 
-    @OneToMany(mappedBy = "noteCours", cascade = CascadeType.PERSIST)
-    private Collection<Commentaire> commentaires = new ArrayList<>();
-
     @ManyToOne
     @NotNull
     private Matiere matiere;
+
+
+    @OneToMany(mappedBy = "noteCours", cascade = CascadeType.PERSIST)
+    private Collection<Commentaire> commentaires = new ArrayList<>();
 
     public NoteCours() {
     }
