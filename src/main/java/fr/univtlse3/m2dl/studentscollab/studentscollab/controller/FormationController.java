@@ -1,11 +1,14 @@
 package fr.univtlse3.m2dl.studentscollab.studentscollab.controller;
 
+import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Formation;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.service.FormationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * @author abdou on 20/04/19.
@@ -41,6 +44,12 @@ public class FormationController {
     @GetMapping("{id}")
     public String findById(@PathVariable Long id, Model model){
         Formation formation = formationService.findFormationById(id).orElse(null);
+
+        if(formation == null) {
+            model.addAttribute("customMessage", "Impossible. Id non valide");
+            return "error";
+        }
+
         model.addAttribute("formation", formation);
 
         return "formation";

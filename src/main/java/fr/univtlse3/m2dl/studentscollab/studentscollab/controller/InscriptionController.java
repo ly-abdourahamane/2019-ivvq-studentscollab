@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -37,7 +38,6 @@ public class InscriptionController {
 
     @GetMapping(value = "creer")
     public  String saveInscription(Model model) {
-
         List<Formation> formations = formationService.findAllFormations();
         InscriptionForm inscriptionForm = new InscriptionForm();
 
@@ -48,7 +48,11 @@ public class InscriptionController {
     }
 
     @PostMapping("valider")
-    public String validerCreation(@RequestParam("email") String email, @RequestParam("formationId") Long formationId) {
+    public String validerCreation(@RequestParam("email") String email, @RequestParam("formationId") Long formationId, HttpSession httpSession) {
+        Etudiant etudiantSession = (Etudiant) httpSession.getAttribute("etudiant");
+        if (etudiantSession == null || etudiantSession.getId() == null) {
+            return "redirect:/api/v1/etudiants/connexion";
+        }
 
         Etudiant etudiant = etudiantService.findEtudiantByEmail(email);
         Formation formation1 = formationService.findFormationById(formationId).get();

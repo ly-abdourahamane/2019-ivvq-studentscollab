@@ -1,10 +1,9 @@
 package fr.univtlse3.m2dl.studentscollab.studentscollab.service;
 
-import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Formation;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Inscription;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Matiere;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.*;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.EvaluationRepository;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.MatiereRepository;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.NoteCoursRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,11 +15,23 @@ public class InitialisationService {
     @Autowired
     private MatiereRepository matiereRepository;
 
-    private Matiere matiere1, matiere2, matiere3;
+    @Autowired
+    private NoteCoursRepository noteCoursRepository;
+
+    @Autowired
+    private EvaluationRepository evaluationRepository;
+
+    private Matiere matiere1,matiere2,matiere3;
+    private Etudiant abdourahamane, meriem, maxime, alexia;
+    private NoteCours noteMeriem, noteMaxime;
+    private Evaluation evalMaxime;
 
     private FormationService formationService;
     private InscriptionService inscriptionService;
     private EtudiantService etudiantService;
+
+    private Formation dl, bio, ihm, economie;
+    private Inscription abdouEnDL, meriemEnDL, maximeEnDL, alexiaEnDL;
 
     @Autowired
     public InitialisationService(InscriptionService inscriptionService, FormationService formationService, EtudiantService etudiantService) {
@@ -29,20 +40,25 @@ public class InitialisationService {
         this.etudiantService = etudiantService;
     }
 
-    private Etudiant abdourahamane;
-    private Etudiant meriem;
-    private Etudiant maxime;
-    private Etudiant alexia;
-
-    private Formation dl, bio, ihm, economie;
-    private Inscription abdouEnDL, meriemEnDL, maximeEnDL, alexiaEnDL;
-
     public void run() {
-        initMatieres();
+
 
         initEtudiants();
+
+        initMatieres();
+
         initFormations();
         initInscriptions();
+
+        initNotesCours();
+        initEvals();
+    }
+
+    private void initEvals() {
+        evalMaxime = new Evaluation(maxime, noteMeriem, EvalType.LIKE);
+        noteMeriem.setNbLike(noteMeriem.getNbLike()+1);
+        evaluationRepository.save(evalMaxime);
+        noteCoursRepository.save(noteMeriem);
     }
 
     private void initMatieres() {
@@ -53,6 +69,15 @@ public class InitialisationService {
         matiereRepository.save(matiere2);
         matiereRepository.save(matiere3);
     }
+
+    private void initNotesCours() {
+        noteMeriem = new NoteCours("note meriem", "contenu note meriem", meriem,matiere1);
+        noteMaxime = new NoteCours("note maxime", "contenu note maxime", maxime,matiere2);
+
+        noteCoursRepository.save(noteMeriem);
+        noteCoursRepository.save(noteMaxime);
+    }
+
 
     private void initEtudiants() {
         abdourahamane = new Etudiant("ly", "abdou", "abdourahamane.ly1@gmail.com", "123456");
@@ -93,9 +118,18 @@ public class InitialisationService {
         return abdourahamane;
     }
 
+    public Etudiant getMaxime() {
+        return maxime;
+    }
+
+    public NoteCours getNoteMaxime() {return noteMaxime;}
+
     public Formation getDl() {
         return dl;
     }
 
+    public Matiere getMatiere1() {
+        return matiere1;
+    }
 }
 

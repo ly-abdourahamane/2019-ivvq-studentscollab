@@ -1,7 +1,10 @@
 package fr.univtlse3.m2dl.studentscollab.studentscollab;
 
+import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Matiere;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.NoteCours;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.exception.NoteCoursNotFoundException;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.EtudiantRepository;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.NoteCoursRepository;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.service.NoteCoursService;
 import org.junit.Before;
@@ -25,18 +28,24 @@ public class NoteCoursServiceTest {
     @MockBean
     private NoteCoursRepository ncRepository;
 
-    private NoteCours ncExpected = new NoteCours(1L, "nouvelleNote", "contenuNote");
+    @MockBean
+    private EtudiantRepository etudiantRepository;
+
+    private Etudiant etu = new Etudiant("nom", "pre", "eeeee@gmail.com", "54654");
+    private Matiere matiere = new Matiere("matiere1");
+    private NoteCours ncExpected = new NoteCours(1L, "nouvelleNote", "contenuNote", etu);
 
     @Before
     public void setup() {
         ncService = new NoteCoursService();
         ncService.setNoteCoursRepository(ncRepository);
+        ncService.setEtudiantRepository(etudiantRepository);
     }
 
     @Test
     public void testSave() {
         // given: une note de cours
-        NoteCours nc = new NoteCours("titre","description");
+        NoteCours nc = new NoteCours("titre","description", etu,matiere);
         // when: la méthode saveNote est invoquée
         ncService.saveNoteCours(nc);
         // then: la méthode save du NoteCoursRepository associé est invoquée

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <title>Students collab</title>
     <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
@@ -11,11 +11,12 @@
     <a href="/api/v1/etudiants" class="w3-bar-item w3-button w3-hide-small">Liste étudiants</a>
     <a href="/api/v1/etudiants/creer-compte" class="w3-bar-item w3-button w3-hide-small">Créer compte</a>
     <a href="/api/v1/etudiants/connexion" class="w3-bar-item w3-button w3-hide-small">Connexion</a>
-
+    <a href="/matieres" class="w3-bar-item w3-button w3-hide-small">Matières</a>
     <a href="/api/v1/formations" class="w3-bar-item w3-button w3-hide-small">Liste formations</a>
     <a href="/api/v1/formations/creer" class="w3-bar-item w3-button w3-hide-small">Creer une formation</a>
-
     <a href="/api/v1/inscriptions/creer" class="w3-bar-item w3-button w3-hide-small">S'inscrire à une formation</a>
+    <a href="/api/v1/cours/new" class="w3-bar-item w3-button w3-hide-small">Créer une note de cours</a>
+    <a href="/api/v1/cours/all" class="w3-bar-item w3-button w3-hide-small">Voir les notes de cours</a>
 </div>
 
 <form class="w3-container w3-display-middle" th:method="post" th:object="${etudiant}" th:action="${'/api/v1/etudiants/valider'}">

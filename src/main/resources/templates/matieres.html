@@ -1,18 +1,32 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html>
 <head>
-    <title>Notes de cours</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Students collab</title>
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
 </head>
+
 <body>
-<h1>Toutes les notes</h1>
-<table>
-    <tbody>
+<div class="w3-bar w3-dark-gray">
+    <a href="/api/v1/etudiants/accueil" class="w3-bar-item w3-button">Accueil</a>
+    <a href="/api/v1/etudiants" class="w3-bar-item w3-button w3-hide-small">Liste étudiants</a>
+    <a href="/api/v1/etudiants/creer-compte" class="w3-bar-item w3-button w3-hide-small">Créer compte</a>
+    <a href="/api/v1/etudiants/connexion" class="w3-bar-item w3-button w3-hide-small">Connexion</a>
+    <a href="/matieres" class="w3-bar-item w3-button w3-hide-small">Matières</a>
+    <a href="/api/v1/formations" class="w3-bar-item w3-button w3-hide-small">Liste formations</a>
+    <a href="/api/v1/formations/creer" class="w3-bar-item w3-button w3-hide-small">Creer une formation</a>
+    <a href="/api/v1/inscriptions/creer" class="w3-bar-item w3-button w3-hide-small">S'inscrire à une formation</a>
+    <a href="/api/v1/cours/new" class="w3-bar-item w3-button w3-hide-small">Créer une note de cours</a>
+    <a href="/api/v1/cours/all" class="w3-bar-item w3-button w3-hide-small">Voir les notes de cours</a>
+</div>
+
+<h2>Matières</h2>
+<table class="w3-table-all w3-hoverable">
     <tr th:each="matiere: ${matieres}">
         <td th:text="${matiere.nom}"></td>
-        <td><a th:href="${ '/matiere/' + matiere.id}">Voir</a></td>
-    </tr>
-    </tbody>
+        <td>
+    <button class="w3-button w3-black"><a th:href="${ '/matiere?id_matiere='+ matiere.id}">Voir</a></button>
+   </td>
+</tr>
 </table>
 </body>
 </html>

@@ -5,6 +5,7 @@ import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Formation;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Login;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.service.EtudiantService;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.service.EtudiantService;
 
 import fr.univtlse3.m2dl.studentscollab.studentscollab.service.FormationService;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.service.InscriptionService;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -62,6 +65,7 @@ public class EtudiantController  {
       return "redirect:/api/v1/etudiants/connexion";
     }
 
+
     @GetMapping(value = "/{id}")
     public String getById(@PathVariable Long id, Model model) {
         Etudiant etudiant = etudiantService.findById(id).orElse(null);
@@ -96,9 +100,52 @@ public class EtudiantController  {
     }
 
     @PostMapping(value = "/login")
-    public String login(@ModelAttribute("login") Login login) {
+    public String login(@ModelAttribute("login") Login login, HttpSession session) {
         String page = this.etudiantService.login(login.getEmail(), login.getMotDePasse());
-
+        String mail = login.getEmail();
+        Etudiant etudiant = etudiantService.findEtudiantByEmail(mail);
+        session.setAttribute("etudiant", etudiant);
         return "redirect:/api/v1/etudiants/" + page;
+    }
+
+    @PostMapping(value = "/delete/{id}")
+    public String deleteEtudiant(@PathVariable("id") Long id, HttpSession httpSession) {
+        Etudiant etudiantSession = (Etudiant) httpSession.getAttribute("etudiant");
+        if (etudiantSession == null || etudiantSession.getId() == null || !etudiantSession.getId().equals(id)) {
+            return "redirect:/api/v1/etudiants/connexion";
+        }
+
+        Etudiant etudiant = etudiantService.findById(id).get();
+        etudiantService.deleteEtudiant(etudiant);
+
+        return "index";
+    }
+
+    @GetMapping(value = "/edit/{id}")
+    public String editEtudiant(@PathVariable("id") Long id, Model model, HttpSession httpSession) {
+        Etudiant etudiantSession = (Etudiant) httpSession.getAttribute("etudiant");
+        if (etudiantSession == null || etudiantSession.getId() == null || id == null) {
+            return "redirect:/api/v1/etudiants/connexion";
+        } else if (!etudiantSession.getId().equals(id)) {
+            return "redirect:/api/v1/etudiants/";
+        }
+
+        Etudiant etudiant = etudiantService.findById(id).orElse(null);
+
+        if(etudiant == null) {
+            model.addAttribute("customMessage", "Impossible. Id non valide");
+            return "error";
+        }
+
+        model.addAttribute("etudiant", etudiant);
+
+        return "updateEtudiant";
+    }
+
+    @PostMapping(value = "/update/{id}")
+    public String update(@Valid Etudiant etudiant) {
+        etudiantService.save(etudiant);
+
+        return "redirect:/api/v1/etudiants/connexion";
     }
 }
