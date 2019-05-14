@@ -1,12 +1,16 @@
-#studentsCollab
+# studentsCollab
 
 [![Build Status](https://travis-ci.com/M2DL/2019-ivvq-studentscollab.svg?branch=master)](https://travis-ci.com/M2DL/2019-ivvq-studentscollab)
+[![codecov](https://codecov.io/gh/M2DL/2019-ivvq-studentscollab/branch/master/graph/badge.svg)](https://codecov.io/gh/M2DL/2019-ivvq-studentscollab)
 
 ## Pipeline
 
 https://travis-ci.com/M2DL/2019-ivvq-studentscollab
 
 https://codecov.io/gh/M2DL/2019-ivvq-studentscollab/branch/setup-ci
+
+## Déploiement
+https://studentscollab.herokuapp.com/api/v1/etudiants/accueil
 
 **Description du sujet**
 
