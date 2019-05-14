@@ -60,13 +60,13 @@ public class NoteCoursControllerTest {
 
     @Test
     public void testPageNouvelleNote() throws Exception {
-        this.mockMvc.perform(get("/cours/new")).andExpect(status().isFound());
+        this.mockMvc.perform(get("/api/v1/cours/new")).andExpect(status().isFound());
     }
 
     @Test
     public void testPageCoursAll() throws Exception {
         when(ncService.findAll()).thenReturn(listeNcExpected);
-        this.mockMvc.perform(get("/cours/all")).andExpect(status().isOk())
+        this.mockMvc.perform(get("/api/v1/cours/all")).andExpect(status().isOk())
                 .andExpect(content().string(containsString("nouvelleNote")))
                 .andExpect(content().string(containsString("contenuNote")));
     }

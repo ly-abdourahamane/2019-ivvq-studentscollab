@@ -50,7 +50,7 @@ public class NoteCoursControllerIntegrationTest {
     public void testPageNoteLike() throws Exception {
         Etudiant etu = initialisationService.getMaxime();
         NoteCours nc = initialisationService.getNoteMaxime();
-        this.mockMvc.perform(get("/cours/like/" + nc.getId())
+        this.mockMvc.perform(get("/api/v1/cours/like/" + nc.getId())
                 .param("etudiantId", etu.getId().toString()))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("nbLike: 1")));
@@ -60,7 +60,7 @@ public class NoteCoursControllerIntegrationTest {
     public void testPageNoteDislike() throws Exception {
         Etudiant etu = initialisationService.getMaxime();
         NoteCours nc = initialisationService.getNoteMaxime();
-        this.mockMvc.perform(get("/cours/dislike/" + nc.getId())
+        this.mockMvc.perform(get("/api/v1/cours/dislike/" + nc.getId())
                 .param("etudiantId", etu.getId().toString()))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("nbDislike: 1")));
