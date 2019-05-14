@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Notes de cours</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
 </head>
 <body>
 <div class="w3-bar w3-dark-gray">
@@ -14,21 +14,25 @@
     <a href="/api/v1/formations" class="w3-bar-item w3-button w3-hide-small">Liste formations</a>
     <a href="/api/v1/formations/creer" class="w3-bar-item w3-button w3-hide-small">Creer une formation</a>
     <a href="/api/v1/inscriptions/creer" class="w3-bar-item w3-button w3-hide-small">S'inscrire à une formation</a>
+    <a href="/api/v1/cours/new" class="w3-bar-item w3-button w3-hide-small">Nouvelle note de cours</a>
+    <a href="/api/v1/cours/all" class="w3-bar-item w3-button w3-hide-small">Notes de cours</a>
 </div>
-<h1>Toutes les notes</h1>
+<h2>Toutes les notes</h2>
 <table>
     <tbody>
     <tr th:each="noteCours: ${liste}">
-        <a th:href="@{'/cours/'+ ${noteCours.id}}" th:text="${noteCours.titre}" />
-        <p th:text="'contenu: ' + ${noteCours.contenu}" />
-        <ul th:each="commentaire: ${noteCours.commentaires}">
-            <li th:text="${commentaire.contenu}"></li>
-        </ul>
+        <td>
+            <a th:href="@{'/api/v1/cours/'+ ${noteCours.id}}" th:text="${noteCours.titre}" />
+            <p th:text="'contenu: ' + ${noteCours.contenu}" />
+            <ul th:each="commentaire: ${noteCours.commentaires}">
+                <li th:text="${commentaire.contenu}"></li>
+            </ul>
+        </td>
     </tr>
     </tbody>
 </table>
-<form name="nouveau" action="#" th:action="@{/cours/new}">
-    <p><input type="submit" value="Nouveau" /></p>
+<form name="nouveau" action="#" th:action="@{/api/v1/cours/new}">
+    <p><input class="w3-button w3-black" type="submit" value="Nouveau" /></p>
 </form>
 </body>
 </html>

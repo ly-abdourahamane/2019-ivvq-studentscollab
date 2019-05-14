@@ -16,12 +16,22 @@
     <a href="/api/v1/formations" class="w3-bar-item w3-button w3-hide-small">Liste formations</a>
     <a href="/api/v1/formations/creer" class="w3-bar-item w3-button w3-hide-small">Creer une formation</a>
     <a href="/api/v1/inscriptions/creer" class="w3-bar-item w3-button w3-hide-small">S'inscrire à une formation</a>
+    <a href="/api/v1/cours/new" class="w3-bar-item w3-button w3-hide-small">Nouvelle note de cours</a>
+    <a href="/api/v1/cours/all" class="w3-bar-item w3-button w3-hide-small">Notes de cours</a>
 </div>
-<h1>Ajout d'une note de cours</h1>
-<form action="#" th:action="@{/cours/new}" th:object="${noteCours}" method="post">
-    <p>Titre: <input type="text" th:field="*{titre}" /></p>
-    <p>Contenu: <input type="text" th:field="*{contenu}" /></p>
-    <p><input type="submit" value="Enregistrer" /> <input type="reset" value="Effacer" /></p>
+
+<form class="w3-container w3-display-middle" action="#" th:action="@{/api/v1/cours/new}" th:object="${noteCours}" th:method="post">
+    <h2>Ajout d'une note de cours</h2>
+    <p>Matière :</p>
+    <select class="form-control" name="matiere" th:field="${noteCours.matiere}">
+        <option th:each="m : ${matieres}"
+                th:value="${m.id}"
+                th:text="${m.nom}">
+        </option>
+    </select>
+    <p>Titre: <input class="w3-input w3-border" type="text" th:field="*{titre}" /></p>
+    <p>Contenu: <textarea class="w3-input w3-border" rows="10" th:field="*{contenu}" /></p>
+    <p><input class="w3-btn" type="submit" value="Enregistrer" /> <input class="w3-btn" type="reset" value="Effacer" /></p>
 </form>
 </body>
 </html>

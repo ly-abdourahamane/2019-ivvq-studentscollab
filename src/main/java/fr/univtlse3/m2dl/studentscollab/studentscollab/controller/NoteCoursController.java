@@ -1,16 +1,14 @@
 package fr.univtlse3.m2dl.studentscollab.studentscollab.controller;
 
 
-import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Commentaire;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.EvalType;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Evaluation;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.NoteCours;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.*;
 
+import fr.univtlse3.m2dl.studentscollab.studentscollab.exception.MatiereNotFoundException;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.exception.NoteCoursNotFoundException;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.exception.EvalNotFoundException;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.service.CommentaireService;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.service.EvaluationService;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.service.MatiereService;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.service.NoteCoursService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,10 +22,14 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 
 @Controller
+@RequestMapping("api/v1")
 public class NoteCoursController {
 
     @Autowired
     private NoteCoursService noteCoursService;
+
+    @Autowired
+    private MatiereService matiereService;
 
     @Autowired
     private EvaluationService evaluationService;
@@ -40,6 +42,7 @@ public class NoteCoursController {
         NoteCours noteCours = new NoteCours();
         noteCours.setRedacteur((Etudiant) httpSession.getAttribute("etudiant"));
         model.addAttribute("noteCours", noteCours);
+        model.addAttribute("matieres", matiereService.findAllMatieres());
         return "noteform";
     }
 
@@ -65,7 +68,14 @@ public class NoteCoursController {
     }
 
     @PostMapping("/cours/new")
-    public String savecours(@ModelAttribute("noteCours") NoteCours nc, Long id, Model model) {
+    public String savecours(@ModelAttribute("noteCours") NoteCours nc, @RequestParam("matiere") Long m, HttpSession session) {
+        Etudiant etudiant = (Etudiant) session.getAttribute("etudiant");
+        nc.setRedacteur(etudiant);
+        try {
+            nc.setMatiere(matiereService.findById(m));
+        } catch (MatiereNotFoundException e) {
+            return "error";
+        }
         NoteCours noteCours = noteCoursService.saveNoteCours(nc);
         return "note_ajoutee";
     }
