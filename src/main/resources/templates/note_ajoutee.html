@@ -14,6 +14,8 @@
     <a href="/api/v1/formations" class="w3-bar-item w3-button w3-hide-small">Liste formations</a>
     <a href="/api/v1/formations/creer" class="w3-bar-item w3-button w3-hide-small">Creer une formation</a>
     <a href="/api/v1/inscriptions/creer" class="w3-bar-item w3-button w3-hide-small">S'inscrire à une formation</a>
+    <a href="/api/v1/cours/new" class="w3-bar-item w3-button w3-hide-small">Nouvelle note de cours</a>
+    <a href="/api/v1/cours/all" class="w3-bar-item w3-button w3-hide-small">Notes de cours</a>
 </div>
 <h1>Note ajoutée</h1>
 <p th:text="'id: ' + ${noteCours.id}" />
@@ -21,13 +23,13 @@
 <p th:text="'contenu: ' + ${noteCours.contenu}" />
 <p th:text="'nbLike: ' + ${noteCours.nbLike} + 'nbDislike: ' + ${noteCours.nbDislike}" />
 <!--+' redacteur: ' + ${noteCours.redacteur.nom} + ' ' + ${noteCours.redacteur.prenom}"-->
-<form action="#" th:action="@{/cours/like}" th:with="nc=${noteCours}, etu=${noteCours.redacteur}" method="get"><!--remplacer par l'etudiant connecté-->
+<form action="#" th:action="@{/api/v1/cours/like}" th:with="nc=${noteCours}, etu=${noteCours.redacteur}" method="get"><!--remplacer par l'etudiant connecté-->
     <p><input type="submit" value="Like" /></p>
 </form>
-<form action="#" th:action="@{/cours/dislike}" th:with="nc=${noteCours}, etu=${noteCours.redacteur}" method="get">
+<form action="#" th:action="@{/api/v1/cours/dislike}" th:with="nc=${noteCours}, etu=${noteCours.redacteur}" method="get">
     <p><input type="submit" value="Dislike" /></p>
 </form>
-<form action="#" th:action="@{/cours/all}">
+<form action="#" th:action="@{/api/v1/cours/all}">
     <p><input type="submit" value="Voir tout" /></p>
 </form>
 </body>
