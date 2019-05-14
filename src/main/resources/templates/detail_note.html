@@ -18,34 +18,39 @@
     <a href="/api/v1/cours/all" class="w3-bar-item w3-button w3-hide-small">Voir les notes de cours</a>
 </div>
 
-<h1>Note ajoutée</h1>
-<p th:text="'id: ' + *{noteCours.id}" />
-<p th:text="'titre: ' + *{noteCours.titre}" />
-<p th:text="'contenu: ' + *{noteCours.contenu}" />
-<p th:text="'nbLike: ' + ${noteCours.nbLike} + ', nbDislike: ' + ${noteCours.nbDislike}" />
-<p th:text=" 'redacteur: ' + ${noteCours.redacteur.nom} + ' ' + ${noteCours.redacteur.prenom}" />
+<h2>Détail note de cours</h2>
 
-<form class="w3-col m4 w3-container" name="nouveau" action="#"  th:action="@{/addcommentaire}" th:object="${noteCours}"  method="post">
+<p th:text="'Note n°: ' + *{noteCours.id}" />
+<p th:text="'Titre: ' + *{noteCours.titre}" />
+<p th:text="'Contenu: ' + *{noteCours.contenu}" />
+<p th:text="${noteCours.nbLike} + ' likes et ' + ${noteCours.nbDislike} + ' dislikes' " />
+<p th:text="'Rédacteur: ' + ${noteCours.redacteur.nom} + ' ' + ${noteCours.redacteur.prenom}" />
+<div class="w3-row ">
+    <div class="w3-col m3">
+        <form class="form-control" action="#" th:action="${'/api/v1/cours/like/' + noteCours.id}" th:with="etudiantId=${noteCours.redacteur.id}" method="get">
+            <input class="w3-button w3-green" type="submit" value="Like" />
+        </form>
+    </div>
+    <div class="w3-col m3">
+        <form class="form-control" action="#" th:action="${'/api/v1/cours/dislike/' + noteCours.id}" th:with="etudiantId=${noteCours.redacteur.id}" method="get">
+            <input class="w3-button w3-grey" type="submit" value="Dislike" />
+        </form>
+    </div>
+</div>
+<form class="w3-col m8 w3-container" name="nouveau" action="#"  th:action="@{/api/v1/addcommentaire}" th:object="${noteCours}"  method="post">
     <input type="hidden" th:field="${noteCours.id}">
     <input type="hidden" th:field="${noteCours.titre}">
     <input type="hidden" th:field="${noteCours.contenu}">
-    <p>
-        <form action="#" th:action="${'/api/v1/cours/like/' + noteCours.id}" th:with="etudiantId=${etudiant.id}" method="get">
-            <input type="submit" value="Like" />
-        </form>
-        <form action="#" th:action="${'/api/v1/cours/dislike/' + noteCours.id}" th:with="etudiantId=${etudiant.id}" method="get">
-            <input type="submit" value="Dislike" />
-        </form>
-    </p>
-    <th:block th:each="commentaire,i : ${noteCours.commentaires}">
-        <input type="hidden" th:field="*{commentaires[__${i.index}__].id}">
-        <p>Commentaire:<input class="w3-input w3-border" type="text" th:field="*{commentaires[__${i.index}__].contenu}" /></p><br />
-    </th:block>
-    <p><input class="w3-btn" type="submit" value="Commenter" /></p>
-</form>
 
-<form class="w3-container w3-display-middle" action="#" th:action="@{/api/v1/cours/all}">
-    <p><input class="w3-btn" type="submit" value="Voir tout" /></p>
+    <div class="w3-row">
+        <div class="w3-col m8">
+            <th:block th:each="commentaire,i : ${noteCours.commentaires}">
+                <input type="hidden" th:field="*{commentaires[__${i.index}__].id}">
+                <p>Commentaire:<input class="w3-input w3-border" type="text" th:field="*{commentaires[__${i.index}__].contenu}" /></p><br />
+            </th:block>
+            <p><input class="w3-btn" type="submit" value="Commenter" /></p>
+        </div>
+    </div>
 </form>
 </body>
 </html>

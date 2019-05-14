@@ -52,8 +52,19 @@ public class NoteCoursController {
     }
 
     @GetMapping("/cours/all")
-    public String coursAll(Model model, HttpSession httpSession) {
+    public String coursAll(Model model, HttpSession httpSession, @RequestParam(value = "etudiantId", required = false) Long etudiantId) {
         model.addAttribute("liste", noteCoursService.findAll());
+        Etudiant etudiant = null;
+        if (etudiantId != null) {
+            etudiant = etudiantService.findById(etudiantId).get();
+        } else {
+            Etudiant etudiantSession = (Etudiant) httpSession.getAttribute("etudiant");
+            if (etudiantSession == null || etudiantSession.getId() == null) {
+                return "redirect:/api/v1/etudiants/connexion";
+            }
+            etudiant = etudiantSession;
+        }
+        model.addAttribute(etudiant);
         return "notes";
     }
 
@@ -80,8 +91,6 @@ public class NoteCoursController {
 
     @PostMapping("/cours/new")
     public String savecours(@ModelAttribute("noteCours") NoteCours nc, @RequestParam("matiere") Long m, HttpSession session, Model model) {
-        Etudiant etudiant = (Etudiant) session.getAttribute("etudiant");
-        nc.setRedacteur(etudiant);
         try {
             Etudiant etudiantSession = (Etudiant) session.getAttribute("etudiant");
             if (etudiantSession == null || etudiantSession.getId() == null) {
@@ -94,7 +103,7 @@ public class NoteCoursController {
             return "error";
         }
         NoteCours noteCours = noteCoursService.saveNoteCours(nc);
-        return "note_ajoutee";
+        return "redirect:/api/v1/cours/all";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/addcommentaire")
@@ -105,7 +114,7 @@ public class NoteCoursController {
             return "redirect:/api/v1/etudiants/connexion";
         }
         model.addAttribute("etudiant", etudiantSession);
-        return "redirect:/cours/all";
+        return "redirect:/api/v1/cours/all";
     }
 
     @GetMapping("/cours/like/{id}")
@@ -147,12 +156,12 @@ public class NoteCoursController {
                     noteCoursService.saveNoteCours(nc);
                 }
             }
-            model.addAttribute(nc);
+            model.addAttribute("liste", noteCoursService.findAll());
             model.addAttribute(etudiant);
         } catch (EvalNotFoundException | NoteCoursNotFoundException e) {
             e.printStackTrace();
         }
-        return "note_ajoutee";
+        return "notes";
     }
 
     @GetMapping("/cours/dislike/{id}")
@@ -194,11 +203,11 @@ public class NoteCoursController {
                     noteCoursService.saveNoteCours(nc);
                 }
             }
-            model.addAttribute(nc);
+            model.addAttribute("liste", noteCoursService.findAll());
             model.addAttribute(etudiant);
         } catch (EvalNotFoundException | NoteCoursNotFoundException e) {
             e.printStackTrace();
         }
-        return "note_ajoutee";
+        return "notes";
     }
 }
