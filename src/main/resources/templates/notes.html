@@ -18,7 +18,7 @@
     <a href="/api/v1/cours/all" class="w3-bar-item w3-button w3-hide-small">Voir les notes de cours</a>
 </div>
 <h2>Toutes les notes</h2>
-<table>
+<table class="w3-table-all w3-hoverable">
     <tbody>
     <tr th:each="noteCours: ${liste}">
         <td>
@@ -27,6 +27,22 @@
             <ul th:each="commentaire: ${noteCours.commentaires}">
                 <li th:text="${commentaire.contenu}"></li>
             </ul>
+            <p th:text="'nbLike: ' + ${noteCours.nbLike} + ', nbDislike: ' + ${noteCours.nbDislike}" />
+
+        </td>
+        <td>
+            <div class="w3-row">
+                <div class="w3-col m6">
+                    <form class="form-control" action="#" th:action="${'/api/v1/cours/like/' + noteCours.id}" th:with="etudiantId=${etudiant.id}" method="get">
+                        <input class="w3-button w3-green" type="submit" value="Like" />
+                    </form>
+                </div>
+                <div class="w3-col m6">
+                    <form class="form-control" action="#" th:action="${'/api/v1/cours/dislike/' + noteCours.id}" th:with="etudiantId=${etudiant.id}" method="get">
+                        <input class="w3-button w3-grey" type="submit" value="Dislike" />
+                    </form>
+                </div>
+            </div>
         </td>
     </tr>
     </tbody>

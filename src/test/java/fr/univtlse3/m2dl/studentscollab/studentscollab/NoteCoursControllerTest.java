@@ -1,14 +1,10 @@
 package fr.univtlse3.m2dl.studentscollab.studentscollab;
 
-import fr.univtlse3.m2dl.studentscollab.studentscollab.controller.NoteCoursController;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.NoteCours;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.repository.NoteCoursRepository;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.service.EtudiantService;
-import fr.univtlse3.m2dl.studentscollab.studentscollab.service.EvaluationService;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.service.InitialisationService;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.service.NoteCoursService;
-import org.aspectj.weaver.ast.Not;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,16 +17,16 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.ArrayDeque;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -43,6 +39,12 @@ public class NoteCoursControllerTest {
 
     @MockBean
     private NoteCoursService ncService;
+
+    @Autowired
+    private InitialisationService initialisationService;
+
+    @Autowired
+    private HttpSession session;
 
     @MockBean
     private EtudiantService etudiantService;
@@ -66,9 +68,27 @@ public class NoteCoursControllerTest {
     @Test
     public void testPageCoursAll() throws Exception {
         when(ncService.findAll()).thenReturn(listeNcExpected);
-        this.mockMvc.perform(get("/api/v1/cours/all")).andExpect(status().isOk())
+        when(etudiantService.findById( initialisationService.getAbdourahamane().getId())).thenReturn(Optional.of(initialisationService.getAbdourahamane()));
+        this.mockMvc.perform(get("/api/v1/cours/all").param("etudiantId", initialisationService.getAbdourahamane().getId().toString())).andExpect(status().isOk())
                 .andExpect(content().string(containsString("nouvelleNote")))
                 .andExpect(content().string(containsString("contenuNote")));
     }
 
+    @Test
+    public void testPageCoursDetail() throws Exception {
+        Long idNote = initialisationService.getNoteMaxime().getId();
+        when(ncService.findNoteCoursById(idNote)).thenReturn(initialisationService.getNoteMaxime());
+        when(etudiantService.findById( initialisationService.getAbdourahamane().getId())).thenReturn(Optional.of(initialisationService.getAbdourahamane()));
+        this.mockMvc.perform(get("/api/v1/cours/"+idNote).param("etudiantId", initialisationService.getAbdourahamane().getId().toString())).andExpect(status().isOk())
+                .andExpect(content().string(containsString(initialisationService.getNoteMaxime().getTitre())))
+                .andExpect(content().string(containsString(initialisationService.getNoteMaxime().getContenu())));
+    }
+
+    @Test
+    public void testPageCoursDetailAnonymousUser() throws Exception {
+        Long idNote = initialisationService.getNoteMaxime().getId();
+        when(ncService.findNoteCoursById(idNote)).thenReturn(initialisationService.getNoteMaxime());
+        this.mockMvc.perform(get("/api/v1/cours/"+idNote)).andExpect(status().isFound())
+                .andExpect(redirectedUrl("/api/v1/etudiants/connexion"));
+    }
 }

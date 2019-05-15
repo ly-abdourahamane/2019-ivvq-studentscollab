@@ -23,6 +23,11 @@ public class MatiereController {
     @Autowired
     EtudiantService etudiantService;
 
+
+    public void setMatiereService(MatiereService matiereService) {
+        this.matiereService = matiereService;
+    }
+
     @GetMapping("/matieres")
     public String matieres(Model model, HttpSession session){
         List<Matiere> matieres = matiereService.findAllMatieres();
@@ -64,5 +69,15 @@ public class MatiereController {
         Matiere m = matiereService.saveMatiere(matiere);
         model.addAttribute("matiere",m);
         return "matiere";
+    }
+
+    @GetMapping(value = "testFindMatiere")
+    public void findAllMatiereTests() {
+        matiereService.findAllMatieres();
+    }
+
+    @GetMapping(value = "testSaveMatiere")
+    public void saveMatiereTests(Matiere matiere) {
+         matiereService.saveMatiere(matiere);
     }
 }
