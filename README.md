@@ -20,3 +20,10 @@ accéder à l'ensemble des notes des autres étudiants de cette formation.
 
 Un étudiant peut donner son opinion sur une note de cours (j'aime/j'aime pas + commentaire). Il peut aussi aimer ou ne pas aimer les commentaires des autres étudiants.
 S'il y a un grand nombre d'étudiants qui n'aime pas un commentaire ou une note, celui(celle)-ci sera supprimé automatiquement.
+
+**Contributeurs**
+
+    Meriem Farouj
+    Alexia Fernandes  
+    Abdourahamane Ly
+    Maxime Rouillon:
