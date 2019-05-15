@@ -65,4 +65,18 @@ public class NoteCoursControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("nbDislike: 1")));
     }
+
+    @Test
+    public void testPageNoteDislikeEtudiantNull() throws Exception {
+        NoteCours nc = initialisationService.getNoteMaxime();
+        this.mockMvc.perform(get("/api/v1/cours/dislike/" + nc.getId()))
+                .andExpect(status().isFound());
+    }
+
+    @Test
+    public void testPageNoteLikeEtudiantNull() throws Exception {
+        NoteCours nc = initialisationService.getNoteMaxime();
+        this.mockMvc.perform(get("/api/v1/cours/like/" + nc.getId()))
+                .andExpect(status().isFound());
+    }
 }
