@@ -3,6 +3,7 @@ package fr.univtlse3.m2dl.studentscollab.studentscollab.controller;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Etudiant;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.InscriptionToMatiere;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.domain.Matiere;
+import fr.univtlse3.m2dl.studentscollab.studentscollab.exception.InscriptionToMatiereNotFoundException;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.exception.MatiereNotFoundException;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.service.InscriptionToMatiereService;
 import fr.univtlse3.m2dl.studentscollab.studentscollab.service.MatiereService;
@@ -60,4 +61,19 @@ public class InscriptionToMatiereController {
 
     }
 
+    public void setInscriptionToMatiereService(InscriptionToMatiereService inscriptionToMatiereService) {
+        this.inscriptionToMatiereService = inscriptionToMatiereService;
+    }
+
+    public void findMatiereByIdTests(Long l) {
+        try {
+            inscriptionToMatiereService.findById(l);
+        } catch (InscriptionToMatiereNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveInscriptionToMatiereTests(InscriptionToMatiere inscriptionToMatiere) {
+        inscriptionToMatiereService.saveInscription(inscriptionToMatiere);
+    }
 }
