@@ -69,20 +69,26 @@ public class NoteCoursController {
     }
 
     @GetMapping("/cours/{id}")
-    public String cours(Model model, @PathVariable("id") Long id, HttpSession httpSession) {
+    public String cours(Model model, @PathVariable("id") Long id, @RequestParam(value = "etudiantId", required = false) Long etudiantId, HttpSession httpSession) {
         NoteCours noteCours = null;
         try {
             noteCours = noteCoursService.findNoteCoursById(id);
         } catch (NoteCoursNotFoundException e) {
             return "error";
         }
-        Etudiant etudiantSession = (Etudiant) httpSession.getAttribute("etudiant");
-        if (etudiantSession == null || etudiantSession.getId() == null) {
-            return "redirect:/api/v1/etudiants/connexion";
+        Etudiant etudiant = null;
+        if (etudiantId != null) {
+            etudiant = etudiantService.findById(etudiantId).get();
+        } else {
+            Etudiant etudiantSession = (Etudiant) httpSession.getAttribute("etudiant");
+            if (etudiantSession == null || etudiantSession.getId() == null) {
+                return "redirect:/api/v1/etudiants/connexion";
+            }
+            etudiant = etudiantSession;
         }
 
         model.addAttribute("noteCours", noteCours);
-        model.addAttribute("etudiant", etudiantSession);
+        model.addAttribute("etudiant", etudiant);
         Commentaire c=new Commentaire();
         noteCours.getCommentaires().add(c);
         model.addAttribute("nouveauCommentaire", c);
@@ -90,14 +96,20 @@ public class NoteCoursController {
     }
 
     @PostMapping("/cours/new")
-    public String savecours(@ModelAttribute("noteCours") NoteCours nc, @RequestParam("matiere") Long m, HttpSession session, Model model) {
+    public String savecours(@RequestParam("noteCours") NoteCours nc, @RequestParam(value = "etudiantId", required = false) Long etudiantId, @RequestParam("matiere") Long m, HttpSession session, Model model) {
         try {
-            Etudiant etudiantSession = (Etudiant) session.getAttribute("etudiant");
-            if (etudiantSession == null || etudiantSession.getId() == null) {
-                return "redirect:/api/v1/etudiants/connexion";
+            Etudiant etudiant = null;
+            if (etudiantId != null) {
+                etudiant = etudiantService.findById(etudiantId).get();
+            } else {
+                Etudiant etudiantSession = (Etudiant) session.getAttribute("etudiant");
+                if (etudiantSession == null || etudiantSession.getId() == null) {
+                    return "redirect:/api/v1/etudiants/connexion";
+                }
+                etudiant = etudiantSession;
             }
-            model.addAttribute("etudiant", etudiantSession);
-            nc.setRedacteur(etudiantSession);
+            model.addAttribute("etudiant", etudiant);
+            nc.setRedacteur(etudiant);
             nc.setMatiere(matiereService.findById(m));
         } catch (MatiereNotFoundException e) {
             return "error";
